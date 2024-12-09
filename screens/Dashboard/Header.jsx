@@ -1,13 +1,16 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useContext } from 'react';
 import { AntDesign, Fontisto } from '@expo/vector-icons';
 import { AuthContext } from '@/context/AuthContext';
+import { router } from 'expo-router';
 
 const Header = ()=> {
   const {userDetails} = useContext(AuthContext);
   const user = userDetails
   
-  
+  const notification = () =>{
+    router.push("/(routes)/notifications")
+  }
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -24,12 +27,13 @@ const Header = ()=> {
         <View style={styles.greetingContainer}>
           <Text style={styles.greetingText}>Hi, {user?.name}</Text>
         </View>
-
+        <TouchableOpacity onPress={()=> notification()}>
         <View style={styles.bellContainer}>
           <Fontisto name="bell" size={24} color="black" />
           {/* Red notification dot for bell */}
           <View style={styles.notificationDot} />
         </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

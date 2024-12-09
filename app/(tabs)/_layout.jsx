@@ -50,7 +50,7 @@ export default function TabLayout() {
      <Tabs.Screen
        name="home/index"
        options={{ 
-         title: 'Home',
+         title: '',
          tabBarIcon: ({ color, focused }) => (
           //  <MaterialIcons name="home-filled" size={24} color={color} />
           <TabIcon icon={icons.home} color={color} name='' focused={focused}/>
@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     width:'60%',
     marginHorizontal:'auto',
-    maxHeight:'8%',
-    marginBottom: '10%',
+    height:'8%',
+    marginVertical: '5%',
     borderBottomEndRadius:30,
     borderTopEndRadius:30,
     borderTopStartRadius:30,

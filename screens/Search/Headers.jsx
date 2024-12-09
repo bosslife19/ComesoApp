@@ -1,29 +1,43 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Fontisto } from '@expo/vector-icons';
+  import { router } from 'expo-router';
 
 const Headers = ()=> {
+
+  const goBacks = () =>{
+    router.push("/(tabs)/home")
+  }
+
+  const notification = () =>{
+    router.push("/(routes)/notifications")
+  }
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.profileContainer}>
-          <Image 
+        <TouchableOpacity onPress={()=>goBacks()}>
+        <Image 
             source={require('../../assets/images/profile.png')} 
             style={styles.profileImage}
           />
           {/* Red notification dot for profile */}
           <View style={styles.notificationDot} />
+
+        </TouchableOpacity>         
         </View>
  
         <View style={styles.greetingContainer}>
           <Text style={styles.greetingText}>Healthcare Provider</Text>
         </View>
-
+        
+        <TouchableOpacity onPress={()=>notification()}>
         <View style={styles.bellContainer}>
           <Fontisto name="bell" size={24} color="black" />
           {/* Red notification dot for bell */}
           <View style={styles.notificationDot} />
         </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

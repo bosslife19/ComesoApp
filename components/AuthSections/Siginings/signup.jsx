@@ -26,6 +26,7 @@ import UncommonStyles from "@/styles/Uncommon.styles";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from "@/context/AuthContext";
+import Toast from "react-native-toast-message";
 
 export default function SignUpScreen() {
   const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
@@ -60,22 +61,48 @@ export default function SignUpScreen() {
   // };
 
   const handleSignUp = async () => {
-    
+    if (countryCode === "US") { // Check if default flag is selected
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Flag Required",
+        text2: "Please select a country before submitting.",
+      });
+      return;
+    }
+  
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.(com)$/;
+    if (!emailRegex.test(email)) {
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Please enter a valid email address",
+      });
+      return;
+    }
+  
     if (!agreePrivacy || !agreeTerms) {
-      return Alert.alert(
-        "Please Agree with our terms and Privacy",
-        "Agree with our Terms and Privacy to continue"
-      );
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Agreement Required",
+        text2: "Please agree to the Terms & Privacy before continuing.",
+      });
+      return;
     }
-    // const response = axios.post();
+  
     if (!name || !email || !password || !phoneNumber) {
-      return Alert.alert(
-        "Please fill all fields",
-        "One or more fields is empty. Please fill to continue"
-      );
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Missing Fields",
+        text2: "Please fill all fields before submitting.",
+      });
+      return;
     }
+  
     try {
-      setButtonSpinner(true)
+      setButtonSpinner(true);
       const response = await axios.post(`${baseUrl}/api/sign-up`, {
         name,
         email,
@@ -83,18 +110,33 @@ export default function SignUpScreen() {
         phone: "+" + callingCode + phoneNumber,
       });
       await AsyncStorage.clear();
-      setButtonSpinner(false)
-      
-      await AsyncStorage.setItem('userDetails', JSON.stringify(response.data.user));
-       await AsyncStorage.setItem('authToken', response.data.token);
-      const tokens = await AsyncStorage.getItem('authToken');
-      
+      setButtonSpinner(false);
+  
+      await AsyncStorage.setItem("userDetails", JSON.stringify(response.data.user));
+      await AsyncStorage.setItem("authToken", response.data.token);
+      const tokens = await AsyncStorage.getItem("authToken");
+  
       setUserDetails(response.data.user);
-      router.push('/login');
-      
+  
+      // Show Login Successful toast
+      Toast.show({
+        type: "success",
+        position: "top",
+        text1: "Login Successful",
+        text2: "Welcome back, you have logged in successfully.",
+      });
+  
+      // Redirect to login page
+      router.push("/login");
     } catch (error) {
       setButtonSpinner(false);
-      console.log(error.response.data.message, error);
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: error.response?.data?.message || "Something went wrong. Please try again.",
+      });
+      console.log(error.response?.data?.message, error);
     }
   };
   return (
@@ -152,22 +194,13 @@ export default function SignUpScreen() {
           {/* Phone Number Input */}
           <View style={styles.container}>
             <View style={styles.phoneContainer}>
-              <CountryPicker
-                countryCode={countryCode}
-                withFilter
-                withFlag
-                withCallingCode
-                withCountryNameButton={false}
-                onSelect={onSelectCountry}
-                containerButtonStyle={styles.flagButton}
-              />
-              <Text style={styles.callingCode}>+{callingCode}</Text>
+              <CountryPicker withCallingCode withFilter countryCode={countryCode} onSelect={onSelectCountry} containerButtonStyle={styles.countryPicker} />
               <TextInput
-                style={[styles.phoneInput, { fontFamily: "SofiaPro" }]}
-                keyboardType="numeric"
+                style={styles.phoneInput}
+                placeholder="Phone Number"
                 value={phoneNumber}
-                onChangeText={handlePhoneChange}
-                placeholder="Phone number"
+                onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ""))}
+                keyboardType="phone-pad"
               />
             </View>
           </View>
@@ -220,14 +253,17 @@ export default function SignUpScreen() {
             <Text style={[styles.checkboxLabel, { fontFamily: "SofiaPro" }]}>
               I agree with{" "}
             </Text>
+            
+            <TouchableOpacity onPress={()=> router.push("/(routes)/Terms")}>
             <Text
               style={[
                 styles.checkboxLabel,
                 { fontFamily: "SofiaPro", color: "#0A2EE2" },
-              ]}
+              ]} 
             >
               Terms & Conditions
             </Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.checkboxContainer}>
@@ -245,6 +281,7 @@ export default function SignUpScreen() {
             <Text style={[styles.checkboxLabel, { fontFamily: "Alata" }]}>
               I agree with the{" "}
             </Text>
+            <TouchableOpacity  onPress={()=> router.push("/(routes)/privacy")}>
             <Text
               style={[
                 styles.checkboxLabel,
@@ -254,6 +291,7 @@ export default function SignUpScreen() {
               {" "}
               Privacy Policy
             </Text>
+            </TouchableOpacity>
           </View>
 
           {/* Login Button */}
@@ -299,6 +337,7 @@ export default function SignUpScreen() {
           </View>
         </View>
       </View>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </ScrollView>
   );
 }
@@ -324,6 +363,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   phoneInput: {
+    width:"100%",
     height: 55,
     borderRadius: 3,
     borderLeftWidth: 1,

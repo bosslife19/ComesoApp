@@ -23,7 +23,7 @@ const CustomHeader = ({text})=> {
           <Text style={styles.greetingText}>{text}</Text>
         </View>
 
-        <View style={styles.bellContainer}>
+        <TouchableOpacity onPress={()=> router.push("/(routes)/notifications") } style={styles.bellContainer}>
         <Image 
             source={require('../assets/images/notificationIcon.png')} 
             style={styles.profileImage}
@@ -32,7 +32,7 @@ const CustomHeader = ({text})=> {
             resizeMode='contain'
           />
           
-        </View>
+        </TouchableOpacity >
       </View>
     </View>
   );
@@ -41,7 +41,7 @@ const CustomHeader = ({text})=> {
 export default CustomHeader;
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
+    paddingTop: 10,
     paddingHorizontal:23,
      
   },

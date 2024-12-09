@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { MaterialIcons, Fontisto, Entypo } from '@expo/vector-icons';
-import CountryPicker from 'react-native-country-picker-modal';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import logo from '../../assets/images/logo.png';
 import HeaderM from '../MobileTransfer/HeaderM';
 import SectionsLogin from "@/styles/Login/Login.styles";
@@ -90,7 +90,7 @@ const Confirm = () => {
           </View>
         </View>
         <TouchableOpacity style={styles.editIconContainer}>
-          <MaterialIcons name="edit" size={14} color="#0C73C2" />
+           <AntDesign name="edit" size={20} color="#A4A9AE" />
         </TouchableOpacity>
       </View>
       {/* <View>
@@ -141,18 +141,18 @@ const Confirm = () => {
       <View style={styles.transferDetailsContainer}>
         <Text style={styles.transferDetailsHeader}>Transfer Details</Text>
       <View style={[styles.transferRow,
-              fromInputFocused && { borderColor: '#0A2EE2', borderWidth: 2 },
+              fromInputFocused && { borderColor: '#0A2EE2', borderWidth: 1 },
       ]}>
   <TextInput
     style={styles.input}
-    keyboardType="numeric"
+     keyboardType="phone-pad"
     placeholder="Enter voucher amount"
     value={fromAmount}
     onChangeText={(text) => setFromAmount(text)}
     onFocus={() => setFromInputFocused(true)}
     onBlur={() => setFromInputFocused(false)}
   />
-  {/* <Text style={styles.currencyLabel}>{fromCountry.currency}</Text> */}
+  <Text style={styles.currencyLabel}>{fromCountry.currency}</Text>
 </View>
 {/* <View style={[styles.transferRow,
       toInputFocused && { borderColor: '#0A2EE2', borderWidth: 2 },]}>  
@@ -172,7 +172,7 @@ const Confirm = () => {
 
       <TouchableOpacity
                 onPress={handleContinue}
-            style={[SectionsLogin.loginButtons,  ]}
+            style={[SectionsLogin.loginButtons,{marginTop: 30}  ]}
             disabled={buttonSpinner}
           >
             {buttonSpinner ? (
@@ -188,15 +188,20 @@ const Confirm = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#FFFFFF',
+    // padding: 20,
+    paddingTop: 7,
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: '#FAFAFB',
   },
   recipientInfo: {
     borderWidth: 1,
     borderColor: '#6E758812',
     flexDirection: 'row',
-    alignItems: 'center',
+   
     marginBottom: 20,
+    backgroundColor: '#fff',
+    borderRadius:10
   },
   recipientImage: {
     width: 60,
@@ -207,7 +212,7 @@ const styles = StyleSheet.create({
   },
   recipientTextContainer: {
     padding: '5%',
-    backgroundColor: '#fff',
+    
     gap:14,
     flexDirection: 'row',
     alignItems: 'center',
@@ -233,8 +238,9 @@ const styles = StyleSheet.create({
     color: '#8E949A',
   },
   editIconContainer: {
-    padding: 5,
+    padding: 9,
     borderRadius: 50,
+    backgroundColor:'#fff'
    },
   currencyContainer: {
     borderWidth: 1,
@@ -277,7 +283,7 @@ const styles = StyleSheet.create({
   },
   transferDetailsContainer: {
     marginTop: "10%",
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: '#6E758812',
     padding: 15,
     borderRadius: 10,

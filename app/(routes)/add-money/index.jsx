@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, TextInput, Alert, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity, TextInput, Alert, StyleSheet, ScrollView } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Paystack, paystackProps } from "react-native-paystack-webview";
@@ -175,42 +175,61 @@ const AddMoney = () => {
           Top up with Paystack
         </Text>
       </View>
-      <View
+     <View
+      style={{
+        backgroundColor: "rgba(164, 169, 174, 0.2)",
+        width: "90%",
+        marginHorizontal: "auto",
+        marginTop: 20,
+        borderRadius: 10,
+        paddingVertical: 5,
+        flexDirection: 'row', // Align currency symbol and input side by side
+        alignItems: 'center', // Vertically align the content
+      }}
+    >
+      <Text style={{ fontSize: 18, paddingLeft: 10, color: "#333" }}>$</Text>  
+      
+      <TextInput
+        placeholder="Amount"
+        keyboardType="numeric"
         style={{
-          backgroundColor: "rgba(164, 169, 174, 0.2)",
-          width: "90%",
-          marginHorizontal: "auto",
-          marginTop: 20,
-          borderRadius: 10,
-          paddingVertical: 5,
+          flex: 1, // Allow the input to take remaining space
+          paddingLeft: 10,
+          fontSize: 16,
+          color: "#333",
         }}
-      >
-        <TextInput
-          placeholder="Amount"
-          keyboardType="numeric"
-          style={{ paddingLeft: 10 }}
-          onChangeText={(val) => setAmount(val)}
-        />
-      </View>
-      <View
-        style={{
-          marginTop: "5%",
-          paddingHorizontal: "5%",
-          flexDirection: "row",
-          gap: "3%",
-        }}
-      >
+        value={amount}
+        onChangeText={(val) => setAmount(val)}
+      />
+    </View>
+      <View>
+      <Text style={{ fontFamily: "Alata", fontWeight: "400", fontSize: 19 ,paddingHorizontal: "5%",marginTop:10}}>
+        Select Payment
+        </Text>
+        <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false} // Hide the horizontal scroll indicator
+      contentContainerStyle={{
+        marginTop: "5%",
+        paddingHorizontal: "5%",
+      }}
+    >
+      {/* Wrap the TouchableOpacity components in the ScrollView */}
+      {[...Array(1)].map((_, index) => (
         <TouchableOpacity
+          key={index}
           style={{
             backgroundColor: "white",
-            width: "100%",
-            height: 103.4,
             borderRadius: 10,
+            paddingHorizontal: 10,
+            paddingVertical: 0,
+            alignItems: "center",
             justifyContent: "center",
+            marginRight: "3%", // Add space between items
           }}
           onPress={() => {
-            if(amount ==0){
-              return Alert.alert('Amount Required', 'Please enter amount of voucher you want to add')
+            if (amount == 0) {
+              return Alert.alert('Amount Required', 'Please enter amount of voucher you want to add');
             }
             paystackWebViewRef.current.startTransaction();
           }}
@@ -218,64 +237,16 @@ const AddMoney = () => {
           <Image
             resizeMode="contain"
             source={require("../../../assets/images/paystacklogo.png")}
-            style={{ width: "70%", marginHorizontal: "auto" }}
+            style={styles.beneficiaryImage}
           />
-          {/* <Text style={{fontSize:13,fontFamily:'Sofia', color:'rgba(142, 148, 154, 1)', textAlign:'center', marginTop:1}}>AT&T</Text> */}
         </TouchableOpacity>
-        {/* <View
-          style={{
-            backgroundColor: "white",
-            width: "30%",
-            height: 103.4,
-            borderRadius: 10,
-            justifyContent:'center'
-          }}
-        >
-          <Image
-            resizeMode="contain"
-            source={require("../../../assets/images/tmobile.png")}
-            style={{ width: "70%", marginHorizontal: "auto" }}
-          />
-          <Text style={{fontSize:13,fontFamily:'Sofia', color:'rgba(142, 148, 154, 1)', textAlign:'center', marginTop:1}}>T-Mobile</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: "white",
-            width: "30%",
-            height: 103.4,
-            borderRadius: 10,
-            justifyContent:'center'
-          }}
-        >
-          <Image
-            resizeMode="contain"
-            source={require("../../../assets/images/verizon.png")}
-            style={{ width: "70%", marginHorizontal: "auto" }}
-          />
-          <Text style={{fontSize:13,fontFamily:'Sofia', color:'rgba(142, 148, 154, 1)', textAlign:'center', marginTop:1}}>Verizon</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: "white",
-            width: "30%",
-            height: 103.4,
-            borderRadius: 10,
-            justifyContent:'center'
-          }}
-        >
-          <Image
-            resizeMode="contain"
-            source={require("../../../assets/images/att.png")}
-            style={{ width: "70%", marginHorizontal: "auto" }}
-          />
-          <Text style={{fontSize:13,fontFamily:'Sofia', color:'rgba(142, 148, 154, 1)', textAlign:'center', marginTop:1}}>AT&T</Text>
-        </View> */}
+      ))}
+    </ScrollView>
+    <Text style={{ fontWeight: "300", fontSize: 14 ,paddingHorizontal: "5%",marginTop:10,color:"#333333B2",lineHeight:20.3,}}>
+      Selecting any of the provided banks automatically opens the app for you to transfer money into your wallet.
+        </Text>
       </View>
-      {/* <View style={{marginTop:12, paddingHorizontal:"5%"}}>
-        
-        <Text style={{fontSize:14,fontWeight:300,color:'rgba(51, 51, 51, 0.7)'}}>Selecting any of the provided banks automatically opens the app for you to transfer money into your wallet.</Text>
-        
-      </View> */}
+      
     </SafeAreaView>
   );
 };
@@ -284,8 +255,7 @@ export default AddMoney;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
-    paddingHorizontal:23,
+     paddingHorizontal:23,
      
   },
   row: {
@@ -324,4 +294,20 @@ const styles = StyleSheet.create({
     borderRadius: 5, // Circular dot
     backgroundColor: '#E73726',
   },
+  beneficiaryItem: {
+    alignItems: "center",
+    padding: 5,
+    marginHorizontal: 5,
+    borderRadius: 8,
+    width: 100,
+    shadowColor: "#6E758812",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
+    elevation: 3, // Android shadow
+  },
+  beneficiaryImage: {
+    width: 80,
+    height: 60,
+    },
 });

@@ -11,6 +11,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { AuthContext } from "@/context/AuthContext";
 import axios from "axios";
+import { goBack } from "expo-router/build/global-state/routing";
+import { useNavigation } from "@react-navigation/native";
 
 const SearchFacilities = () => {
   const { location } = useContext(AuthContext);
@@ -32,12 +34,19 @@ const SearchFacilities = () => {
     };
     getNearestFacilities();
   }, []);
+
+  const navigation = useNavigation();
+
+  const goBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: "5%" }}>
       <ScrollView>
         <View
           style={{
-            marginTop: "10%",
+            marginTop: "5%",
             paddingHorizontal: "5%",
             maxHeight: "100%",
           }}
@@ -53,7 +62,7 @@ const SearchFacilities = () => {
               paddingHorizontal: "6%",
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity onPress={goBack}>
               <Image
                 source={require("../../assets/images/left-arrow.png")}
                 height={20}

@@ -4,6 +4,9 @@ import { Fontisto, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 export default function HeaderM() {
+  const notification = () =>{
+    router.push("/(routes)/notifications")
+  }
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -14,12 +17,11 @@ export default function HeaderM() {
         <View style={styles.greetingContainer}>
           <Text style={styles.greetingText}>Send Voucher</Text>
         </View>
-
-        <View style={styles.bellContainer}>
-          <Fontisto name="bell" size={20} color="#A4A9AE" />
+        <TouchableOpacity onPress={()=> notification()} style={styles.bellContainer}>
+           <Fontisto name="bell" size={20} color="#A4A9AE" />
           {/* Red notification dot for bell */}
           <View style={styles.notificationDot} />
-        </View>
+         </TouchableOpacity>
       </View>
     </View>
   );

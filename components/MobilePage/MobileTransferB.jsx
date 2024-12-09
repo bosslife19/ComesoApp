@@ -6,14 +6,14 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity,
-  Image,
-  Alert,
+   Alert,
   ActivityIndicator,
 } from "react-native";
+import Toast from "react-native-toast-message";
+
 import { MaterialIcons, Ionicons, Entypo } from "@expo/vector-icons";
 import HeaderM from "../../screens/MobileTransfer/HeaderM";
-import logo from "../../assets/images/logo.png";
-import CountryPicker from "react-native-country-picker-modal";
+ import CountryPicker from "react-native-country-picker-modal";
 import SectionsLogin from "@/styles/Login/Login.styles";
 import axosClient from "../../axiosClient";
 import { router } from "expo-router";
@@ -23,6 +23,9 @@ const MobileTransferB = () => {
   const [searchText, setSearchText] = useState("");
   const [buttonSpinner, setButtonSpinner] = useState(false);
   const [selectedBeneficiaryId, setSelectedBeneficiaryId] = useState(null);
+  const [isFocused, setIsFocused] = useState(false); // To track focus
+  const [isFocus, setIsFocus] = useState(false); // To track focus
+  const [isFocuses, setIsFocuses] = useState(false); // To track focus
 
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -57,9 +60,25 @@ const MobileTransferB = () => {
   };
 
   const handleContinue = async () => {
-    if(userInfo.password ==''){
-      return Alert.alert('All fields are required', 'Fill all fields to continue')
+    if (countryCode === "US") { // Check if default flag is selected
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Flag Required",
+        text2: "Please select a country before submitting.",
+      });
+      return;
     }
+    if(userInfo.password ==''){
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "All fields are required",
+        text2: "Fill all fields to continue",
+      });
+      return;
+    }
+
     try {
       setButtonSpinner(true)
       const response = await axiosClient.post(`/user/find`, {
@@ -69,15 +88,30 @@ const MobileTransferB = () => {
       if (response.data.error) {
         setButtonSpinner(false)
         
-        return Alert.alert("Error", response.data.error);
+        Toast.show({
+          type: "error",
+          position: "top",
+          text1: "Error",
+          text2: response.data.error,
+        });
+        return;
       }
+
 
       const receiver = response.data.user;
 
       const res = await axiosClient.post('/user/check-password', {password:userInfo.password});
       if(res.data.status ==false){
         setButtonSpinner(false);
-        return Alert.alert('Incorrect password!', 'The Password you entered is incorrect')
+        Toast.show({
+          type: "error",
+          position: "top",
+          text1: "Incorrect Password",
+          text2: "The password you entered is incorrect",
+        });
+        return;
+      
+        // return Alert.alert('Incorrect password!', 'The Password you entered is incorrect')
       }
 
       router.push({
@@ -87,7 +121,13 @@ const MobileTransferB = () => {
     } catch (error) {
       console.log(error);
       setButtonSpinner(false);
-      Alert.alert("Not Found", "User not Found!");
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Not Found",
+        text2: "User not Found!",
+      });
+       
     }
   };
 
@@ -186,36 +226,50 @@ const MobileTransferB = () => {
       {/* Make New Transfer Form */}
       <View style={styles.formContainer}>
         <Text style={styles.formTitle}>Make new transfer</Text>
-
+        
         {/* Name Input */}
-        <TextInput
-          style={styles.input}
+        <TextInput 
+          style={[styles.input,
+            { backgroundColor: isFocuses ? "#FFFFFF" : "#A4A9AE26" },
+              ]
+          }
           keyboardType="default"
           value={userInfo.Name}
           placeholder="Username"
           onChangeText={(value) => setUserInfo({ ...userInfo, Name: value })}
           placeholderTextColor="#8E949A"
+          onFocus={() => setIsFocuses(true)}
+              onBlur={() => setIsFocuses(false)}
         />
 
         {/* Phone Number Input */}
-        <View style={styles.phoneContainer}>
-          <CountryPicker
-            countryCode={countryCode}
-            withFilter
-            withFlag
-            withCallingCode
-            withCountryNameButton={false}
-            onSelect={onSelectCountry}
-            containerButtonStyle={styles.flagButton}
-          />
-          <Text style={styles.callingCode}>+{callingCode}</Text>
-          <TextInput
-            style={styles.phoneInput}
-            keyboardType="numeric"
-            value={phoneNumber}
-            onChangeText={handlePhoneChange}
-            placeholder="Reciever’s Mobile Number"
-          />
+        <View 
+              style={[
+                styles.phoneContainer,
+                { backgroundColor: isFocused ? "#FFFFFF" : "#A4A9AE26" },
+              ]}
+        
+        >
+        <TouchableOpacity style={styles.flagButton}>
+        <CountryPicker
+          countryCode={countryCode}
+          withFilter
+          withFlag
+          withCallingCode
+          withCountryNameButton={false}
+          onSelect={onSelectCountry}
+        />
+      </TouchableOpacity>
+      <Text style={styles.callingCode}>+{callingCode}</Text>
+      <TextInput
+        style={styles.phoneInput}
+        keyboardType="phone-pad"
+        value={phoneNumber}
+        onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ""))}
+        placeholder="Receiver’s Mobile Number"
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+      />
         </View>
 
         {/* Password Input */}
@@ -229,13 +283,15 @@ const MobileTransferB = () => {
         >
           <View style={{ width: "100%" }}>
             <TextInput
-              style={styles.input}
+              style={[styles.input,{ backgroundColor: isFocus ? "#FFFFFF" : "#A4A9AE26" },]}
               secureTextEntry={!isPasswordVisible}
               value={userInfo.password}
               placeholder="Input your password"
               onChangeText={(value) =>
                 setUserInfo({ ...userInfo, password: value })
               }
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
             />
             <TouchableOpacity
               style={SectionsLogin.visibleIcon}
@@ -249,17 +305,7 @@ const MobileTransferB = () => {
             </TouchableOpacity>
           </View>
 
-          {/* Fingerprint Icon */}
-          {/* <TouchableOpacity
-            style={{
-              padding: 10,
-              marginTop: -10,
-              borderRadius: 10,
-              backgroundColor: "#f1f2f3",
-            }}
-          >
-            <Ionicons name="finger-print-outline" size={30} color="black" />
-          </TouchableOpacity> */}
+         
         </View>
 
         {/* Continue Button */}
@@ -282,6 +328,8 @@ const MobileTransferB = () => {
           )}
         </TouchableOpacity>
       </View>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
+
     </View>
   );
 };
@@ -290,6 +338,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingTop:10,
+    paddingLeft:20,
+    paddingRight:20,
     backgroundColor: "#fff",
   },
   sectionTitle: {
@@ -305,35 +356,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F1F1F1",
     borderRadius: 8,
-    padding: 10,
+    padding: 5,
     marginBottom: 20,
   },
   phoneContainer: {
     flexDirection: "row",
     alignItems: "center",
-    // marginHorizontal: 16,
     borderRadius: 10,
-    overflow: "hidden",
     borderWidth: 1,
     borderColor: "#ccc",
-    // backgroundColor: "#A4A9AE",
+    // padding: 10,
+    overflow: "hidden",
+  },
+  flagButton: {
+    marginLeft: 8,
   },
   callingCode: {
     marginRight: 10,
     fontSize: 16,
     color: "#333",
   },
-  flagButton: {
-    marginLeft: 8,
-  },
   phoneInput: {
-    fontFamily: "SofiaPro",
+   flex: 1,
     height: 55,
     borderRadius: 3,
     borderLeftWidth: 1,
     borderColor: "#E9E9E9",
     paddingLeft: 15,
-    fontSize: 14,
+     fontSize: 14,
     color: "#a1a1a1",
   },
   searchInput: {
@@ -388,15 +438,14 @@ const styles = StyleSheet.create({
   },
   input: {
     fontFamily: "SofiaPro",
-    height: 50,
+    height: 56,
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
     paddingLeft: 15,
     fontSize: 16,
     color: "#333",
-    // backgroundColor:"#A4A9AE",
-    marginBottom: 20,
+     marginBottom: 20,
   },
   continueButton: {
     backgroundColor: "#3498db",

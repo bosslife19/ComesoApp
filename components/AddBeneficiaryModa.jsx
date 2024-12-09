@@ -15,7 +15,7 @@ import {
   } from "react-native-country-picker-modal";
   import CustomBlueButton from "./CustomBlueButton";
 import axiosClient from "../axiosClient";
-  
+  import SectionsLogin from "../styles/Login/Login.styles"
   const AddBeneficiaryModal = ({ toggleModal, setPhonenumber, setName,setemail, openFirstConfirm}) => {
     const[name, setname] = useState('')
     
@@ -59,27 +59,29 @@ import axiosClient from "../axiosClient";
             flex: 1,
             position: "absolute",
             backgroundColor: "rgba(164, 169, 174, 0.6)",
-            top: "5%",
+            // top: "5%",
             width: "100%",
             height: "100%",
             opacity: 0.9,
-            left: "2%",
+           
+            left:0,
           }}
         ></View>
   
         <View
           style={{
-            width: "95%",
-            height: "70%",
+            width: "100%",
+            height: "100%",
             backgroundColor: "white",
             opacity: 1,
             position: "absolute",
-            top: "15%",
-            left: "3%",
+            top: "27%",
+            // right: "0%",
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
             paddingHorizontal: "5%",
             paddingVertical: "5%",
+            
           }}
         >
           <View
@@ -107,10 +109,12 @@ import axiosClient from "../axiosClient";
                 marginHorizontal: "auto",
                 marginTop: 20,
                 borderRadius: 10,
-                paddingVertical: 5,
+                // paddingVertical: 5,
               }}
             >
-              <TextInput placeholder="Username" onChangeText={(val)=>setname(val)}/>
+              <TextInput  
+              style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
+               placeholder="Username" onChangeText={(val)=>setname(val)}/>
             </View>
             {/* <View
               style={{
@@ -131,7 +135,7 @@ import axiosClient from "../axiosClient";
                 marginHorizontal: "auto",
   
                 borderRadius: 10,
-                paddingVertical: 5,
+                // paddingVertical: 5,
               }}
             >
               <View style={styles.phoneContainer}>
@@ -147,7 +151,7 @@ import axiosClient from "../axiosClient";
                 <Text style={styles.callingCode}>+{callingCode}</Text>
                 <TextInput
                   style={styles.phoneInput}
-                  keyboardType="numeric"
+                  keyboardType="number-pad"
                   value={phone}
                   onChangeText={(val)=>setPhone(val)}
                   placeholder="Phone number"
@@ -161,10 +165,12 @@ import axiosClient from "../axiosClient";
                 marginHorizontal: "auto",
   
                 borderRadius: 10,
-                paddingVertical: 5,
+                // paddingVertical: 5,
               }}
             >
-              <TextInput placeholder="Email" onChangeText={(val)=>setEmail(val)} />
+              <TextInput 
+              style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
+              placeholder="Email" onChangeText={(val)=>setEmail(val)} />
             </View>
             <View style={{ flexDirection: "row", gap: 5 }}>
               <View
@@ -174,23 +180,14 @@ import axiosClient from "../axiosClient";
                   marginHorizontal: "auto",
   
                   borderRadius: 10,
-                  paddingVertical: 5,
-                  flex: 4,
+                  // paddingVertical: 5,
+                  // flex: 4,
                 }}
               >
-                <TextInput placeholder="Password" onChangeText={(val)=>setPassword(val)} secureTextEntry={true}/>
+                <TextInput 
+                 style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
+                placeholder="Password" onChangeText={(val)=>setPassword(val)} secureTextEntry={true}/>
               </View>
-              {/* <View
-                style={{
-                  backgroundColor: "rgba(164, 169, 174, 0.2)",
-                  flex: 1,
-                  borderRadius: 5,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Image source={require("../assets/images/fingerprint.png")} />
-              </View> */}
             </View>
           </View>
           <CustomBlueButton text='Add Beneficiary' onPress={handleAddBeneficiary} toggleModal={toggleModal}/>
@@ -224,7 +221,8 @@ import axiosClient from "../axiosClient";
       marginLeft: 8,
     },
     phoneInput: {
-      height: 55,
+      width:"100%",
+      height: 65,
       borderRadius: 3,
       borderLeftWidth: 1,
       borderColor: "#E9E9E9",

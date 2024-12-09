@@ -50,43 +50,7 @@ const DashboardScreen = () => {
     getUser();
   }, [])
  
-  // const transactions = [
-  //   {
-  //     id: 1,
-  //     type: "Account Top-up",
-  //     status: "Received",
-  //     date: "Feb 25, 2022",
-  //     amount: "$5.00 USD",
-  //     icon: "arrow-down-left",
-  //     iconColor: "#04AD29",
-  //     backgroundColor: "#E0F7EC",
-  //     textColor: "#04AD29",
-  //   },
-  //   {
-  //     id: 2,
-  //     type: "Transfer Out",
-  //     status: "Sent",
-  //     date: "Feb 26, 2022",
-  //     amount: "$10.00 USD",
-  //     icon: "arrow-up-right",
-  //     iconColor: "#F8332F",
-  //     backgroundColor: "#FEE0E0",
-  //     textColor: "#F8332F",
-  //   },
-  //   {
-  //     id: 3,
-  //     type: "Purchase",
-  //     status: "Completed",
-  //     date: "Feb 27, 2022",
-  //     amount: "$20.00 USD",
-  //     icon: "arrow-up-right",
-  //     iconColor: "#F8332F",
-  //     backgroundColor: "#FEE0E0",
-  //     textColor: "#F8332F",
-  //   },
-  // ];
-
-  
+   
 
 if(!user){
   return null;
@@ -145,13 +109,18 @@ if(!user){
         <View style={Dashs.recentTransactionsContainer}>
           <View style={Dashs.recentTransactionsHeader}>
             <Text style={Dashs.sectionTitle}>Recent Transactions</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => router.push("/(routes)/transaction-list")}
+              >
               <Text style={[Dashs.actionBoxText, {lineHeight: 13}]}>View All</Text>
             </TouchableOpacity>
           </View>
 
-          {transactions.map((transaction, index) => (
-            <View key={transaction.id} style={Dashs.transactionItem}>
+          {transactions.length > 0 ? (
+          transactions.map((transaction, index) => (
+            <TouchableOpacity
+            // onPress={() => router.push(`/(routes)/transaction-details/${transaction.id}`)}
+            key={transaction.id} style={Dashs.transactionItem}>
               <View style={Dashs.transactionRow}>
                 <View
                   style={[
@@ -218,10 +187,24 @@ if(!user){
                   ${transaction.amount}.00 USD
                 </Text>
               </View>
-            </View>
-          ))}
+            </TouchableOpacity>
+            
+          ))
+        ) : (
+          <Text
+            style={{
+              textAlign: "center",
+              color: "#A4A9AE",
+              fontFamily: "Poppins",
+              fontSize: 14,
+              marginTop: 20,
+            }}
+          >
+            No  transactions  
+          </Text>
+        )}
         </View>
-
+        
       </View>
 
       </ScrollView>
@@ -230,8 +213,8 @@ if(!user){
  
 const styles = StyleSheet.create({
   scrollViewContainer: {
-    flexGrow: 1, // Ensures that the content expands to fill the screen when necessary
-    backgroundColor: '#f5f5f5', // You can customize the background color
+    flexGrow: 1,  
+    backgroundColor: '#f5f5f5',  
    },
 });
 

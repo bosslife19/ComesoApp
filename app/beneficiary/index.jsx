@@ -19,12 +19,7 @@ import axiosClient from "../../axiosClient";
 
 const Beneficiary = () => {
   const [beneficiaries, setBeneficiaries] = useState([
-   
-    // {
-    //   name: "Dr Kamal",
-    //   phone: "0909948485",
-    //   avatar: require("../../assets/images/kamal.png"),
-    // },
+    
 
   ]);
   const [name, setName] = useState('');
@@ -62,7 +57,7 @@ getBeneficiaries();
   }, [])
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingHorizontal: "5%" }}>
+    <SafeAreaView style={{ flex: 1,}}>
       <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
         <CustomHeader text="Beneficiary" />
         <View style={{ marginTop: "5%" }}>

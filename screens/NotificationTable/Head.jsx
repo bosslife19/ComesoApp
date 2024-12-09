@@ -3,7 +3,8 @@ import React from 'react';
 import { Fontisto, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
-export default function HeaderM() {
+export default function Head() {
+  
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -12,23 +13,23 @@ export default function HeaderM() {
        </TouchableOpacity>
  
         <View style={styles.greetingContainer}>
-          <Text style={styles.greetingText}>Confirmation</Text>
+          <Text style={styles.greetingText}>Transactions</Text>
         </View>
 
         <TouchableOpacity onPress={()=> router.push('/(tabs)/home')} style={styles.bellContainer}>
-          <Fontisto name="bell" size={20} color="#A4A9AE" />
+                    <Fontisto name="bell" size={20} color="#A4A9AE" />
           {/* Red notification dot for bell */}
           <View style={styles.notificationDot} />
-          </TouchableOpacity>
-       </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 16,
-    paddingHorizontal:6,
+    paddingVertical: 22,
+    paddingHorizontal:15,
      
   },
   row: {
@@ -50,9 +51,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   greetingText: {
-    fontFamily: 'SofiaPro',
+     fontFamily: 'Sora',
     fontSize: 22,
-    fontWeight: '600',
+    fontWeight: '700',
     lineHeight:27.72,
     color:"#23303B"
   },

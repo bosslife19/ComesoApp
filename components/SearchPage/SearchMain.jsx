@@ -36,11 +36,7 @@ const SearchScreen = () => {
     getNearestFacilities();
   }, [])
 
-  // const transactions = [
-  //   { id: "1", title: "University Teaching Hospital, Ibadan, Oyo state", para: "Off New Bodija, Ibadan 200132, Oyo State, Nigeria.",  },
-  //   { id: "2", title: "Allen Avenue, Maryland 200132, Lagos State, Nige.", para: "Off New Bodija, Ibadan 200132, Oyo State, Nigeria.",  },
-  //   { id: "3", title: "Allen Avenue, Maryland 200132, Lagos State, Nige.", para: "Off New Bodija, Ibadan 200132, Oyo State, Nigeria.", },
-  // ];
+   
 useEffect(()=>{
 if(searchText){
   const filteredTransactions = hospitals?.filter((transaction) =>
@@ -84,7 +80,7 @@ if(searchText){
           placeholderTextColor="#8E949A"
           value={searchText}
           onChangeText={setSearchText}
-        />
+         />
       </View>
     </View>
 
@@ -156,7 +152,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: "#333",
-    height:32,
+    // height:32,
     
    
   },
