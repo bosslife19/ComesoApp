@@ -18,32 +18,32 @@ import { router } from "expo-router";
         <View
           style={{
             flex: 1,
-            position: "absolute",
-            backgroundColor: "rgba(164, 169, 174, 0.6)",
-            top: "5%",
-            width: "100%",
-            height: "100%",
-            opacity: 0.9,
-            left: "2%",
+          position: "absolute",
+          backgroundColor: "rgba(164, 169, 174, 0.6)",
+          // top: "5%",
+          width: "100%",
+          height: "100%",
+          opacity: 0.9,
+          // left: "2%",
           }}
         ></View>
   
         <View
           style={{
-            width: "95%",
-            height: "85%",
+            width: "100%",
+            height: "100%",
             backgroundColor: "white",
             opacity: 1,
             position: "absolute",
-            top: "15%",
-            left: "3%",
+            top: "25%",
+            // left: "3%",
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
-            paddingHorizontal: "1%",
+            // paddingHorizontal: "1%",
             paddingVertical: "5%",
           }}
         >
-          <View style={{ top: "-5%" }}>
+          <View style={{ top: "0%" }}>
             <CustomHeader text="Confirmation" />
           </View>
   
@@ -51,9 +51,11 @@ import { router } from "expo-router";
             <Text
               style={{
                 textAlign: "center",
-                fontFamily: "Sofia",
-                fontSize: 32,
-                color: "rgba(69, 110, 254, 1)",
+              fontFamily: "Sofia",
+              fontSize: 32,
+              color: "rgba(69, 110, 254, 1)",
+              fontWeight:"700",
+              lineHeight:39.52
               }}
             >
               Successful!
@@ -65,6 +67,8 @@ import { router } from "expo-router";
                 fontSize: 18,
                 color: "rgba(164, 169, 174, 1)",
                 textAlign: "center",
+                lineHeight:26.37,
+              marginTop:10
               }}
             >
               You have successfully edited the beneficiary’s details.

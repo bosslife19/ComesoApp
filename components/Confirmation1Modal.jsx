@@ -39,30 +39,30 @@ const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name
           flex: 1,
           position: "absolute",
           backgroundColor: "rgba(164, 169, 174, 0.6)",
-          top: "5%",
+          // top: "5%",
           width: "100%",
           height: "100%",
           opacity: 0.9,
-          left: "2%",
+          // left: "2%",
         }}
       ></View>
 
       <View
         style={{
-          width: "95%",
-          height: "85%",
+          width: "100%",
+          height: "100%",
           backgroundColor: "white",
           opacity: 1,
           position: "absolute",
-          top: "15%",
-          left: "3%",
+          top: "25%",
+          // left: "3%",
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
-          paddingHorizontal: "1%",
+          // paddingHorizontal: "1%",
           paddingVertical: "5%",
         }}
       >
-        <View style={{ top: "-5%" }}>
+        <View style={{ top: "0%" }}>
           <CustomHeader text="Confirmation" />
         </View>
 
@@ -73,6 +73,8 @@ const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name
               fontFamily: "Sofia",
               fontSize: 32,
               color: "rgba(69, 110, 254, 1)",
+              fontWeight:"600",
+              lineHeight:39.52
             }}
           >
             Are you sure?
@@ -81,9 +83,11 @@ const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name
             style={{
               fontFamily: "Alata",
               fontWeight: 400,
-              fontSize: 18,
+              fontSize: 17,
               color: "rgba(164, 169, 174, 1)",
               textAlign: "center",
+              lineHeight:26.37,
+              marginTop:10
             }}
           >
             Confirm and crosscheck the beneficiary’s details before saving

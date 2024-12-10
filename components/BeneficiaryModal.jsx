@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
+import SectionsLogin from "../styles/Login/Login.styles"
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import CountryPicker, {
@@ -27,28 +28,28 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
         style={{
           flex: 1,
           position: "absolute",
-          backgroundColor: "rgba(164, 169, 174, 0.25)",
-          top: "5%",
+          backgroundColor: "rgba(164, 169, 174, 0.6)",
+          // top: "5%",
           width: "100%",
           height: "100%",
           opacity: 0.9,
-          left: "1%",
+          // left: "2%",
         }}
       ></View>
 
       <View
         style={{
-          width: "95%",
-          height: "85%",
-          backgroundColor: "white",
-          opacity: 1,
-          position: "absolute",
-          top: "15%",
-          left: "3%",
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          paddingHorizontal: "5%",
-          paddingVertical: "5%",
+          width: "100%",
+            height: "100%",
+            backgroundColor: "white",
+            opacity: 1,
+            position: "absolute",
+            top: "18%",
+            // left: "3%",
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            // paddingHorizontal: "1%",
+            paddingVertical: "5%",
         }}
       >
         <View
@@ -57,6 +58,7 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
+            paddingHorizontal:20,
           }}
         >
           <Text style={{ fontFamily: "Sofia", fontSize: 19 }}>
@@ -66,7 +68,7 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
             <AntDesign name="close" size={20} color="black" />
           </TouchableOpacity>
         </View>
-        <View style={{ marginHorizontal: "auto", marginTop: "10%" }}>
+        <View style={{ marginHorizontal: "auto", marginTop: "10%", }}>
           <Image
             source={image}
             style={{ width: 80, height: 80 }}
@@ -74,7 +76,7 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
           />
         </View>
 
-        <View style={{ gap: 10 }}>
+        <View style={{ gap: 10, paddingHorizontal:20, }}>
           <View
             style={{
               backgroundColor: "rgba(164, 169, 174, 0.2)",
@@ -82,10 +84,12 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
               marginHorizontal: "auto",
               marginTop: 20,
               borderRadius: 10,
-              paddingVertical: 5,
+              // paddingVertical: 5,
             }}
           >
-            <TextInput placeholder="First Name" />
+            <TextInput
+             style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
+            placeholder="First Name" />
           </View>
           <View
             style={{
@@ -94,10 +98,12 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
               marginHorizontal: "auto",
 
               borderRadius: 10,
-              paddingVertical: 5,
+              // paddingVertical: 5,
             }}
           >
-            <TextInput placeholder="Last Name" />
+            <TextInput
+             style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
+            placeholder="Last Name" />
           </View>
           <View
             style={{
@@ -106,7 +112,7 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
               marginHorizontal: "auto",
 
               borderRadius: 10,
-              paddingVertical: 5,
+              // paddingVertical: 5,
             }}
           >
             <View style={styles.phoneContainer}>
@@ -122,7 +128,7 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
               <Text style={styles.callingCode}>+{callingCode}</Text>
               <TextInput
                 style={styles.phoneInput}
-                keyboardType="numeric"
+                keyboardType="phone-pad"
                 // value={phoneNumber}
                 // onChangeText={handlePhoneChange}
                 placeholder="Phone number"
@@ -136,10 +142,11 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
               marginHorizontal: "auto",
 
               borderRadius: 10,
-              paddingVertical: 5,
-            }}
+             }}
           >
-            <TextInput placeholder="Email" />
+            <TextInput
+             style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
+            placeholder="Email" />
           </View>
           <View style={{ flexDirection: "row", gap: 5 }}>
             <View
@@ -149,11 +156,22 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
                 marginHorizontal: "auto",
 
                 borderRadius: 10,
-                paddingVertical: 5,
+                // paddingVertical: 5,
                 flex: 4,
               }}
             >
-              <TextInput placeholder="Password" />
+              <TextInput
+              style={{
+                height: 63,
+      marginHorizontal: 16,
+      borderRadius: 8,
+      paddingLeft: 15,
+      fontSize: 14,
+      backgroundColor: "#F1F2F3",
+      color: " #A4A9AE",
+              }}
+              //  style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
+              placeholder="Password" />
             </View>
             <View
               style={{
@@ -199,7 +217,8 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   phoneInput: {
-    height: 55,
+    width:"100%",
+    height: 65,
     borderRadius: 3,
     borderLeftWidth: 1,
     borderColor: "#E9E9E9",

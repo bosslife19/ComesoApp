@@ -13,6 +13,10 @@ const AddMoney = () => {
   const { userDetails, setUserDetails } = useContext(AuthContext);
   const paystackWebViewRef = useRef(paystackProps.PayStackRef);
   const [amount, setAmount] = useState(0);
+
+  const notification = () =>{
+    router.push("/(routes)/notifications")
+  }
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -33,7 +37,7 @@ const AddMoney = () => {
           <Text style={styles.greetingText}>Add Voucher</Text>
         </View>
 
-        <View style={styles.bellContainer}>
+        <TouchableOpacity onPress={notification} style={styles.bellContainer}>
         <Image 
             source={require('../../../assets/images/notificationIcon.png')} 
             style={styles.profileImage}
@@ -42,7 +46,7 @@ const AddMoney = () => {
             resizeMode='contain'
           />
           
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
       <Paystack

@@ -7,6 +7,8 @@ import {
     StyleSheet,
     Alert,
   } from "react-native";
+  import Toast from "react-native-toast-message";
+
   import React, { useState } from "react";
   import { AntDesign } from "@expo/vector-icons";
   import CountryPicker, {
@@ -31,9 +33,13 @@ import axiosClient from "../axiosClient";
 
     const handleAddBeneficiary = async ()=>{
       if(!name || !email || !phone){
-        return Alert.alert('Fields are required', 'All fields are required to continue')
-      }
-
+        return Toast.show({
+          type: "error",
+          text1: "Fields are required",
+          text2: "All fields are required to continue",
+        });
+       }
+ 
       setPhonenumber(phone);
       setName(name);
       
@@ -42,12 +48,23 @@ import axiosClient from "../axiosClient";
       const res = await axiosClient.post('/user/check-password', {password});
       
       if(res.data.status ==false){
-        return Alert.alert('Incorrect password','The password you entered is incorrect');
-      }
+        return Toast.show({
+          type: "error",
+          text1: "Incorrect password",
+          text2: "The password you entered is incorrect",
+        });
+       }
 
       const response = await axiosClient.post('/user/find', {name});
       if(response.data.error){
-        return Alert.alert('Error', response.data.error);
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: response.data.error || 'An unexpected error occurred.',
+          position: 'top', // Can be 'top', 'bottom', or 'center'
+          visibilityTime: 4000, // Duration the toast is visible
+        });
+        return;
       }
       openFirstConfirm();
       
@@ -192,6 +209,7 @@ import axiosClient from "../axiosClient";
           </View>
           <CustomBlueButton text='Add Beneficiary' onPress={handleAddBeneficiary} toggleModal={toggleModal}/>
         </View>
+        <Toast />
       </>
     );
   };

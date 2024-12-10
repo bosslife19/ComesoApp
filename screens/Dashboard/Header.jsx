@@ -11,18 +11,23 @@ const Header = ()=> {
   const notification = () =>{
     router.push("/(routes)/notifications")
   }
+
+  const profile = () =>{
+    router.push("/(routes)/profile/profile")
+  }
+
+  
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <View style={styles.profileContainer}>
+        <TouchableOpacity onPress={()=> profile()} style={styles.profileContainer}>
           <Image 
             source={require('../../assets/images/profile.png')} 
             style={styles.profileImage}
           />
-          {/* <AntDesign name="user" size={40} color="black" /> */}
-          {/* Red notification dot for profile */}
+           {/* Red notification dot for profile */}
           <View style={styles.notificationDot} />
-        </View>
+        </TouchableOpacity>
 
         <View style={styles.greetingContainer}>
           <Text style={styles.greetingText}>Hi, {user?.name}</Text>

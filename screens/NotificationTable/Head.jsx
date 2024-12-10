@@ -13,11 +13,14 @@ export default function Head() {
        </TouchableOpacity>
  
         <View style={styles.greetingContainer}>
-          <Text style={styles.greetingText}>Transactions</Text>
+          <Text style={styles.greetingText}>Notifications</Text>
         </View>
 
         <TouchableOpacity onPress={()=> router.push('/(tabs)/home')} style={styles.bellContainer}>
-                    <Fontisto name="bell" size={20} color="#A4A9AE" />
+        <Image
+            source={require('../../assets/images/profile.png')} 
+            style={styles.profileImage}
+          />
           {/* Red notification dot for bell */}
           <View style={styles.notificationDot} />
         </TouchableOpacity>
@@ -59,8 +62,8 @@ const styles = StyleSheet.create({
   },
   bellContainer: {
     padding:15,
-    borderRadius:"50%",
-    backgroundColor:"#A4A9AE40",
+    // borderRadius:"50%",
+    // backgroundColor:"#A4A9AE40",
     position: 'relative', // To position the notification dot relative to the bell icon
   },
   notificationDot: {

@@ -83,7 +83,7 @@ if(!user){
           <Text style={Dashs.sectionTitle}>Quick Actions</Text>
           <View style={Dashs.actionBoxesContainer}>
             <View style={Dashs.actionBoxContainer}>
-              <TouchableOpacity onPress={()=>router.push('/(tabs)/send')} style={[Dashs.actionBox, {backgroundColor:"#0A2EE2"}]}>
+              <TouchableOpacity onPress={()=>router.push('/(tabs)/send')} style={[Dashs.actionBox, {backgroundColor:"#4268ED"}]}>
                 <Image source={require('../../assets/images/sendmoni.png')} style={Dashs.icon} />
               </TouchableOpacity>
               <Text style={Dashs.actionBoxText}>Send Voucher</Text>

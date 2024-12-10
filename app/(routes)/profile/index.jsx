@@ -70,11 +70,21 @@ const Profile = () => {
                 marginHorizontal: "auto",
                 marginTop: 20,
                 borderRadius: 10,
-                paddingVertical: 5,
+                // paddingVertical: 5,
               }}
             >
               
-              <TextInput placeholder="Jonathan" />
+              <TextInput 
+              style={{
+                height: 63,
+                marginHorizontal: 16,
+                borderRadius: 8,
+                paddingLeft: 15,
+                fontSize: 14,
+                // backgroundColor: "#F1F2F3",
+                color: " #A4A9AE",
+              }}
+              placeholder="Jonathan" />
             </View>
             <Text style={{fontFamily:'Sofia',fontSize:19, fontWeight:"600"}}>Email</Text>
             <View
@@ -84,10 +94,20 @@ const Profile = () => {
                 marginHorizontal: "auto",
 
                 borderRadius: 10,
-                paddingVertical: 5,
+                // paddingVertical: 5,
               }}
             >
-              <TextInput placeholder="Last Name" />
+              <TextInput
+               style={{
+                height: 63,
+                marginHorizontal: 16,
+                borderRadius: 8,
+                paddingLeft: 15,
+                fontSize: 14,
+                // backgroundColor: "#F1F2F3",
+                color: " #A4A9AE",
+              }}
+              placeholder="Last Name" />
             </View>
             <Text style={{fontFamily:'Sofia',fontSize:19, fontWeight:"600"}}>Mobile Number</Text>
             <View
@@ -97,7 +117,7 @@ const Profile = () => {
                 marginHorizontal: "auto",
 
                 borderRadius: 10,
-                paddingVertical: 5,
+                // paddingVertical: 5,
               }}
             >
               
@@ -114,7 +134,7 @@ const Profile = () => {
                 <Text style={styles.callingCode}>+{callingCode}</Text>
                 <TextInput
                   style={styles.phoneInput}
-                  keyboardType="numeric"
+                  keyboardType="key-pad"
                   // value={phoneNumber}
                   // onChangeText={handlePhoneChange}
                   placeholder="Phone number"
@@ -132,11 +152,21 @@ const Profile = () => {
                   marginHorizontal: "auto",
 
                   borderRadius: 10,
-                  paddingVertical: 5,
+                  // paddingVertical: 5,
                   flex: 4,
                 }}
               >
-                <TextInput placeholder="Password" />
+                <TextInput
+                 style={{
+                  height: 63,
+                  marginHorizontal: 16,
+                  borderRadius: 8,
+                  paddingLeft: 15,
+                  fontSize: 14,
+                  // backgroundColor: "#F1F2F3",
+                  color: " #A4A9AE",
+                }}
+                placeholder="Password" />
               </View>
             </View>
           </View>
@@ -194,7 +224,8 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   phoneInput: {
-    height: 55,
+    width:"100%",
+    height: 63,
     borderRadius: 3,
     borderLeftWidth: 1,
     borderColor: "#E9E9E9",

@@ -55,7 +55,7 @@ export default function RootLayout() {
 
         <Stack.Screen name="(routes)/successfull-transfer" />
         <Stack.Screen name="(routes)/TrfConfirm" />
-        {/* <Stack.Screen name="(routes)/transaction-details" /> */}
+        {/* <Stack.Screen name="(routes)/profile/index" /> */}
 
        </Stack>
     </AuthProvider>
