@@ -6,7 +6,7 @@ import CustomHeader from "../../../components/CustomHeader";
 import { AuthContext } from "../../../context/AuthContext";
 import axiosClient from '../../../axiosClient';
 import DropDownPicker from "react-native-dropdown-picker";
-
+import Dashs from "../../../styles/Dashboard/Dashboard.styles"
 const TransactionList = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
@@ -37,7 +37,18 @@ const TransactionList = () => {
     return null;
   }
 
-  
+  const date = transactions?.map(item=>{
+    const date = new Date(item.created_at); // Example date
+
+    const formattedDate = new Intl.DateTimeFormat('en-US', {
+      month: 'long',  // Full month name
+      day: 'numeric', // Day of the month
+      year: 'numeric' // Year
+    }).format(date);
+    
+    return formattedDate;
+   })
+
   const renderTransactionItem = ({ item }) => (
     <TouchableOpacity
       style={styles.transactionItem}
@@ -145,18 +156,93 @@ const TransactionList = () => {
         </View>
         </View>
 
-       <View>
-       {transactions.length === 0 ? (
-          <Text style={styles.noTransactionsText}>
-            No transactions found.
-          </Text>
+       <View style={{paddingHorizontal:10,}}>
+       {transactions.length > 0 ? (
+          transactions.map((transaction, index) => (
+            <TouchableOpacity
+            // onPress={() => router.push(`/(routes)/transaction-details/${transaction.id}`)}
+            key={transaction.id} style={Dashs.transactionItem}>
+              <View style={Dashs.transactionRow}>
+                <View
+                  style={[
+                    Dashs.transactionIcon,
+                    { backgroundColor: transaction.status=='Received' &&'#E0F7EC'|| transaction.status=='Sent' &&'#FEE0E0' },
+                  ]}
+                >
+                  <Feather
+                    name={transaction.status =='Received'&& "arrow-down-left"|| transaction.status=='Sent'&&'arrow-up-right' }
+                    size={24}
+                    color={transaction.status=='Received' && '#04AD29' || transaction.status =='Sent' && '#F8332F'}
+                  />
+                </View>
+                <View style={Dashs.transactionDetails}>
+                  <Text
+                    style={{
+                      fontFamily: "Poppins",
+                      fontWeight: "500",
+                      fontSize: 14,
+                      lineHeight: 20.51,
+                      color: "#23303B",
+                    }}
+                  >
+                    {transaction.type}
+                  </Text>
+                  <View style={Dashs.transactionInfo}>
+                    <Text
+                      style={{
+                        fontFamily: "Poppins",
+                        color: transaction.status=='Received'&& '#04AD29'|| transaction.status=='Sent'&&'#F8332F',
+                        fontWeight: "500",
+                        fontSize: 12,
+                        lineHeight: 17.58,
+                        marginRight:3
+                      }}
+                    >
+                      {transaction.status}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: "Poppins",
+                        color: "#A4A9AE",
+                        fontWeight: "400",
+                        fontSize: 12,
+                        lineHeight: 17.58,
+                      }}
+                    >
+                      
+                      {date[index]}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontWeight: "500",
+                    fontSize: 15,
+                    lineHeight: 29.3,
+                    fontFamily: "SofiaPro",
+                  }}
+                >
+                 
+                  ${transaction.amount}.00 USD
+                </Text>
+              </View>
+            </TouchableOpacity>
+            
+          ))
         ) : (
-          <FlatList
-            contentContainerStyle={styles.listContent}
-            data={transactions}
-            keyExtractor={(item) => item.id}
-            renderItem={renderTransactionItem}
-          />
+          <Text
+            style={{
+              textAlign: "center",
+              color: "#A4A9AE",
+              fontFamily: "Poppins",
+              fontSize: 14,
+              marginTop: 20,
+            }}
+          >
+            No  transactions  
+          </Text>
         )}
        </View>
       </View>
