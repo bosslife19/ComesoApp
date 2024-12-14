@@ -127,7 +127,10 @@ export default function SignUpScreen() {
       });
   
       // Redirect to login page
-      router.push("/login");
+      setTimeout(()=>{
+        router.push("/login");
+      },2000)
+      
     } catch (error) {
       setButtonSpinner(false);
       Toast.show({

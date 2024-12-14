@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useContext } from 'react';
-import { AntDesign, Fontisto } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Fontisto } from '@expo/vector-icons';
 import { AuthContext } from '@/context/AuthContext';
 import { router } from 'expo-router';
 
@@ -21,10 +21,11 @@ const Header = ()=> {
     <View style={styles.container}>
       <View style={styles.row}>
         <TouchableOpacity onPress={()=> profile()} style={styles.profileContainer}>
-          <Image 
+          {/* <Image 
             source={require('../../assets/images/profile.png')} 
             style={styles.profileImage}
-          />
+          /> */}
+          <FontAwesome name="user-circle-o" size={40} color="black" />
            {/* Red notification dot for profile */}
           <View style={styles.notificationDot} />
         </TouchableOpacity>
