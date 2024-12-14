@@ -127,7 +127,7 @@ export default function SignUpScreen() {
       });
   
       // Redirect to login page
-      router.push("/login");
+      router.push("/(routes)/otpmain");
     } catch (error) {
       setButtonSpinner(false);
       Toast.show({

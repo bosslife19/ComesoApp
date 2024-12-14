@@ -9,9 +9,9 @@ const Dashs = StyleSheet.create({
       flex: 1,
       backgroundColor: "#f5f5f5", 
       padding: 20,
-    },
+    }, 
     board: {
-      width: "100%",
+      width: "100%",    
       borderRadius: 10,
       overflow: "hidden",
     },
