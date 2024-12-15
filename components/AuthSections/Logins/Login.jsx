@@ -25,7 +25,6 @@ import { AuthContext } from "@/context/AuthContext";
 import * as LocalAuthentication from "expo-local-authentication";
 
 export default function LoginScreen() {
-  
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [buttonSpinner, setButtonSpinner] = useState(false);
   const [email, setEmail] = useState("");
@@ -114,9 +113,7 @@ export default function LoginScreen() {
 
   useEffect(() => {
     const getToken = async () => {
-     
       const token = await AsyncStorage.getItem("authToken");
-      console.log(token);
       setAuthToken(token);
     };
     getToken();
