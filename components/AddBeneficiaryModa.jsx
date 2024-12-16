@@ -32,11 +32,11 @@ import axiosClient from "../axiosClient";
     };
 
     const handleAddBeneficiary = async ()=>{
-      if(!name || !email || !phone){
+      if(!name){
         return Toast.show({
           type: "error",
-          text1: "Fields are required",
-          text2: "All fields are required to continue",
+          text1: "usernames is required",
+          text2: "Enter beneficiary username to continue",
         });
        }
  
@@ -155,7 +155,7 @@ import axiosClient from "../axiosClient";
                 // paddingVertical: 5,
               }}
             >
-              <View style={styles.phoneContainer}>
+              {/* <View style={styles.phoneContainer}>
                 <CountryPicker
                   countryCode={countryCode}
                   withFilter
@@ -173,7 +173,7 @@ import axiosClient from "../axiosClient";
                   onChangeText={(val)=>setPhone(val)}
                   placeholder="Phone number"
                 />
-              </View>
+              </View> */}
             </View>
             <View
               style={{
@@ -186,10 +186,10 @@ import axiosClient from "../axiosClient";
               }}
             >
               <TextInput 
-              style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
+              style={[SectionsLogin.input, { fontFamily: "SofiaPro", }]}
               placeholder="Email" onChangeText={(val)=>setEmail(val)} />
             </View>
-            <View style={{ flexDirection: "row", gap: 5 }}>
+            <View style={{ flexDirection: "row", gap: 5, marginVertical:10 }}>
               <View
                 style={{
                   backgroundColor: "rgba(164, 169, 174, 0.2)",
@@ -203,7 +203,7 @@ import axiosClient from "../axiosClient";
               >
                 <TextInput 
                  style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
-                placeholder="Password" onChangeText={(val)=>setPassword(val)} secureTextEntry={true}/>
+                placeholder="Enter your password" onChangeText={(val)=>setPassword(val)} secureTextEntry={true}/>
               </View>
             </View>
           </View>

@@ -74,6 +74,7 @@ export default function LoginScreen() {
   };
 
   const handleSignIn = async () => {
+  
     if (!email || !password) {
       return Toast.show({
         type: "error",
@@ -93,13 +94,21 @@ export default function LoginScreen() {
         await AsyncStorage.clear();
         await AsyncStorage.setItem("authToken", response.data.token);
         setUserDetails(response.data.user);
-
-        Toast.show({
-          type: "success",
-          text1: "Login Successful",
-          text2: "Welcome back!",
-        });
-        router.push("/(tabs)/home");
+        if(response.data.user.email_verified_at==null){
+          Toast.show({
+            type:'error',
+            text1:'Unverified Account',
+            text2:'Please Verify your email to continue'
+          })
+        }else{
+          Toast.show({
+            type: "success",
+            text1: "Login Successful",
+            text2: "Welcome back!",
+          });
+          router.push("/(tabs)/home");
+        }
+       
       }
     } catch (error) {
       setButtonSpinner(false);

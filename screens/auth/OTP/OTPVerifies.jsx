@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Image } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Lottie from "lottie-react-native";
 import OTPMainEmail from "./OTPMainEmail";
 import { router } from "expo-router";
+import {AuthContext} from '../../../context/AuthContext'
 
 const OTPVerifies = () => {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -11,6 +12,7 @@ const OTPVerifies = () => {
   const handleHelp = () => {
     
   };
+  const {userDetails} = useContext(AuthContext);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff", paddingTop: "4%" }}>
@@ -45,7 +47,7 @@ const OTPVerifies = () => {
           <Text style={styles.title}>Verify Your Email Address</Text>
           <Text style={styles.subtitle}>
             We sent a 4-digit code to{" "}
-            <Text style={styles.phoneNumber}>matthew.c@gmail.com</Text>. Please enter it below to verify your account.
+            <Text style={styles.phoneNumber}>{userDetails.email}</Text>. Please enter it below to verify your account.
           </Text>
         </View>
 

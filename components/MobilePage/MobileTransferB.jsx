@@ -60,15 +60,15 @@ const MobileTransferB = () => {
   };
 
   const handleContinue = async () => {
-    if (countryCode === "US") { // Check if default flag is selected
-      Toast.show({
-        type: "error",
-        position: "top",
-        text1: "Flag Required",
-        text2: "Please select a country before submitting.",
-      });
-      return;
-    }
+    // if (countryCode === "US") {
+    //   Toast.show({
+    //     type: "error",
+    //     position: "top",
+    //     text1: "Flag Required",
+    //     text2: "Please select a country before submitting.",
+    //   });
+    //   return;
+    // }
     if(userInfo.password ==''){
       Toast.show({
         type: "error",
@@ -243,7 +243,7 @@ const MobileTransferB = () => {
         />
 
         {/* Phone Number Input */}
-        <View 
+        {/* <View 
               style={[
                 styles.phoneContainer,
                 { backgroundColor: isFocused ? "#FFFFFF" : "#A4A9AE26" },
@@ -270,7 +270,7 @@ const MobileTransferB = () => {
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />
-        </View>
+        </View> */}
 
         {/* Password Input */}
         <View

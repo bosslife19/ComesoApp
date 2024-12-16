@@ -113,8 +113,8 @@ export default function SignUpScreen() {
       setButtonSpinner(false);
   
       await AsyncStorage.setItem("userDetails", JSON.stringify(response.data.user));
-      await AsyncStorage.setItem("authToken", response.data.token);
-      const tokens = await AsyncStorage.getItem("authToken");
+      // await AsyncStorage.setItem("authToken", response.data.token);
+      // const tokens = await AsyncStorage.getItem("authToken");
   
       setUserDetails(response.data.user);
   
@@ -122,8 +122,8 @@ export default function SignUpScreen() {
       Toast.show({
         type: "success",
         position: "top",
-        text1: "Login Successful",
-        text2: "Welcome back, you have logged in successfully.",
+        text1: "Signup Successful",
+        text2: "You have signed up successfully",
       });
   
       // Redirect to login page
