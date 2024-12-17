@@ -1,7 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext, } from 'react';
 import { View, TextInput, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { Entypo, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import axios from 'axios';
+import { AuthContext } from '../../../context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function OTPMainEmail() {
   const [otp, setOtp] = useState([]);
@@ -14,6 +18,8 @@ export default function OTPMainEmail() {
   const [otpVerified, setOtpVerified] = useState(false); // Track OTP verification status
   const timerRef = useRef(null);
   const router = useRouter();
+  const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
+  const{userDetails} = useContext(AuthContext);
 
   useEffect(() => {
     fetchOtpLengthFromApi();
@@ -22,6 +28,19 @@ export default function OTPMainEmail() {
       if (timerRef.current !== null) clearInterval(timerRef.current);
     };
   }, []);
+
+  useEffect(()=>{
+    const sendOtp = async()=>{
+      try {
+        const res =await axios.post(`${baseUrl}/api/send-otp`,{email:userDetails.email});
+        
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
+    sendOtp();
+  },[])
 
   const fetchOtpLengthFromApi = async () => {
     const responseOtpLength = 4; // Replace with actual API response length
@@ -60,28 +79,41 @@ export default function OTPMainEmail() {
 
   const validateOtp = (otp) => otp.every((digit) => digit !== '');
 
-  const handleSignIn = (otp) => {
+  const handleSignIn = async (otp) => {
     if (!validateOtp(otp)) {
       setError('Please enter a valid OTP');
       return;
     }
 
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
       const enteredOtp = otp.join('');
-      if (enteredOtp === '1234') {
-        setSuccessMessage('Email address verification successful.');
-        setError('');
-        setOtpVerified(true);
-        router.push('/(routes)/SuccessOTP'); // Navigate to CreatePassword page on success
-      } else {
-        
-        setError('Invalid Code');
-        setSuccessMessage('');
-        setOtpVerified(false);
+      const res = await axios.post(`${baseUrl}/api/verify-email`,{email:userDetails.email, otp_code:enteredOtp});
+      if(res.data.message){
+        await AsyncStorage.setItem("authToken", res.data.token);
       }
-    }, 3000);
+      
+      router.push('/(tabs)/home');
+    } catch (error) {
+      console.log(error)
+    }
+   
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    //  
+      
+    //   if (enteredOtp === '1234') {
+    //     setSuccessMessage('Email address verification successful.');
+    //     setError('');
+    //     setOtpVerified(true);
+    //     router.push('/(routes)/SuccessOTP'); 
+    //   } else {
+        
+    //     setError('Invalid Code');
+    //     setSuccessMessage('');
+    //     setOtpVerified(false);
+    //   }
+    // }, 3000);
   };
 
   const handleResendCode = () => {

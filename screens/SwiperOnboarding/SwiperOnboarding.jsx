@@ -62,9 +62,10 @@ export default function WelcomeIntroScreen() {
       <TouchableOpacity
         onPress={() => {
           const getStarted = async ()=>{
-            await AsyncStorage.clear();
+            
             await AsyncStorage.removeItem('onboarding');
-            await AsyncStorage.setItem('onboarding', 'completed');
+           await AsyncStorage.setItem('onboarding', 'completed');
+           
             router.push("/(routes)/onboarding-section")
           }
           getStarted();

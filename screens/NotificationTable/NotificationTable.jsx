@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Head from './Head';
+import axiosClient from '../../axiosClient';
+import { FontAwesome } from '@expo/vector-icons';
  const NotificationTable = () => {
+  const [notifications, setNotification] = useState([]);
+  useEffect(()=>{
+    const getNotifications = async ()=>{
+      try {
+        const res = await axiosClient.get('/user/notifications');
+        console.log(res.data)
+      setNotification(res.data.notifications);
+      console.log(res.data.notifications);
+      } catch (error) {
+        console.log(error)
+      }
+      
+    }
+    getNotifications();
+  },[]);
     return (
         <>
         <Head/>
@@ -9,43 +26,41 @@ import Head from './Head';
       
     >
        <View  style={{paddingBottom:25}}>
-       <View   >
+       {/* <View   >
           <Text style={styles.topText}>Today</Text>
-        </View>
+        </View> */}
  
-        <View style={{flexDirection:"row", borderTopWidth:1,  paddingHorizontal:20, borderColor:"#EBEBED", gap:15, paddingVertical:20}}>
-        <View style={styles.profileContainer}>
-          <Image
-            source={require('../../assets/images/profile.png')} 
-            style={styles.profileImage}
-          />
-          </View>
-          <Text style={{fontWeight:"400", fontSize:15, lineHeight:21, fontFamily: 'SofiaPro', width:"60%"}}>
-        You received a payment of $560.00 
-        from David John
-        </Text>
-        </View>
+       {
+        notifications.length>0? notifications.map((notification,index)=>(
+          <View 
+          key={index}
+          style={{flexDirection:"row", borderTopWidth:1,  paddingHorizontal:20, borderColor:"#EBEBED", gap:15, paddingVertical:20,  }}
+          >
+          <View>
+            {/* <Image
+              source={require('../../assets/images/profile.png')} 
+              style={styles.profileImage}
+            /> */}
+            <FontAwesome name="user-circle" size={40} color="black" />
+            </View>
+            <Text style={{fontWeight:"400", fontSize:15, lineHeight:21, fontFamily: 'SofiaPro', width:"60%"}}>
+            {notification.title}
+          </Text>
+          {/* <TouchableOpacity style={{backgroundColor:'#456EFE', paddingVertical:10, paddingHorizontal:20,borderRadius:10}}>
+            <Text style={{color:"#fff",fontFamily: 'SofiaPro', fontWeight:"600", fontSize:15, lineHeight:21}}>Pay</Text>
+          </TouchableOpacity> */}
+           </View>
+        )):(
+          <View style={{marginHorizontal:'25%'}}>
+            <Text>No Notifications for you yet</Text>
+            </View>
+        )
+       }
 
-        <View 
-        style={{flexDirection:"row", borderTopWidth:1,  paddingHorizontal:20, borderColor:"#EBEBED", gap:15, paddingVertical:20,  }}
-        >
-        <View  >
-          <Image
-            source={require('../../assets/images/profile.png')} 
-            style={styles.profileImage}
-          />
-          </View>
-          <Text style={{fontWeight:"400", fontSize:15, lineHeight:21, fontFamily: 'SofiaPro', width:"60%"}}>
-          You received a payment of $560.00 
-        from David John
-        </Text>
-        <TouchableOpacity style={{backgroundColor:'#456EFE', paddingVertical:10, paddingHorizontal:20,borderRadius:10}}>
-          <Text style={{color:"#fff",fontFamily: 'SofiaPro', fontWeight:"600", fontSize:15, lineHeight:21}}>Pay</Text>
-        </TouchableOpacity>
-         </View>
+       
 
       
-       <View>
+       {/* <View>
        <View >
           <Text style={styles.topText}>This Week</Text>
         </View>
@@ -69,7 +84,7 @@ import Head from './Head';
            
             style={{padding:24, backgroundColor:"#FFE8E8", borderRadius:30}}
           />
-           {/* Red notification dot for profile */}
+          
           <View style={styles.notificati}>
             <Text style={{textAlign:"center",  color:"#FF6363",backgroundColor:"#fff", borderRadius:30}}>!</Text>
           </View>
@@ -80,128 +95,8 @@ import Head from './Head';
         </Text>
        
         </View>
-       </View>
-       <View 
-        style={{flexDirection:"row", borderTopWidth:1,  paddingHorizontal:20, borderColor:"#EBEBED", gap:15, paddingVertical:20,  }}
-        >
-        <View  >
-          <Image
-            source={require('../../assets/images/profile.png')} 
-            style={styles.profileImage}
-          />
-          </View>
-          <Text style={{fontWeight:"400", fontSize:15, lineHeight:21, fontFamily: 'SofiaPro', width:"60%"}}>
-          You received a payment of $560.00 
-        from David Jo
-        </Text>
-        <TouchableOpacity style={{backgroundColor:'#456EFE', paddingVertical:10, paddingHorizontal:20,borderRadius:10}}>
-          <Text style={{color:"#fff",fontFamily: 'SofiaPro', fontWeight:"600", fontSize:15, lineHeight:21}}>Pay</Text>
-        </TouchableOpacity>
-         </View>
-         <View 
-        style={{flexDirection:"row", borderTopWidth:1,  paddingHorizontal:20, borderColor:"#EBEBED", gap:15, paddingVertical:20,  }}
-        >
-        <View  >
-          <Image
-            source={require('../../assets/images/profile.png')} 
-            style={styles.profileImage}
-          />
-          </View>
-          <Text style={{fontWeight:"400", fontSize:15, lineHeight:21, fontFamily: 'SofiaPro', width:"60%"}}>
-          You received a payment of $560.00 
-        from David John
-        </Text>
-        <TouchableOpacity style={{backgroundColor:'#456EFE', paddingVertical:10, paddingHorizontal:20,borderRadius:10}}>
-          <Text style={{color:"#fff",fontFamily: 'SofiaPro', fontWeight:"600", fontSize:15, lineHeight:21}}>Pay</Text>
-        </TouchableOpacity>
-         </View>
-
-
-         <View 
-        style={{flexDirection:"row", borderTopWidth:1,  paddingHorizontal:20, borderColor:"#EBEBED", gap:15, paddingVertical:20,  }}
-        >
-        <View  >
-          <Image
-            source={require('../../assets/images/profile.png')} 
-            style={styles.profileImage}
-          />
-          </View>
-          <Text style={{fontWeight:"400", fontSize:15, lineHeight:21, fontFamily: 'SofiaPro', width:"60%"}}>
-          You received a payment of $560.00 
-        from David Joh
-        </Text>
-        <TouchableOpacity style={{backgroundColor:'#456EFE', paddingVertical:10, paddingHorizontal:20,borderRadius:10}}>
-          <Text style={{color:"#fff",fontFamily: 'SofiaPro', fontWeight:"600", fontSize:15, lineHeight:21}}>Pay</Text>
-        </TouchableOpacity>
-         </View>
-         <View 
-        style={{flexDirection:"row", borderTopWidth:1,  paddingHorizontal:20, borderColor:"#EBEBED", gap:15, paddingVertical:20,  }}
-        >
-        <View  >
-          <Image
-            source={require('../../assets/images/profile.png')} 
-            style={styles.profileImage}
-          />
-          </View>
-          <Text style={{fontWeight:"400", fontSize:15, lineHeight:21, fontFamily: 'SofiaPro', width:"60%"}}>
-          You received a payment of $560.00 
-        from David Johns
-        </Text>
-        <TouchableOpacity style={{backgroundColor:'#456EFE', paddingVertical:10, paddingHorizontal:20,borderRadius:10}}>
-          <Text style={{color:"#fff",fontFamily: 'SofiaPro', fontWeight:"600", fontSize:15, lineHeight:21}}>Pay</Text>
-        </TouchableOpacity>
-         </View>
-         <View 
-        style={{flexDirection:"row", borderTopWidth:1,  paddingHorizontal:20, borderColor:"#EBEBED", gap:15, paddingVertical:20,  }}
-        >
-        <View  >
-          <Image
-            source={require('../../assets/images/profile.png')} 
-            style={styles.profileImage}
-          />
-          </View>
-          <Text style={{fontWeight:"400", fontSize:15, lineHeight:21, fontFamily: 'SofiaPro', width:"60%"}}>
-          You received a payment of $560.00 
-        from David Johns
-        </Text>
-        <TouchableOpacity style={{backgroundColor:'#456EFE', paddingVertical:10, paddingHorizontal:20,borderRadius:10}}>
-          <Text style={{color:"#fff",fontFamily: 'SofiaPro', fontWeight:"600", fontSize:15, lineHeight:21}}>Pay</Text>
-        </TouchableOpacity>
-         </View>
-         <View 
-        style={{flexDirection:"row", borderTopWidth:1,  paddingHorizontal:20, borderColor:"#EBEBED", gap:15, paddingVertical:20,  }}
-        >
-        <View  >
-          <Image
-            source={require('../../assets/images/profile.png')} 
-            style={styles.profileImage}
-          />
-          </View>
-          <Text style={{fontWeight:"400", fontSize:15, lineHeight:21, fontFamily: 'SofiaPro', width:"60%"}}>
-          You received a payment of $560.00 
-        from David Johns
-        </Text>
-        <TouchableOpacity style={{backgroundColor:'#456EFE', paddingVertical:10, paddingHorizontal:20,borderRadius:10}}>
-          <Text style={{color:"#fff",fontFamily: 'SofiaPro', fontWeight:"600", fontSize:15, lineHeight:21}}>Pay</Text>
-        </TouchableOpacity>
-         </View>
-         <View 
-        style={{flexDirection:"row", borderTopWidth:1,  paddingHorizontal:20, borderColor:"#EBEBED", gap:15, paddingVertical:20,  }}
-        >
-        <View  >
-          <Image
-            source={require('../../assets/images/profile.png')} 
-            style={styles.profileImage}
-          />
-          </View>
-          <Text style={{fontWeight:"400", fontSize:15, lineHeight:21, fontFamily: 'SofiaPro', width:"60%"}}>
-          You received a payment of $560.00 
-        from David Johns
-        </Text>
-        <TouchableOpacity style={{backgroundColor:'#456EFE', paddingVertical:10, paddingHorizontal:20,borderRadius:10}}>
-          <Text style={{color:"#fff",fontFamily: 'SofiaPro', fontWeight:"600", fontSize:15, lineHeight:21}}>Pay</Text>
-        </TouchableOpacity>
-         </View>
+       </View> */}
+       
 
        </View>
     </ScrollView>

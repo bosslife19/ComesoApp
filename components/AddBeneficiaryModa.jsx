@@ -26,17 +26,18 @@ import axiosClient from "../axiosClient";
     const [password, setPassword] = useState('');
     const [countryCode, setCountryCode] = useState("US");
     const [callingCode, setCallingCode] = useState("1");
+    const [buttonSpinner, setButtonSpinner] = useState(false);
     const onSelectCountry = (country) => {
       setCountryCode(country.cca2); // Set the selected country code
       setCallingCode(country.callingCode[0]); // Set the corresponding calling code
     };
 
     const handleAddBeneficiary = async ()=>{
-      if(!name || !email || !phone){
+      if(!name){
         return Toast.show({
           type: "error",
-          text1: "Fields are required",
-          text2: "All fields are required to continue",
+          text1: "username is required",
+          text2: "Enter beneficiary username to continue",
         });
        }
  
@@ -44,10 +45,11 @@ import axiosClient from "../axiosClient";
       setName(name);
       
       setemail(email);
-
+      setButtonSpinner(true);
       const res = await axiosClient.post('/user/check-password', {password});
       
       if(res.data.status ==false){
+        setButtonSpinner(false);
         return Toast.show({
           type: "error",
           text1: "Incorrect password",
@@ -57,6 +59,7 @@ import axiosClient from "../axiosClient";
 
       const response = await axiosClient.post('/user/find', {name});
       if(response.data.error){
+        setButtonSpinner(false)
         Toast.show({
           type: 'error',
           text1: 'Error',
@@ -66,6 +69,7 @@ import axiosClient from "../axiosClient";
         });
         return;
       }
+      setButtonSpinner(false);
       openFirstConfirm();
       
     }
@@ -131,7 +135,7 @@ import axiosClient from "../axiosClient";
             >
               <TextInput  
               style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
-               placeholder="Username" onChangeText={(val)=>setname(val)}/>
+               placeholder="Input beneficiary username" onChangeText={(val)=>setname(val)}/>
             </View>
             {/* <View
               style={{
@@ -155,7 +159,7 @@ import axiosClient from "../axiosClient";
                 // paddingVertical: 5,
               }}
             >
-              <View style={styles.phoneContainer}>
+              {/* <View style={styles.phoneContainer}>
                 <CountryPicker
                   countryCode={countryCode}
                   withFilter
@@ -173,23 +177,23 @@ import axiosClient from "../axiosClient";
                   onChangeText={(val)=>setPhone(val)}
                   placeholder="Phone number"
                 />
-              </View>
+              </View> */}
             </View>
-            <View
+            {/* <View
               style={{
                 backgroundColor: "rgba(164, 169, 174, 0.2)",
                 width: "100%",
                 marginHorizontal: "auto",
   
                 borderRadius: 10,
-                // paddingVertical: 5,
+                
               }}
             >
               <TextInput 
-              style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
+              style={[SectionsLogin.input, { fontFamily: "SofiaPro", }]}
               placeholder="Email" onChangeText={(val)=>setEmail(val)} />
-            </View>
-            <View style={{ flexDirection: "row", gap: 5 }}>
+            </View> */}
+            <View style={{ flexDirection: "row", gap: 5, marginVertical:10 }}>
               <View
                 style={{
                   backgroundColor: "rgba(164, 169, 174, 0.2)",
@@ -197,17 +201,16 @@ import axiosClient from "../axiosClient";
                   marginHorizontal: "auto",
   
                   borderRadius: 10,
-                  // paddingVertical: 5,
-                  // flex: 4,
+                  
                 }}
               >
                 <TextInput 
                  style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
-                placeholder="Password" onChangeText={(val)=>setPassword(val)} secureTextEntry={true}/>
+                placeholder="Enter your password" onChangeText={(val)=>setPassword(val)} secureTextEntry={true}/>
               </View>
             </View>
           </View>
-          <CustomBlueButton text='Add Beneficiary' onPress={handleAddBeneficiary} toggleModal={toggleModal}/>
+          <CustomBlueButton text='Add Beneficiary' onPress={handleAddBeneficiary} toggleModal={toggleModal} buttonSpinner={buttonSpinner} setButtonSpinner={setButtonSpinner}/>
         </View>
         <Toast />
       </>

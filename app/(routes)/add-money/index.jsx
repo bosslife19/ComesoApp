@@ -50,7 +50,7 @@ const AddMoney = () => {
       </View>
     </View>
       <Paystack
-        paystackKey={process.env.EXPO_PUBLIC_PAYSTACK_TEST_PUBLIC}
+        paystackKey={process.env.EXPO_PUBLIC_PAYSTACK_PUBLIC}
         billingEmail={userDetails.email}
         amount={amount}
         billingName={userDetails.name}

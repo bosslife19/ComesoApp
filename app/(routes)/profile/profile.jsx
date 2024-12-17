@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomHeader from "../../../components/CustomHeader";
 import CountryPicker, {
@@ -15,65 +15,90 @@ import CountryPicker, {
 } from "react-native-country-picker-modal";
 import CustomBlueButton from "../../../components/CustomBlueButton";
 import { router } from "expo-router";
+import axiosClient from "../../../axiosClient";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 
 const Profile = () => {
-  const transactions = [
-    {
-      id: 1,
-      type: "Account Top-up",
-      status: "Received",
-      date: "Feb 25, 2022",
-      amount: "$5.00 USD",
-      icon: "arrow-down-left",
-      iconColor: "#04AD29",
-      backgroundColor: "#E0F7EC",
-      textColor: "#04AD29",
-    },
-    {
-      id: 2,
-      type: "Transfer Out",
-      status: "Sent",
-      date: "Feb 26, 2022",
-      amount: "$10.00 USD",
-      icon: "arrow-up-right",
-      iconColor: "#F8332F",
-      backgroundColor: "#FEE0E0",
-      textColor: "#F8332F",
-    },
-    {
-      id: 3,
-      type: "Purchase",
-      status: "Completed",
-      date: "Feb 27, 2022",
-      amount: "$20.00 USD",
-      icon: "arrow-up-right",
-      iconColor: "#F8332F",
-      backgroundColor: "#FEE0E0",
-      textColor: "#F8332F",
-    },
-    {
-      id: 3,
-      type: "Purchase",
-      status: "Completed",
-      date: "Feb 27, 2022",
-      amount: "$20.00 USD",
-      icon: "arrow-up-right",
-      iconColor: "#F8332F",
-      backgroundColor: "#FEE0E0",
-      textColor: "#F8332F",
-    },
-  ];
+  // const transactions = [
+  //   {
+  //     id: 1,
+  //     type: "Account Top-up",
+  //     status: "Received",
+  //     date: "Feb 25, 2022",
+  //     amount: "$5.00 USD",
+  //     icon: "arrow-down-left",
+  //     iconColor: "#04AD29",
+  //     backgroundColor: "#E0F7EC",
+  //     textColor: "#04AD29",
+  //   },
+  //   {
+  //     id: 2,
+  //     type: "Transfer Out",
+  //     status: "Sent",
+  //     date: "Feb 26, 2022",
+  //     amount: "$10.00 USD",
+  //     icon: "arrow-up-right",
+  //     iconColor: "#F8332F",
+  //     backgroundColor: "#FEE0E0",
+  //     textColor: "#F8332F",
+  //   },
+  //   {
+  //     id: 3,
+  //     type: "Purchase",
+  //     status: "Completed",
+  //     date: "Feb 27, 2022",
+  //     amount: "$20.00 USD",
+  //     icon: "arrow-up-right",
+  //     iconColor: "#F8332F",
+  //     backgroundColor: "#FEE0E0",
+  //     textColor: "#F8332F",
+  //   },
+  //   {
+  //     id: 3,
+  //     type: "Purchase",
+  //     status: "Completed",
+  //     date: "Feb 27, 2022",
+  //     amount: "$20.00 USD",
+  //     icon: "arrow-up-right",
+  //     iconColor: "#F8332F",
+  //     backgroundColor: "#FEE0E0",
+  //     textColor: "#F8332F",
+  //   },
+  // ];
+  const [user, setUser] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const res = await axiosClient.get("/user");
+
+        setUser(res.data.user);
+        setTransactions(res.data.transactions);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUser();
+  }, []);
+  const date = transactions?.map((item) => {
+    const date = new Date(item.created_at); // Example date
+
+    const formattedDate = new Intl.DateTimeFormat("en-US", {
+      month: "long", // Full month name
+      day: "numeric", // Day of the month
+      year: "numeric", // Year
+    }).format(date);
+
+    return formattedDate;
+  });
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <CustomHeader text="Profile" />
         <View style={{ height: "100%", paddingHorizontal: "5%" }}>
           <View style={{ marginHorizontal: "auto", marginTop: "5%" }}>
-            <Image
-              width={90}
-              height={90}
-              source={require("../../../assets/images/profile.png")}
-            />
+           
+            <FontAwesome style={{marginHorizontal:'auto', left:'35%'}}name="user-circle" size={90} color="black" />
           </View>
           <View>
             <Text
@@ -85,7 +110,7 @@ const Profile = () => {
                 fontWeight: "700",
               }}
             >
-              Jonathan
+              {user?.name}
             </Text>
             <Text
               style={{
@@ -132,20 +157,24 @@ const Profile = () => {
                 flexDirection: "row",
               }}
             >
-              $5500.00
+              ${user?.balance}.00
               <Text style={{ fontSize: 8 }}>USD</Text>
             </Text>
           </View>
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between", marginVertical:"8%" }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: "8%",
+            }}
           >
             <Text
               style={{ fontFamily: "Sora", fontWeight: "600", fontSize: 19 }}
             >
               Recent Transactions
             </Text>
-            <TouchableOpacity onPress={()=>router.push('(routes)/setting')}>
+            <TouchableOpacity onPress={() => router.push("(routes)/setting")}>
               <Text
                 style={{
                   fontSize: 14,
@@ -159,7 +188,7 @@ const Profile = () => {
             </TouchableOpacity>
           </View>
 
-          {transactions.map((item) => (
+          {transactions.map((transaction, index) => (
             <View
               style={{
                 shadowColor: "#171717",
@@ -189,16 +218,33 @@ const Profile = () => {
                   alignSelf: "center",
                 }}
               >
-                <View>
-                  <Image
+                <View
+                  style={{
+                    backgroundColor:
+                      (transaction.status == "Received" && "#E0F7EC") ||
+                      (transaction.status == "Sent" && "#FEE0E0"),
+                  }}
+                >
+                  {/* <Image
                     source={require("../../../assets/images/downtransaction.png")}
                     width={51}
                     height={51}
                     resizeMode="contain"
+                  /> */}
+                  <Feather
+                    name={
+                      (transaction.status == "Received" && "arrow-down-left") ||
+                      (transaction.status == "Sent" && "arrow-up-right")
+                    }
+                    size={24}
+                    color={
+                      (transaction.status == "Received" && "#04AD29") ||
+                      (transaction.status == "Sent" && "#F8332F")
+                    }
                   />
                 </View>
                 <View style={{ left: "-18%", top: "-3%" }}>
-                  <Text style={{ fontSize: 14 }}>Account Top-up</Text>
+                  <Text style={{ fontSize: 14 }}>{transaction.type}</Text>
                   <View
                     style={{
                       flexDirection: "row",
@@ -207,14 +253,19 @@ const Profile = () => {
                     }}
                   >
                     <Text
-                      style={{ fontSize: 12, color: "rgba(4, 173, 41, 1)" }}
+                      style={{
+                        fontSize: 12,
+                        color:
+                          (transaction.status == "Received" && "#04AD29") ||
+                          (transaction.status == "Sent" && "#F8332F"),
+                      }}
                     >
-                      Received
+                      {transaction.status}
                     </Text>
                     <Text
                       style={{ fontSize: 12, color: "rgba(164, 169, 174, 1)" }}
                     >
-                      Feb 25,
+                      {date[index]}
                     </Text>
                   </View>
                 </View>
@@ -228,7 +279,7 @@ const Profile = () => {
                     flexDirection: "row",
                   }}
                 >
-                  $5.00
+                  ${transaction.amount}.00
                   <Text style={{ fontSize: 8 }}>USD</Text>
                 </Text>
               </View>
