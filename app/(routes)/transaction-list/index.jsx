@@ -49,51 +49,51 @@ const TransactionList = () => {
     return formattedDate;
    })
 
-  const renderTransactionItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.transactionItem}
-      onPress={() => router.push(`/transaction-details/${item.id}`)}
-    >
-      <View style={styles.transactionRow}>
-        <View
-          style={[
-            styles.transactionIcon,
-            {
-              backgroundColor:
-                item.status === 'Received' ? '#E0F7EC' : '#FEE0E0',
-            },
-          ]}
-        >
-          <Feather
-            name={item.status === 'Received' ? "arrow-down-left" : "arrow-up-right"}
-            size={24}
-            color={item.status === 'Received' ? '#04AD29' : '#F8332F'}
-          />
-        </View>
-        <View style={styles.transactionDetails}>
-          <Text style={styles.transactionType}>{item.type}</Text>
-          <View style={styles.transactionInfo}>
-            <Text
-              style={[
-                styles.transactionStatus,
-                { color: item.status === 'Received' ? '#04AD29' : '#F8332F' },
-              ]}
-            >
-              {item.status}
-            </Text>
-            <Text style={styles.transactionDate}>
-              {new Date(item.created_at).toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </Text>
-          </View>
-        </View>
-      </View>
-      <Text style={styles.transactionAmount}>${item.amount}.00 USD</Text>
-    </TouchableOpacity>
-  );
+  // const renderTransactionItem = ({ item }) => (
+  //   <TouchableOpacity
+  //     style={styles.transactionItem}
+  //     onPress={() => router.push(`/transaction-details/${item.id}`)}
+  //   >
+  //     <View style={styles.transactionRow}>
+  //       <View
+  //         style={[
+  //           styles.transactionIcon,
+  //           {
+  //             backgroundColor:
+  //               item.status === 'Received' ? '#E0F7EC' : '#FEE0E0',
+  //           },
+  //         ]}
+  //       >
+  //         <Feather
+  //           name={item.status === 'Received' ? "arrow-down-left" : "arrow-up-right"}
+  //           size={24}
+  //           color={item.status === 'Received' ? '#04AD29' : '#F8332F'}
+  //         />
+  //       </View>
+  //       <View style={styles.transactionDetails}>
+  //         <Text style={styles.transactionType}>{item.type}</Text>
+  //         <View style={styles.transactionInfo}>
+  //           <Text
+  //             style={[
+  //               styles.transactionStatus,
+  //               { color: item.status === 'Received' ? '#04AD29' : '#F8332F' },
+  //             ]}
+  //           >
+  //             {item.status}
+  //           </Text>
+  //           <Text style={styles.transactionDate}>
+  //             {new Date(item.created_at).toLocaleDateString('en-US', {
+  //               month: 'long',
+  //               day: 'numeric',
+  //               year: 'numeric',
+  //             })}
+  //           </Text>
+  //         </View>
+  //       </View>
+  //     </View>
+  //     <Text style={styles.transactionAmount}>${item.amount}.00 USD</Text>
+  //   </TouchableOpacity>
+  // );
 
   return (
     <>
@@ -151,7 +151,7 @@ const TransactionList = () => {
   }}
   zIndex={1000}
   zIndexInverse={3000}
-/>
+ />
 
         </View>
         </View>
