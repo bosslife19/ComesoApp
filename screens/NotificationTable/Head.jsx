@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { Fontisto, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, Fontisto, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 export default function Head() {
@@ -17,10 +17,11 @@ export default function Head() {
         </View>
 
         <TouchableOpacity onPress={()=> router.push('/(tabs)/home')} style={styles.bellContainer}>
-        <Image
+        {/* <Image
             source={require('../../assets/images/profile.png')} 
             style={styles.profileImage}
-          />
+          /> */}
+          <FontAwesome name="user-circle" size={40} color="black" />
           {/* Red notification dot for bell */}
           <View style={styles.notificationDot} />
         </TouchableOpacity>

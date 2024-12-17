@@ -1,8 +1,8 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 
-const CustomBlueButton = ({ text, onPress, toggleModal }) => {
+const CustomBlueButton = ({ text, onPress, toggleModal, buttonSpinner, }) => {
   return (
     <TouchableOpacity
       style={{
@@ -21,7 +21,12 @@ const CustomBlueButton = ({ text, onPress, toggleModal }) => {
         onPress();
       }}
     >
-      <AntDesign
+     {
+      buttonSpinner? (
+        <ActivityIndicator size='small' color='white'/>
+      ):(
+        <>
+        <AntDesign
         name="pluscircleo"
         size={24}
         color="white"
@@ -36,6 +41,9 @@ const CustomBlueButton = ({ text, onPress, toggleModal }) => {
       >
         {text}
       </Text>
+        </>
+      )
+     }
     </TouchableOpacity>
   );
 };

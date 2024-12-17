@@ -13,8 +13,9 @@ const TransactionList = () => {
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [filter, setFilter] = useState("all");
-  const { setUserDetails } = useContext(AuthContext);
+  const { setUserDetails,userDetails } = useContext(AuthContext);
   const [open, setOpen] = useState(false); // State to manage dropdown visibility
+  
   const [items, setItems] = useState([
      { label: "Past 1 Month", value: "past1month" },
   ]);
@@ -114,7 +115,7 @@ const TransactionList = () => {
         >
           <Text style={styles.totalBalanceTitle}>Total Balance</Text>
           <Text style={styles.totalBalance}>
-            $5500.00 <Text style={styles.currency}>USD</Text>
+            ${userDetails.balance}.00 <Text style={styles.currency}>USD</Text>
           </Text>
         </View>
         <View style={styles.searchContainer}>

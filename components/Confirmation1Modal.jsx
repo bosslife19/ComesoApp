@@ -20,8 +20,8 @@ const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name
     try {
       const res = await axiosClient.post('/beneficiary', {
         name,
-        email,
-        phone,
+        // email,
+        // phone,
       })
       if(res.data.status ==false){
         setFound(false);
