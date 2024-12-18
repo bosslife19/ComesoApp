@@ -1,10 +1,10 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native'
 import React from 'react'
 import SignUpScreen from '@/components/AuthSections/Siginings/signup';
     
  const SignScreen = () =>{
   return (
-    <View style={styles.background}>
+    <KeyboardAvoidingView style={styles.background} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
     <View
        style={{
             position:"absolute",right:"-0%",borderTopLeftRadius:50
@@ -26,7 +26,7 @@ import SignUpScreen from '@/components/AuthSections/Siginings/signup';
      </View>
      <SignUpScreen/>
      
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
