@@ -14,11 +14,31 @@
       },
       "distribution": "internal"
     },
-    "production": {
-      "autoIncrement": true
+    "production":{
+      "autoIncrement":true,
+      "android": {
+        "buildType": "app-bundle",
+        "gradleCommand": ":app:bundleRelease"
+      },
+      "ios": {
+        "buildType": "release",
+        "simulator": false,
+        "autoIncrement": "buildNumber"
+      }
     }
+    
   },
   "submit": {
-    "production": {}
+    "production":{
+      "android": {
+        "serviceAccountKeyPath": "../path/to/api-xxx-yyy-zzz.json",
+        "track": "internal"
+      },
+      "ios": {
+        "appleId": "john@turtle.com",
+        "ascAppId": "1234567890",
+        "appleTeamId": "AB12XYZ34S"
+      }
+    }
   }
 }
