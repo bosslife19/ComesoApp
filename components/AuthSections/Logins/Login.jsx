@@ -23,6 +23,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "@/context/AuthContext";
 import * as LocalAuthentication from "expo-local-authentication";
+import { Platform } from "react-native";
 
 export default function LoginScreen() {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -108,8 +109,9 @@ export default function LoginScreen() {
           });
           router.push("/(tabs)/home");
         }
-       
+        setButtonSpinner(false);
       }
+      setButtonSpinner(false);
     } catch (error) {
       setButtonSpinner(false);
       Toast.show({
@@ -157,20 +159,27 @@ export default function LoginScreen() {
                 style={[
                   SectionsLogin.input,
                   { fontFamily: "SofiaPro", paddingHorizontal: 0 },
+                  Platform.OS === "ios" && styles.iosPlaceholder, // Conditional styling for iOS
                 ]}
                 keyboardType="email-address"
                 value={email}
                 placeholder="email"
+                placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
                 onChangeText={(value) => setEmail(value)}
               />
             </View>
 
             <View style={{ marginTop: 15 }}>
               <TextInput
-                style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
+                style={[
+                  SectionsLogin.input,
+                  { fontFamily: "SofiaPro", paddingHorizontal: 0 },
+                  Platform.OS === "ios" && styles.iosPlaceholder, // Conditional styling for iOS
+                ]}
                 secureTextEntry={!isPasswordVisible}
                 value={password}
                 placeholder="password"
+                placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
                 onChangeText={(value) => setPassword(value)}
               />
               <TouchableOpacity
@@ -252,5 +261,12 @@ export default function LoginScreen() {
       <Toast />
     </>
   );
+
 }
  
+
+const styles = StyleSheet.create({
+  iosPlaceholder: {
+    fontFamily: "SofiaPro", // Ensure the placeholder uses the same font
+  },
+});

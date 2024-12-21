@@ -13,6 +13,7 @@ import CountryPicker, {
 import {
   ActivityIndicator,
   Alert,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -170,8 +171,10 @@ export default function SignUpScreen() {
               style={[
                 SectionsLogin.input,
                 { fontFamily: "SofiaPro", paddingHorizontal: 0 },
+                Platform.OS === "ios" && styles.iosPlaceholder, // Conditional styling for iOS
               ]}
               keyboardType="default"
+              placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
               value={name}
               placeholder="Username"
               onChangeText={(value) => setName(value)}
@@ -184,8 +187,10 @@ export default function SignUpScreen() {
               style={[
                 SectionsLogin.input,
                 { fontFamily: "SofiaPro", paddingHorizontal: 0 },
+                Platform.OS === "ios" && styles.iosPlaceholder, // Conditional styling for iOS
               ]}
               keyboardType="email-address"
+              placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
               value={email}
               placeholder="email"
               onChangeText={(value) => setEmail(value)}
@@ -197,8 +202,9 @@ export default function SignUpScreen() {
             <View style={styles.phoneContainer}>
               <CountryPicker withCallingCode withFilter countryCode={countryCode} onSelect={onSelectCountry} containerButtonStyle={styles.countryPicker} />
               <TextInput
-                style={styles.phoneInput}
+                style={[styles.phoneInput, Platform.OS === "ios" && styles.iosPlaceholder,]}
                 placeholder="Phone Number"
+                placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
                 value={phoneNumber}
                 onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ""))}
                 keyboardType="phone-pad"
@@ -216,9 +222,12 @@ export default function SignUpScreen() {
             {/* Password Input */}
             <View style={{ width: "100%" }}>
               <TextInput
-                style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
+                style={[SectionsLogin.input, { fontFamily: "SofiaPro" },
+                  Platform.OS === "ios" && styles.iosPlaceholder
+                ]}
                 secureTextEntry={!isPasswordVisible}
                 value={password}
+                placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
                 placeholder="password"
                 onChangeText={(value) => setPassword(value)}
               />

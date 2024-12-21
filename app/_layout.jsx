@@ -12,13 +12,14 @@ import "react-native-reanimated";
 import { AuthProvider } from "../context/AuthContext";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { Platform } from "react-native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
 
@@ -29,15 +30,18 @@ export default function RootLayout() {
     Sofia: require("../assets/fonts/sofia/Sofia Pro Regular Az.otf"),
   });
 
-
-
   useEffect(() => {
-    if (loaded) {
+    if (Platform.OS === "ios") {
+      // Skip font loading for iOS
+      SplashScreen.hideAsync();
+    } else if (fontsLoaded) {
+      // Hide the splash screen once fonts are loaded
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded]);
 
-  if (!loaded) {
+  // Return null if fonts are loading and the platform is not iOS
+  if (!fontsLoaded && Platform.OS !== "ios") {
     return null;
   }
 
