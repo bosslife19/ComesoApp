@@ -9,27 +9,30 @@
       "distribution": "internal"
     },
     "preview": {
-      "android": {
-        "buildType": "apk"
+      "android":{
+        "buildType":"apk"
       },
       "distribution": "internal"
     },
-    "production": {
+    "production":{
+      "autoIncrement":true,
       "android": {
         "buildType": "app-bundle",
-        "autoIncrement": true
+        "gradleCommand": ":app:bundleRelease"
       },
       "ios": {
         "buildType": "release",
+        "simulator": false,
         "autoIncrement": "buildNumber"
       }
     }
+    
   },
   "submit": {
-    "production": {
+    "production":{
       "android": {
-        "serviceAccountKeyPath": "./path-to-service-account-key.json",
-        "track": "production"
+        "serviceAccountKeyPath": "../path/to/api-xxx-yyy-zzz.json",
+        "track": "internal"
       },
       "ios": {
         "appleId": "john@turtle.com",

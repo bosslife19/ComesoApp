@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { Fontisto } from '@expo/vector-icons';
+import { FontAwesome, Fontisto } from '@expo/vector-icons';
   import { router } from 'expo-router';
 
 const Headers = ()=> {
@@ -17,10 +17,11 @@ const Headers = ()=> {
       <View style={styles.row}>
         <View style={styles.profileContainer}>
         <TouchableOpacity onPress={()=>goBacks()}>
-        <Image 
+        {/* <Image 
             source={require('../../assets/images/profile.png')} 
             style={styles.profileImage}
-          />
+          /> */}
+          <FontAwesome name="user-circle" size={40} color="black" />
           {/* Red notification dot for profile */}
           <View style={styles.notificationDot} />
 
