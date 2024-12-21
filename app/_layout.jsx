@@ -29,6 +29,8 @@ export default function RootLayout() {
     Sofia: require("../assets/fonts/sofia/Sofia Pro Regular Az.otf"),
   });
 
+
+
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
