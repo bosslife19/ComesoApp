@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TextInput, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomHeader from "../../../components/CustomHeader";
@@ -33,7 +33,7 @@ const Complain = () => {
                 paddingLeft:'3%'
               }}
             >
-              <TextInput placeholder="First Name" />
+              <TextInput placeholder="First Name" placeholderTextColor={Platform.OS === "ios" &&"#aaa" } style={{color:Platform.OS=='ios'&&'#aaa'}} />
             </View>
 
             <View
@@ -47,7 +47,7 @@ const Complain = () => {
                 paddingLeft:'3%'
               }}
             >
-              <TextInput placeholder="Last Name" />
+              <TextInput placeholder="Last Name" placeholderTextColor={Platform.OS === "ios" &&"#aaa" } style={{color:Platform.OS=='ios'&&'#aaa'}} />
             </View>
 
             <View style={{ flexDirection: "row", gap: 5 }}>
@@ -63,7 +63,7 @@ const Complain = () => {
                   paddingLeft:'3%'
                 }}
               >
-                <TextInput placeholder="Email Address" />
+                <TextInput placeholder="Email Address" placeholderTextColor={Platform.OS === "ios" &&"#aaa" } style={{color:Platform.OS=='ios'&&'#aaa'}} />
               </View>
             </View>
 
@@ -78,7 +78,7 @@ const Complain = () => {
                 paddingLeft:'3%'
               }}
             >
-              <TextInput placeholder="CNIC" />
+              <TextInput placeholder="CNIC" placeholderTextColor={Platform.OS === "ios" &&"#aaa" } style={{color:Platform.OS=='ios'&&'#aaa'}} />
             </View>
           </View>
 
@@ -106,7 +106,7 @@ const Complain = () => {
                 height:"25%"
               }}
             >
-              <TextInput placeholder="Type your message here..." />
+              <TextInput placeholder="Type your message here..." placeholderTextColor={Platform.OS === "ios" &&"#aaa" } style={{color:Platform.OS=='ios'&&'#aaa'}} />
             </View>
             <TouchableOpacity
             style={{

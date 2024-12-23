@@ -1,4 +1,4 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Platform } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomHeader from "../../../components/CustomHeader";
@@ -21,7 +21,7 @@ const Call = () => {
               }}
             >
               
-              <TextInput placeholder="Jonathan" />
+              <TextInput placeholder="Jonathan" placeholderTextColor={Platform.OS === "ios" &&"#aaa" } style={{color:Platform.OS=='ios'&&'#aaa'}} />
             </View>
             <Text style={{fontFamily:'Sofia',fontSize:19, fontWeight:"600"}}>Email</Text>
             <View
@@ -34,7 +34,7 @@ const Call = () => {
                 paddingVertical: 5,
               }}
             >
-              <TextInput placeholder="Last Name" />
+              <TextInput placeholder="Last Name" placeholderTextColor={Platform.OS === "ios" &&"#aaa" } style={{color:Platform.OS=='ios'&&'#aaa'}}  />
             </View>
       </View>
     </SafeAreaView>

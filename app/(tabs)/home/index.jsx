@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, StatusBar } from 'react-native';
 import LottieView from 'lottie-react-native';
+import SpinningLogo from '../../../LoadingScreen/SpinningLogo';
 import DashboardMain from '../../../screens/Dashboard/DashboardMain';
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,12 +18,14 @@ const Home = () => {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <LottieView
+        {/* <LottieView
           source={require('../../../assets/animations/Animation - 1733645708075.json')} // Replace with the path to your Lottie file
           autoPlay
           loop
           style={styles.lottie}
-        />
+        /> */}
+        <SpinningLogo/>
+        
       </View>
     );
   }

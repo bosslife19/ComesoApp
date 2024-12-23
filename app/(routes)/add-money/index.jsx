@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, TextInput, Alert, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, TextInput, Alert, StyleSheet, ScrollView, Platform } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Paystack, paystackProps } from "react-native-paystack-webview";
@@ -201,7 +201,9 @@ const AddMoney = () => {
           paddingLeft: 10,
           fontSize: 16,
           color: "#333",
+          color:Platform.OS=='ios'&&'#aaa'
         }}
+        placeholderTextColor={Platform.OS === "ios" &&"#aaa" } 
         value={amount}
         onChangeText={(val) => setAmount(val)}
       />

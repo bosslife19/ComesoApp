@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Image, Animated } from 'react-native';
 
-const Loadingscreen = () => {
+const SpinningLogo = () => {
   const rotateValue = new Animated.Value(0); // Initial value of rotation
 
   useEffect(() => {
@@ -35,4 +35,4 @@ const Loadingscreen = () => {
   );
 };
 
-export default Loadingscreen;
+export default SpinningLogo;

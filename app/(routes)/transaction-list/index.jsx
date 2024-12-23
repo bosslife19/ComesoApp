@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Platform } from "react-native";
 import { useRouter } from "expo-router";
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import CustomHeader from "../../../components/CustomHeader";
@@ -121,9 +121,12 @@ const TransactionList = () => {
         <View style={styles.searchContainer}>
           <MaterialIcons name="search" size={24} color="#8E949A" style={styles.searchIcon} />
           <TextInput
-            style={styles.searchInput}
+          style={[styles.searchInput,{color:Platform.OS=='ios'&&'#aaa'}]}
             placeholder="Search "
-            placeholderTextColor="#8E949A"
+            
+          
+             placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' } 
+            
           />
         </View>
         <View style={{justifyContent:"center", marginHorizontal:"auto"}}>

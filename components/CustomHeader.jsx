@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { router } from 'expo-router';
+import { Fontisto } from '@expo/vector-icons';
 
 
 const CustomHeader = ({text})=> {
@@ -26,13 +27,7 @@ const CustomHeader = ({text})=> {
         </View>
 
         <TouchableOpacity onPress={()=> router.push("/(routes)/notifications") } style={styles.bellContainer}>
-        <Image 
-            source={require('../assets/images/notificationIcon.png')} 
-            style={styles.profileImage}
-            width={30}
-            height={30}
-            resizeMode='contain'
-          />
+        <Fontisto name="bell" size={20} color="#A4A9AE" />
           
         </TouchableOpacity >
       </View>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext, } from 'react';
-import { View, TextInput, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import { Entypo, Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import axios from 'axios';
@@ -146,6 +146,7 @@ export default function OTPMainEmail() {
             onChangeText={(text) => handleChange(text, index)}
             maxLength={1}
             keyboardType="numeric"
+            placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
           />
         ))}
       </View>

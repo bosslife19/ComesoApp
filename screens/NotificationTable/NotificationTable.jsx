@@ -9,9 +9,9 @@ import { FontAwesome } from '@expo/vector-icons';
     const getNotifications = async ()=>{
       try {
         const res = await axiosClient.get('/user/notifications');
-        console.log(res.data)
+       
       setNotification(res.data.notifications);
-      console.log(res.data.notifications);
+      
       } catch (error) {
         console.log(error)
       }

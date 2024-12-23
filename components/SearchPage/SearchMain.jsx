@@ -5,7 +5,8 @@ import {
   TextInput, 
   StyleSheet, 
   FlatList, 
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from "react-native";
 import { EvilIcons, Feather, MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -77,7 +78,7 @@ if(searchText){
         <TextInput
           style={styles.searchInput}
           // placeholder="Search transactions"
-          placeholderTextColor="#8E949A"
+          placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
           value={searchText}
           onChangeText={setSearchText}
          />

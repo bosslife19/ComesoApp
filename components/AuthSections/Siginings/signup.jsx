@@ -412,4 +412,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     lineHeight: 23.44,
   },
+  iosPlaceholder:{
+    color:'#aaa'
+  }
 });

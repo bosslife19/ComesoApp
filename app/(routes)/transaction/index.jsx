@@ -1,5 +1,6 @@
 import {
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -116,7 +117,8 @@ const Transactions = () => {
         >
           <TextInput
             placeholder="Search"
-            style={{ fontSize: 18, fontFamily: "Sofia" }}
+            style={{ fontSize: 18, fontFamily: "Sofia",color:Platform.OS=='ios'&&'#aaa' }}
+            placeholderTextColor={Platform.OS === "ios" &&"#aaa" } 
           />
           <View style={{ position: "absolute", top: "30%", left: "6%" }}>
             <EvilIcons name="search" size={24} color="rgba(142, 148, 154, 1)" />

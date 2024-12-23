@@ -20,7 +20,7 @@ export default function HeaderM() {
         <TouchableOpacity onPress={()=> notification()} style={styles.bellContainer}>
            <Fontisto name="bell" size={20} color="#A4A9AE" />
           {/* Red notification dot for bell */}
-          <View style={styles.notificationDot} />
+          {/* <View style={styles.notificationDot} /> */}
          </TouchableOpacity>
       </View>
     </View>

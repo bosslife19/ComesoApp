@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
+  Platform,
 } from "react-native";
 import SectionsLogin from "../styles/Login/Login.styles"
 import React, { useState } from "react";
@@ -89,7 +90,7 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
           >
             <TextInput
              style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
-            placeholder="First Name" />
+            placeholder="First Name"  placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }/>
           </View>
           <View
             style={{
@@ -103,7 +104,7 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
           >
             <TextInput
              style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
-            placeholder="Last Name" />
+            placeholder="Last Name" placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' } />
           </View>
           <View
             style={{
@@ -132,6 +133,7 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
                 // value={phoneNumber}
                 // onChangeText={handlePhoneChange}
                 placeholder="Phone number"
+                placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
               />
             </View>
           </View>
@@ -146,7 +148,7 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
           >
             <TextInput
              style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
-            placeholder="Email" />
+            placeholder="Email" placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' } />
           </View>
           <View style={{ flexDirection: "row", gap: 5 }}>
             <View
@@ -169,9 +171,10 @@ const BeneficiaryModal = ({ toggleModal, image }) => {
       fontSize: 14,
       backgroundColor: "#F1F2F3",
       color: " #A4A9AE",
+
               }}
               //  style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
-              placeholder="Password" />
+              placeholder="Password" placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }/>
             </View>
             <View
               style={{

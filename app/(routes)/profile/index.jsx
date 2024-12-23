@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -82,8 +83,9 @@ const Profile = () => {
                 paddingLeft: 15,
                 fontSize: 14,
                 // backgroundColor: "#F1F2F3",
-                color: " #A4A9AE",
+                color: Platform.OS=='ios'?"#aaa": "#A4A9AE",
               }}
+              placeholderTextColor={Platform.OS === "ios" &&"#aaa" } 
               placeholder="Jonathan" />
             </View>
             <Text style={{fontFamily:'Sofia',fontSize:19, fontWeight:"600"}}>Email</Text>
@@ -105,9 +107,9 @@ const Profile = () => {
                 paddingLeft: 15,
                 fontSize: 14,
                 // backgroundColor: "#F1F2F3",
-                color: " #A4A9AE",
+                color: Platform.OS==='ios'?'#aaa':" #A4A9AE",
               }}
-              placeholder="Last Name" />
+              placeholder="Last Name" placeholderTextColor={Platform.OS === "ios" &&"#aaa" }  />
             </View>
             <Text style={{fontFamily:'Sofia',fontSize:19, fontWeight:"600"}}>Mobile Number</Text>
             <View
@@ -133,11 +135,14 @@ const Profile = () => {
                 />
                 <Text style={styles.callingCode}>+{callingCode}</Text>
                 <TextInput
-                  style={styles.phoneInput}
+                  style={[styles.phoneInput, {color:Platform.OS==
+                    'ios'&&'#aaa'
+                  }]}
                   keyboardType="key-pad"
                   // value={phoneNumber}
                   // onChangeText={handlePhoneChange}
                   placeholder="Phone number"
+                  placeholderTextColor={Platform.OS === "ios" &&"#aaa" }
                 />
               </View>
             </View>
@@ -164,9 +169,11 @@ const Profile = () => {
                   paddingLeft: 15,
                   fontSize: 14,
                   // backgroundColor: "#F1F2F3",
-                  color: " #A4A9AE",
+                  color:Platform.OS=='ios'?'#aaa': " #A4A9AE",
                 }}
-                placeholder="Password" />
+                placeholder="Password"
+                placeholderTextColor={Platform.OS === "ios" &&"#aaa" } 
+                />
               </View>
             </View>
           </View>

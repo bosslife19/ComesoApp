@@ -21,9 +21,9 @@ export default function Head() {
             source={require('../../assets/images/profile.png')} 
             style={styles.profileImage}
           /> */}
-          <FontAwesome name="user-circle" size={40} color="black" />
+          <FontAwesome name="user-circle" size={35} color="black" />
           {/* Red notification dot for bell */}
-          <View style={styles.notificationDot} />
+          {/* <View style={styles.notificationDot} /> */}
         </TouchableOpacity>
       </View>
     </View>

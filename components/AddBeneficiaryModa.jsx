@@ -6,6 +6,7 @@ import {
     TextInput,
     StyleSheet,
     Alert,
+    Platform,
   } from "react-native";
   import Toast from "react-native-toast-message";
 
@@ -45,19 +46,9 @@ import axiosClient from "../axiosClient";
       setName(name);
       
       setemail(email);
-      setButtonSpinner(true);
-      const res = await axiosClient.post('/user/check-password', {password});
-      
-      if(res.data.status ==false){
-        setButtonSpinner(false);
-        return Toast.show({
-          type: "error",
-          text1: "Incorrect password",
-          text2: "The password you entered is incorrect",
-        });
-       }
-
-      const response = await axiosClient.post('/user/find', {name});
+      try {
+        setButtonSpinner(true);
+        const response = await axiosClient.post('/user/find', {name});
       if(response.data.error){
         setButtonSpinner(false)
         Toast.show({
@@ -71,6 +62,31 @@ import axiosClient from "../axiosClient";
       }
       setButtonSpinner(false);
       openFirstConfirm();
+      } catch (error) {
+        console.log(error);
+        setButtonSpinner(false);
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: error.response.data.message || 'An unexpected error occurred.',
+          position: 'top', // Can be 'top', 'bottom', or 'center'
+          visibilityTime: 4000, // Duration the toast is visible
+        });
+       
+      }
+    
+      // const res = await axiosClient.post('/user/check-password', {password});
+      
+      // if(res.data.status ==false){
+      //   setButtonSpinner(false);
+      //   return Toast.show({
+      //     type: "error",
+      //     text1: "Incorrect password",
+      //     text2: "The password you entered is incorrect",
+      //   });
+      //  }
+
+      
       
     }
     return (
@@ -135,7 +151,9 @@ import axiosClient from "../axiosClient";
             >
               <TextInput  
               style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
-               placeholder="Input beneficiary username" onChangeText={(val)=>setname(val)}/>
+               placeholder="Input beneficiary username" onChangeText={(val)=>setname(val)}
+                 placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
+               />
             </View>
             {/* <View
               style={{
@@ -194,7 +212,7 @@ import axiosClient from "../axiosClient";
               placeholder="Email" onChangeText={(val)=>setEmail(val)} />
             </View> */}
             <View style={{ flexDirection: "row", gap: 5, marginVertical:10 }}>
-              <View
+              {/* <View
                 style={{
                   backgroundColor: "rgba(164, 169, 174, 0.2)",
                   width: "100%",
@@ -206,11 +224,16 @@ import axiosClient from "../axiosClient";
               >
                 <TextInput 
                  style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
-                placeholder="Enter your password" onChangeText={(val)=>setPassword(val)} secureTextEntry={true}/>
-              </View>
+                placeholder="Enter your password" onChangeText={(val)=>setPassword(val)} secureTextEntry={true}
+                placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
+                />
+              </View> */}
             </View>
           </View>
+          <View style={{top:'-5%'}}>
           <CustomBlueButton text='Add Beneficiary' onPress={handleAddBeneficiary} toggleModal={toggleModal} buttonSpinner={buttonSpinner} setButtonSpinner={setButtonSpinner}/>
+          </View>
+          
         </View>
         <Toast />
       </>

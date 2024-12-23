@@ -1,21 +1,39 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AntDesign, FontAwesome, Fontisto } from '@expo/vector-icons';
 import { AuthContext } from '@/context/AuthContext';
 import { router } from 'expo-router';
+import axiosClient from '@/axiosClient';
+import { responsiveWidth } from 'react-native-responsive-dimensions';
 
 const Header = ()=> {
   const {userDetails} = useContext(AuthContext);
   const user = userDetails
   
-  const notification = () =>{
-    router.push("/(routes)/notifications")
+  const notification = async () =>{
+   
+       await axiosClient.put('/user/notifications/set-opened',{status:true});
+      router.push("/(routes)/notifications")
+   
+   
+   
   }
 
   const profile = () =>{
     router.push("/(routes)/profile/profile")
   }
-
+const [notifications, setNotifications] = useState([])
+const [unread, setUnread] = useState(false)
+  useEffect(()=>{
+    const getNotifications = async ()=>{
+      const res = await axiosClient.get('/user/notifications');
+      setNotifications(res.data.notifications);
+      const unread = res.data.notifications.some((notification) => notification.opened === false);
+      setUnread(unread)
+      
+    }
+    getNotifications();
+  },[])
   
   return (
     <View style={styles.container}>
@@ -27,7 +45,8 @@ const Header = ()=> {
           /> */}
           <FontAwesome name="user-circle" size={40} color="black" />
            {/* Red notification dot for profile */}
-          <View style={styles.notificationDot} />
+           
+          {/* <View style={styles.notificationDot} /> */}
         </TouchableOpacity>
 
         <View style={styles.greetingContainer}>
@@ -37,7 +56,10 @@ const Header = ()=> {
         <View style={styles.bellContainer}>
           <Fontisto name="bell" size={24} color="black" />
           {/* Red notification dot for bell */}
-          <View style={styles.notificationDot} />
+          {
+            unread && <View style={styles.notificationDot} />
+           }
+         
         </View>
         </TouchableOpacity>
       </View>

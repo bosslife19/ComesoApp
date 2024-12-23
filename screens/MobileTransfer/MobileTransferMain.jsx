@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, StatusBar } from 'react-native';
 import MobileTransferB from '../../components/MobilePage/MobileTransferB';
 import LottieView from 'lottie-react-native';
+import Loadingscreen from '../../LoadingScreen/Loadingscreen';
 
 const MobileTransferMain = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,12 +19,7 @@ const MobileTransferMain = () => {
   if (isLoading) {
     return (
       <View style={style.loadingContainer}>
-        <LottieView
-          source={require('../../assets/animations/Animation - 1733645708075.json')} // Replace with the path to your Lottie file
-          autoPlay
-          loop 
-          style={style.lottie}
-        />
+        <Loadingscreen/>
       </View>
     );
   }

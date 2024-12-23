@@ -23,7 +23,7 @@ const Headers = ()=> {
           /> */}
           <FontAwesome name="user-circle" size={40} color="black" />
           {/* Red notification dot for profile */}
-          <View style={styles.notificationDot} />
+          {/* <View style={styles.notificationDot} /> */}
 
         </TouchableOpacity>         
         </View>
@@ -36,7 +36,7 @@ const Headers = ()=> {
         <View style={styles.bellContainer}>
           <Fontisto name="bell" size={24} color="black" />
           {/* Red notification dot for bell */}
-          <View style={styles.notificationDot} />
+          {/* <View style={styles.notificationDot} /> */}
         </View>
         </TouchableOpacity>
       </View>

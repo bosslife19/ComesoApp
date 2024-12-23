@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
    Alert,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import Toast from "react-native-toast-message";
 
@@ -58,7 +59,14 @@ const MobileTransferB = () => {
       setPhoneNumber(phone);
     }
   };
-
+  const AddBeneficiaryButton = () => {
+    return (
+      <TouchableOpacity style={styles.addButton} onPress={()=>router.push('/beneficiary')}>
+        <MaterialIcons name="person-add" size={28} color="#333" style={styles.icon} />
+        <Text style={styles.text}>Add New Beneficiary</Text>
+      </TouchableOpacity>
+    );
+  };
   const handleContinue = async () => {
     // if (countryCode === "US") {
     //   Toast.show({
@@ -173,9 +181,10 @@ const MobileTransferB = () => {
         <TextInput
           style={[styles.searchInput, { fontFamily: "SofiaPro" }]}
           placeholder="Search"
-          placeholderTextColor="#8E949A"
+          placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
           value={searchText}
           onChangeText={setSearchText}
+          
         />
       </View>
 
@@ -219,7 +228,10 @@ const MobileTransferB = () => {
           </TouchableOpacity>
         )}
         ListEmptyComponent={
+          <View style={styles.emptyContainer}>
           <Text style={styles.noBeneficiariesText}>No beneficiaries found</Text>
+          <AddBeneficiaryButton />
+        </View>
         }
       />
 
@@ -237,7 +249,7 @@ const MobileTransferB = () => {
           value={userInfo.Name}
           placeholder="Username"
           onChangeText={(value) => setUserInfo({ ...userInfo, Name: value })}
-          placeholderTextColor="#8E949A"
+          placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
           onFocus={() => setIsFocuses(true)}
               onBlur={() => setIsFocuses(false)}
         />
@@ -287,6 +299,7 @@ const MobileTransferB = () => {
               secureTextEntry={!isPasswordVisible}
               value={userInfo.password}
               placeholder="Input your password"
+              placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
               onChangeText={(value) =>
                 setUserInfo({ ...userInfo, password: value })
               }
@@ -462,6 +475,44 @@ const styles = StyleSheet.create({
   selectedBeneficiary: {
     borderColor: "#0A2EE2",
     borderWidth: 2,
+  },
+  addButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F1F1F1",
+    borderRadius: 8,
+    paddingVertical: 40,
+    paddingHorizontal: 16,
+    marginTop: 10,
+    backgroundColor: "#F1F1F1",
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+     width:300,
+    // height:300,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 5, // For Android shadow
+  },
+  icon: {
+    marginRight: 10,
+  },
+  text: {
+    color: "#333",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  emptyContainer: {
+    alignItems: "center",
+    marginTop: 20,
+  },
+  noBeneficiariesText: {
+    color: "#d3d3d3",
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  itemText: {
+    color: "#fff",
+    padding: 10,
+    fontSize: 16,
   },
 });
 

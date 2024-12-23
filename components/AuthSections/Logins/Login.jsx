@@ -268,5 +268,6 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   iosPlaceholder: {
     fontFamily: "SofiaPro", // Ensure the placeholder uses the same font
+    color:'#aaa'
   },
 });

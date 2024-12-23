@@ -151,6 +151,7 @@ const Confirm = () => {
     onChangeText={(text) => setFromAmount(text)}
     onFocus={() => setFromInputFocused(true)}
     onBlur={() => setFromInputFocused(false)}
+    placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
   />
   <Text style={styles.currencyLabel}>{fromCountry.currency}</Text>
 </View>

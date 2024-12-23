@@ -4,7 +4,7 @@
     "slug": "comeso",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/COMESO.png",
+    "icon": "./assets/images/sendmoni.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,

@@ -1,5 +1,6 @@
 import {
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -66,7 +67,7 @@ getBeneficiaries();
           </View>
           <TextInput
             style={{
-              color: "rgba(164, 169, 174, 0.25)",
+              color:Platform.OS==='ios'?'#aa': "rgba(164, 169, 174, 0.25)",
               width: "90%",
               height: 50,
               paddingHorizontal: 50,
@@ -76,6 +77,7 @@ getBeneficiaries();
               backgroundColor: "rgba(164, 169, 174, 0.25)",
             }}
             placeholder="search"
+            placeholderTextColor={Platform.OS==='ios'&&'#aaa'}
           />
         </View>
         <View style={{ marginTop: 20 }}>
