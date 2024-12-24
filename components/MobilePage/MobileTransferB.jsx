@@ -62,8 +62,12 @@ const MobileTransferB = () => {
   const AddBeneficiaryButton = () => {
     return (
       <TouchableOpacity style={styles.addButton} onPress={()=>router.push('/beneficiary')}>
+        <View style={{left:'25%', flexDirection:'row', gap:1}}>
         <MaterialIcons name="person-add" size={28} color="#333" style={styles.icon} />
         <Text style={styles.text}>Add New Beneficiary</Text>
+        
+        </View>
+        
       </TouchableOpacity>
     );
   };
@@ -487,7 +491,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     shadowOpacity: 0.3,
     shadowRadius: 4,
-     width:300,
+     width:'180%',
     // height:300,
     shadowOffset: { width: 0, height: 2 },
     elevation: 5, // For Android shadow
