@@ -47,13 +47,13 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow Comeso to use your location."
+          "locationAlwaysAndWhenInUsePermission": "Comeso uses your location to find nearby hospitals and healthcare facilities, providing you with the most relevant and convenient options. Would you like to allow Comeso to access your location?"
         }
       ],
       [
         "expo-local-authentication",
         {
-          "faceIDPermission": "Allow Comeso to use Face ID."
+          "faceIDPermission": "Comeso uses Face ID to securely verify your identity and provide quick access to your account. Allow Comeso to use Face ID?"
         }
       ]
     ],
