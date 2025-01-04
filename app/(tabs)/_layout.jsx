@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius:30,
     borderTopRightRadius:30,
     borderBottomLeftRadius:30,
+    top:'-3%'
     
   },
   label: {

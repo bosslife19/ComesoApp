@@ -9,6 +9,7 @@ import {
    Alert,
   ActivityIndicator,
   Platform,
+  Dimensions
 } from "react-native";
 import Toast from "react-native-toast-message";
 
@@ -27,7 +28,7 @@ const MobileTransferB = () => {
   const [isFocused, setIsFocused] = useState(false); // To track focus
   const [isFocus, setIsFocus] = useState(false); // To track focus
   const [isFocuses, setIsFocuses] = useState(false); // To track focus
-
+  const screenWidth = Dimensions.get('window').width;
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [countryCode, setCountryCode] = useState("US"); // Default to 'US'
@@ -61,14 +62,15 @@ const MobileTransferB = () => {
   };
   const AddBeneficiaryButton = () => {
     return (
-      <TouchableOpacity style={styles.addButton} onPress={()=>router.push('/beneficiary')}>
-        <View style={{left:'25%', flexDirection:'row', gap:1}}>
+      <TouchableOpacity 
+      style={[styles.addButton, { width: screenWidth }]} 
+      onPress={() => router.push('/beneficiary')}
+    >
+      <View style={styles.buttonContent}>
         <MaterialIcons name="person-add" size={28} color="#333" style={styles.icon} />
         <Text style={styles.text}>Add New Beneficiary</Text>
-        
-        </View>
-        
-      </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
     );
   };
   const handleContinue = async () => {
@@ -481,29 +483,33 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   addButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#F1F1F1",
+    width: '100%',
+    paddingVertical: 12,
+    backgroundColor: '#f5f5f5',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 8,
-    paddingVertical: 40,
-    paddingHorizontal: 16,
-    marginTop: 10,
-    backgroundColor: "#F1F1F1",
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-     width:'180%',
-    // height:300,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 5, // For Android shadow
+    marginVertical: 10,
+    height:'100%'
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    top:'-15%',
+    left:'-10%'
   },
   icon: {
-    marginRight: 10,
+    marginRight: 5,
   },
   text: {
-    color: "#333",
     fontSize: 16,
-    fontWeight: "bold",
+    color: '#333',
+    fontWeight: 'bold',
   },
+  
+  
   emptyContainer: {
     alignItems: "center",
     marginTop: 20,
