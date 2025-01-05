@@ -70,7 +70,7 @@ if(!user){
           >
             <View style={Dashs.boardContent}>
               <Text style={Dashs.balanceText}>Available Balance</Text>
-              <Text style={Dashs.balanceAmount}>${user?.balance}</Text>
+              <Text style={Dashs.balanceAmount}>{user?.balance}</Text>
 
               <Text style={Dashs.holderText}>Holder</Text>
               <Text style={Dashs.holderName}>{user?.name} - {user?.phone}</Text>
