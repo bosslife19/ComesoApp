@@ -1,6 +1,6 @@
  import { Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Image, ImageBackground, ScrollView, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Image, ImageBackground, ScrollView, StyleSheet, Platform } from "react-native";
 import Dashs from "../../styles/Dashboard/Dashboard.styles";
 import Header from "../../screens/Dashboard/Header";
 import { router } from "expo-router";
@@ -70,7 +70,7 @@ if(!user){
           >
             <View style={Dashs.boardContent}>
               <Text style={Dashs.balanceText}>Available Balance</Text>
-              <Text style={Dashs.balanceAmount}>{user?.balance}</Text>
+              <Text style={Dashs.balanceAmount}>{Platform.OS==='android' &&'$'}{user?.balance}</Text>
 
               <Text style={Dashs.holderText}>Holder</Text>
               <Text style={Dashs.holderName}>{user?.name} - {user?.phone}</Text>
