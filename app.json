@@ -13,7 +13,8 @@
       "infoPlist": {
         "NSFaceIDUsageDescription": "Comeso uses Face ID to securely verify your identity and provide quick access to your account. Allow Comeso to use Face ID?",
         "NSLocationWhenInUseUsageDescription": "Comeso uses your location to find nearby hospitals and healthcare facilities, providing you with the most relevant and convenient options. Allow Comeso to access your location?"
-      }
+      },
+      "bundleIdentifier": "com.davidwoks.comeso"
     },
     "android": {
       "adaptiveIcon": {

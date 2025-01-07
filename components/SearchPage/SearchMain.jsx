@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { 
   View, 
   Text, 
@@ -6,7 +6,8 @@ import {
   StyleSheet, 
   FlatList, 
   TouchableOpacity,
-  Platform
+  Platform,
+  KeyboardAvoidingView
 } from "react-native";
 import { EvilIcons, Feather, MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -14,39 +15,42 @@ import { AuthContext } from "@/context/AuthContext";
 import axios from "axios";
 
 const SearchScreen = () => {
-  const{location} = useContext(AuthContext);
+  const { location } = useContext(AuthContext);
   const [searchText, setSearchText] = useState("");
-  const [hospitals, setHospitals] = useState([])
+  const [hospitals, setHospitals] = useState([]);
+  const [filteredHospitals, setFilteredHospitals] = useState([]);
+ 
   
-  useEffect(()=>{
-    const getNearestFacilities = async ()=>{
-      
-      if(location){
+  useEffect(() => {
+    const getNearestFacilities = async () => {
+      if (location) {
         try {
-          const res = await axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.coords.latitude}%2C${location.coords.longitude}&radius=1500&type=restaurant&keyword=cruise&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}`)
-          if(res.data.results.length > 0){
+          const res = await axios.get(
+            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.coords.latitude}%2C${location.coords.longitude}&radius=1500&type=restaurant&keyword=cruise&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}`
+          );
+          if (res.data.results.length > 0) {
             setHospitals(res.data.results);
+            setFilteredHospitals(res.data.results); // Initialize filteredHospitals
           }
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
-     
-      
-    }
+    };
     getNearestFacilities();
-  }, [])
+  }, [location]);
 
    
-useEffect(()=>{
-if(searchText){
-  const filteredTransactions = hospitals?.filter((transaction) =>
-    transaction.name.toLowerCase().includes(searchText.toLowerCase())
-  );
-  setHospitals(filteredTransactions);
-}
-}, [searchText])
-  
+  useEffect(() => {
+    if (searchText) {
+      const filtered = hospitals.filter((hospital) =>
+        hospital.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredHospitals(filtered);
+    } else {
+      setFilteredHospitals(hospitals); // Reset to the full list if no search text
+    }
+  }, [searchText, hospitals]);
 
   const renderTransactionItem = ({ item }) => (
     <View style={styles.transactionItem}>
@@ -68,46 +72,57 @@ if(searchText){
 
  
 
-  const renderHeader = () => (
+  const renderHeader = useMemo(() => (
     <>
-    <View style={styles.container}>
-      {/* Search Bar */}
-      <Text style={styles.headerText}>Search or select from recent healthcare provider</Text>
-      <View style={styles.searchContainer}>
-        <MaterialIcons name="search" size={24} color="#8E949A" style={styles.searchIcon} />
-        <TextInput
-          style={styles.searchInput}
-          // placeholder="Search transactions"
-          placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
-          value={searchText}
-          onChangeText={setSearchText}
-         />
+      <View style={styles.container}>
+        <Text style={styles.headerText}>Search or select from recent healthcare provider</Text>
+        <View style={styles.searchContainer}>
+          <MaterialIcons name="search" size={24} color="#8E949A" style={styles.searchIcon} />
+          <TextInput
+            style={styles.searchInput}
+            placeholderTextColor={Platform.OS === "ios" ? "#aaa" : "#8E949A"}
+            value={searchText}
+            onChangeText={(val) => {
+              setSearchText(val);
+              const filtered = hospitals.filter((hospital) =>
+                hospital.name.toLowerCase().includes(val.toLowerCase())
+              );
+              setFilteredHospitals(filtered);
+            }}
+          />
+        </View>
       </View>
-    </View>
-
-    <TouchableOpacity style={styles.recentTransactionsContainer} onPress={()=>router.push({pathname:"search-facilities"})}>
-      <EvilIcons name="location" size={24} color="white" />
-      <Text style={styles.recentText}>Nearest facilities close to you</Text>
-    </TouchableOpacity>
-    
+      <TouchableOpacity
+        style={styles.recentTransactionsContainer}
+        onPress={() => router.push({ pathname: "search-facilities" })}
+      >
+        <EvilIcons name="location" size={24} color="white" />
+        <Text style={styles.recentText}>Nearest facilities close to you</Text>
+      </TouchableOpacity>
     </>
-    
-  );
+  ), [searchText]); // Memoize based on searchText
+  
 
   return (
-    <FlatList
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}
+    style={{ flex: 1 }}
+>
+<FlatList
       ListHeaderComponent={renderHeader}
-      data={hospitals}
+      data={filteredHospitals}
       // ListHeaderComponent={renderRecentItem}
       renderItem={renderTransactionItem}
       keyExtractor={(item) => item.id}
       contentContainerStyle={styles.scrollViewContainer}
+       keyboardShouldPersistTaps="handled"
       ListEmptyComponent={()=>(
         <View style={{top:'-5%'}}>
           <Text style={{textAlign:'center'}}>No Hospitals Found</Text>
         </View>
       )}
     />
+    </KeyboardAvoidingView>
+    
   );
 };
 
