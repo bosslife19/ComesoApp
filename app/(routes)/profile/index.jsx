@@ -58,7 +58,7 @@ const Profile = () => {
                 fontWeight: "500",
               }}
             >
-              United State
+              {/* United State */}
             </Text>
           </View>
 
