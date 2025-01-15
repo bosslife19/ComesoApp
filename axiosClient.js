@@ -4,6 +4,9 @@ import { router } from 'expo-router';
 
 const axiosClient = axios.create({
     baseURL: `${process.env.EXPO_PUBLIC_BASE_URL}/api`,
+    headers: {
+        'Content-Security-Policy': "default-src 'self'; img-src https://*; script-src 'self';"
+      }
 });
 
 axiosClient.interceptors.request.use(
