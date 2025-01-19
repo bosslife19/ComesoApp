@@ -17,6 +17,7 @@ import CustomBlueButton from "../../../components/CustomBlueButton";
 import { router } from "expo-router";
 import axiosClient from "../../../axiosClient";
 import { Feather, FontAwesome } from "@expo/vector-icons";
+import Dashs from "../../../styles/Dashboard/Dashboard.styles";
 
 const Profile = () => {
   // const transactions = [
@@ -106,7 +107,7 @@ const Profile = () => {
                 textAlign: "center",
                 fontFamily: "Sofia",
                 fontSize: 20,
-                color: "rgba(10, 46, 226, 1)",
+                color: "#000",
                 fontWeight: "700",
               }}
             >
@@ -174,7 +175,7 @@ const Profile = () => {
             >
               Recent Transactions
             </Text>
-            <TouchableOpacity onPress={() => router.push("(routes)/setting")}>
+            {/* <TouchableOpacity onPress={() => router.push("(routes)/setting")}>
               <Text
                 style={{
                   fontSize: 14,
@@ -185,106 +186,96 @@ const Profile = () => {
               >
                 View all
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
-          {transactions.map((transaction, index) => (
-            <View
-              style={{
-                shadowColor: "#171717",
-                shadowOffset: { width: -2, height: 4 },
-                shadowOpacity: 0.2,
-                shadowRadius: 3,
-                elevation: 5,
-                width: "100%",
-                height: 80,
-                backgroundColor: "white",
-                marginHorizontal: "auto",
-                marginBottom: 15,
-                borderRadius: 5,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                // paddingHorizontal: "3%",
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  //   gap: 3,
-                  alignItems: "center",
-                  left: "-7%",
-                  top: "5%",
-                  alignSelf: "center",
-                }}
-              >
+          {transactions.length > 0 ? (
+          transactions.map((transaction, index) => (
+            <TouchableOpacity
+            // onPress={() => router.push(`/(routes)/transaction-details/${transaction.id}`)}
+            key={transaction.id} style={Dashs.transactionItem}>
+              <View style={Dashs.transactionRow}>
                 <View
-                  style={{
-                    backgroundColor:
-                      (transaction.status == "Received" && "#E0F7EC") ||
-                      (transaction.status == "Sent" && "#FEE0E0"),
-                  }}
+                  style={[
+                    Dashs.transactionIcon,
+                    { backgroundColor: transaction.status=='Received' &&'#E0F7EC'|| transaction.status=='Sent' &&'#FEE0E0' },
+                  ]}
                 >
-                  {/* <Image
-                    source={require("../../../assets/images/downtransaction.png")}
-                    width={51}
-                    height={51}
-                    resizeMode="contain"
-                  /> */}
                   <Feather
-                    name={
-                      (transaction.status == "Received" && "arrow-down-left") ||
-                      (transaction.status == "Sent" && "arrow-up-right")
-                    }
+                    name={transaction.status =='Received'&& "arrow-down-left"|| transaction.status=='Sent'&&'arrow-up-right' }
                     size={24}
-                    color={
-                      (transaction.status == "Received" && "#04AD29") ||
-                      (transaction.status == "Sent" && "#F8332F")
-                    }
+                    color={transaction.status=='Received' && '#04AD29' || transaction.status =='Sent' && '#F8332F'}
                   />
                 </View>
-                <View style={{ left: "-18%", top: "-3%" }}>
-                  <Text style={{ fontSize: 14 }}>{transaction.type}</Text>
-                  <View
+                <View style={Dashs.transactionDetails}>
+                  <Text
                     style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 5,
+                      fontFamily: "Poppins",
+                      fontWeight: "500",
+                      fontSize: 14,
+                      lineHeight: 20.51,
+                      color: "#23303B",
                     }}
                   >
+                    {transaction.type}
+                  </Text>
+                  <View style={Dashs.transactionInfo}>
                     <Text
                       style={{
+                        fontFamily: "Poppins",
+                        color: transaction.status=='Received'&& '#04AD29'|| transaction.status=='Sent'&&'#F8332F',
+                        fontWeight: "500",
                         fontSize: 12,
-                        color:
-                          (transaction.status == "Received" && "#04AD29") ||
-                          (transaction.status == "Sent" && "#F8332F"),
+                        lineHeight: 17.58,
+                        marginRight:3
                       }}
                     >
                       {transaction.status}
                     </Text>
                     <Text
-                      style={{ fontSize: 12, color: "rgba(164, 169, 174, 1)" }}
+                      style={{
+                        fontFamily: "Poppins",
+                        color: "#A4A9AE",
+                        fontWeight: "400",
+                        fontSize: 12,
+                        lineHeight: 17.58,
+                      }}
                     >
+                      
                       {date[index]}
                     </Text>
                   </View>
                 </View>
               </View>
-              <View style={{ left: "-4%" }}>
+              <View>
                 <Text
                   style={{
-                    fontSize: 20,
-                    fontFamily: "Sofia",
                     fontWeight: "500",
-                    flexDirection: "row",
+                    fontSize: 15,
+                    lineHeight: 29.3,
+                    fontFamily: "SofiaPro",
                   }}
                 >
-                  ${transaction.amount}.00
-                  <Text style={{ fontSize: 8 }}>USD</Text>
+                 
+                  ${transaction.amount}.00 USD
                 </Text>
               </View>
-            </View>
-          ))}
+            </TouchableOpacity>
+            
+          ))
+        ) : (
+          <Text
+            style={{
+              textAlign: "center",
+              color: "#A4A9AE",
+              fontFamily: "Poppins",
+              fontSize: 14,
+              marginTop: 20,
+            }}
+          >
+            No  transactions  
+          </Text>
+        )}
         </View>
       </ScrollView>
     </SafeAreaView>
