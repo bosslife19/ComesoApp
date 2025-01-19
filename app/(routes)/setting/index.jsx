@@ -1,10 +1,13 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomHeader from "../../../components/CustomHeader";
 import { router } from "expo-router";
+import {AuthContext} from '../../../context/AuthContext';
 
 const Setting = () => {
+  const {userDetails} = useContext(AuthContext)
+  
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ height: "100%" }}>
@@ -20,7 +23,7 @@ const Setting = () => {
             <Text
               style={{ fontFamily: "Alata", fontSize: 19, fontWeight: "400" }}
             >
-              My Account Number
+              My Phone Number
             </Text>
           </View>
           <View
@@ -50,7 +53,7 @@ const Setting = () => {
                   fontWeight: "400",
                 }}
               >
-                9123344567
+                {userDetails?.phone}
               </Text>
               <Text
                 style={{

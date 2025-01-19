@@ -226,7 +226,7 @@ export default function LoginScreen() {
                   { fontFamily: "SofiaPro" },
                 ]}
               >
-                Forget User / Forgot Password ?
+                Forgot Password?
               </Text>
             </TouchableOpacity>
 
