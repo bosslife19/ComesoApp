@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Paystack, paystackProps } from "react-native-paystack-webview";
 
 import CustomHeader from "../../../components/CustomHeader";
-import { Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 import { AuthContext } from "@/context/AuthContext";
 import axiosClient from "../../../axiosClient";
 import { router } from "expo-router";
@@ -38,13 +38,14 @@ const AddMoney = () => {
         </View>
 
         <TouchableOpacity onPress={notification} style={styles.bellContainer}>
-        <Image 
+        {/* <Image 
             source={require('../../../assets/images/notificationIcon.png')} 
             style={styles.profileImage}
             width={30}
             height={30}
             resizeMode='contain'
-          />
+          /> */}
+          <FontAwesome name="user-circle-o" size={30} color="black" />
           
         </TouchableOpacity>
       </View>
@@ -159,7 +160,7 @@ const AddMoney = () => {
           </View>
         </View>
       </View>
-      <View>
+      {/* <View>
         <View style={{ paddingHorizontal: "5%", marginTop: "4%" }}>
           <Text
             style={{
@@ -172,7 +173,7 @@ const AddMoney = () => {
             choice into it to top up account.
           </Text>
         </View>
-      </View>
+      </View> */}
 
       <View style={{ paddingHorizontal: "5%", marginTop: "10%" }}>
         <Text style={{ fontFamily: "Alata", fontWeight: "400", fontSize: 19 }}>

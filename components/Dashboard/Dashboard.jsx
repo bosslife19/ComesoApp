@@ -1,4 +1,4 @@
- import { Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
+ import { AntDesign, Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, ImageBackground, ScrollView, StyleSheet, Platform } from "react-native";
 import Dashs from "../../styles/Dashboard/Dashboard.styles";
@@ -105,6 +105,12 @@ if(!user){
                 <FontAwesome5 name="user-circle" size={20} color="#0A2EE2BF" />
               </TouchableOpacity> 
               <Text style={Dashs.actionBoxText}>Beneficiaries</Text>
+            </View>
+            <View style={Dashs.actionBoxContainer}>
+              <TouchableOpacity style={[Dashs.actionBox, {backgroundColor:"#A4A9AE26"}]} onPress={()=>router.push('/(routes)/setting')}>
+              <AntDesign name="setting" size={20} color="#0A2EE2BF" />
+              </TouchableOpacity> 
+              <Text style={Dashs.actionBoxText}>Settings</Text>
             </View>
           </View>
         </View>

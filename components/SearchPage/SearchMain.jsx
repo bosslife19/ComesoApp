@@ -24,10 +24,14 @@ const SearchScreen = () => {
   useEffect(() => {
     const getNearestFacilities = async () => {
       if (location) {
+        
         try {
+          console.log(location.coords.latitude)
+          // `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=5.4798408%2C7.4704244&radius=1500&type=hospital&keyword=health&key=AIzaSyBrnYlsmSXdyxSCdY2RzQtQ30E9ABYuAI8`
           const res = await axios.get(
-            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.coords.latitude}%2C${location.coords.longitude}&radius=1500&type=restaurant&keyword=cruise&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}`
+`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.coords.latitude},${location.coords.longitude}&radius=1500&type=hospital&keyword=health&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}`
           );
+          console.log(res.data);
           if (res.data.results.length > 0) {
             setHospitals(res.data.results);
             setFilteredHospitals(res.data.results); // Initialize filteredHospitals
@@ -43,8 +47,11 @@ const SearchScreen = () => {
    
   useEffect(() => {
     if (searchText) {
-      const filtered = hospitals.filter((hospital) =>
+      const filtered = hospitals.filter((hospital) =>{
+        
         hospital.name.toLowerCase().includes(searchText.toLowerCase())
+      }
+       
       );
       setFilteredHospitals(filtered);
     } else {
@@ -56,7 +63,7 @@ const SearchScreen = () => {
     <View style={styles.transactionItem}>
       <View style={styles.transactionDetails}>
         <View style={{flexDirection:'row', gap:5, justifyContent:'center', alignItems:'center'}}>
-          <EvilIcons name="location" size={20} color="#0A2EE2" />
+          <EvilIcons name="location" size={30} color="#0A2EE2" />
           <View>
           <Text style={styles.transactionTitle}>{item.name}</Text>
           <View style={styles.transactionSubDetails}>
@@ -112,7 +119,7 @@ const SearchScreen = () => {
       data={filteredHospitals}
       // ListHeaderComponent={renderRecentItem}
       renderItem={renderTransactionItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.name}
       contentContainerStyle={styles.scrollViewContainer}
        keyboardShouldPersistTaps="handled"
       ListEmptyComponent={()=>(
@@ -194,8 +201,9 @@ const styles = StyleSheet.create({
   },
   transactionItem: {
     flexDirection: "row",
-    alignItems: "center",
-   justifyContent:"center",
+  //   alignItems: "center",
+  //  justifyContent:"center",
+  gap:10,
    marginBottom:'5%'
    
   },

@@ -74,7 +74,7 @@ const Dashs = StyleSheet.create({
       flexWrap: "wrap",
     },
     actionBoxContainer: {
-      width: "30%",
+      width: "25%",
       alignItems: "flex-start",
       marginBottom: 10,
     },
@@ -96,7 +96,7 @@ const Dashs = StyleSheet.create({
       fontFamily: 'Poppins',
       color: "#8E949A",
       fontWeight: "500",
-      fontSize: 13,
+      fontSize: 11.3,
       lineHeight: 19.5,
       marginTop: 5,
       textAlign: "center",

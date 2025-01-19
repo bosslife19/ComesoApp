@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { router } from 'expo-router';
-import { Fontisto } from '@expo/vector-icons';
+import { EvilIcons, FontAwesome, Fontisto } from '@expo/vector-icons';
 
 
 const CustomHeader = ({text})=> {
@@ -26,8 +26,8 @@ const CustomHeader = ({text})=> {
           <Text style={styles.greetingText}>{text}</Text>
         </View>
 
-        <TouchableOpacity onPress={()=> router.push("/(routes)/notifications") } style={styles.bellContainer}>
-        <Fontisto name="bell" size={20} color="#A4A9AE" />
+        <TouchableOpacity onPress={()=> router.push("/(routes)/profile/profile") } style={styles.bellContainer}>
+        <FontAwesome name="user-circle-o" size={40} color="black" />
           
         </TouchableOpacity >
       </View>

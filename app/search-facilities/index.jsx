@@ -21,9 +21,11 @@ const SearchFacilities = () => {
     const getNearestFacilities = async () => {
       if (location) {
         try {
+          
           const res = await axios.get(
-            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.coords.latitude}%2C${location.coords.longitude}&radius=1500&type=restaurant&keyword=cruise&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}`
+            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.coords.latitude},${location.coords.longitude}&radius=1500&type=hospital&keyword=health&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}`
           );
+         
           if (res.data.results.length > 0) {
             setHospitals(res.data.results);
           }
@@ -49,6 +51,7 @@ const SearchFacilities = () => {
             marginTop: "5%",
             paddingHorizontal: "5%",
             maxHeight: "100%",
+            
           }}
         >
           <View
@@ -84,17 +87,19 @@ const SearchFacilities = () => {
         {hospitals.length > 0 ? (
           hospitals.map((hospital) => (
             <View style={{ paddingHorizontal: "5%" }}>
+              
               <View
                 style={{
                   marginVertical: "7%",
                   // paddingHorizontal:'5%',
                   backgroundColor: "white",
-                  paddingBottom: 10,
+                  paddingVertical: 10,
                   borderRadius: 5,
                   // shadowColor:'gray',
                   shadowColor: "#171717",
                   shadowOffset: { width: -2, height: 4 },
                   shadowOpacity: 0.2,
+                  
                   shadowRadius: 3,
                   elevation: 10,
                 }}
@@ -102,11 +107,11 @@ const SearchFacilities = () => {
                 <View style={{ borderRadius: 10 }}>
                   <Image
                     source={{ uri: hospital.icon }}
-                    style={{ width: "100%", top: "-10%" }}
+                    style={{ width: "100%", }}
                     resizeMode="contain"
                   />
                 </View>
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: "row", alignItems:'center' }}>
                   <View
                     style={{ top: "-7%", paddingLeft: 10, gap: 2, flex: 3 }}
                   >
@@ -130,7 +135,7 @@ const SearchFacilities = () => {
                     </Text>
                   </View>
                   <TouchableOpacity
-                    style={{ flex: 1 }}
+                    style={{ flex: 1, marginTop:3 }}
                     onPress={() =>
                       router.push({
                         pathname: "/(routes)/map",

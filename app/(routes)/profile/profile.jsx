@@ -13,61 +13,16 @@ import CountryPicker, {
   Country,
   CountryCode,
 } from "react-native-country-picker-modal";
-import CustomBlueButton from "../../../components/CustomBlueButton";
 import { router } from "expo-router";
 import axiosClient from "../../../axiosClient";
-import { Feather, FontAwesome } from "@expo/vector-icons";
+import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import Dashs from "../../../styles/Dashboard/Dashboard.styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Profile = () => {
-  // const transactions = [
-  //   {
-  //     id: 1,
-  //     type: "Account Top-up",
-  //     status: "Received",
-  //     date: "Feb 25, 2022",
-  //     amount: "$5.00 USD",
-  //     icon: "arrow-down-left",
-  //     iconColor: "#04AD29",
-  //     backgroundColor: "#E0F7EC",
-  //     textColor: "#04AD29",
-  //   },
-  //   {
-  //     id: 2,
-  //     type: "Transfer Out",
-  //     status: "Sent",
-  //     date: "Feb 26, 2022",
-  //     amount: "$10.00 USD",
-  //     icon: "arrow-up-right",
-  //     iconColor: "#F8332F",
-  //     backgroundColor: "#FEE0E0",
-  //     textColor: "#F8332F",
-  //   },
-  //   {
-  //     id: 3,
-  //     type: "Purchase",
-  //     status: "Completed",
-  //     date: "Feb 27, 2022",
-  //     amount: "$20.00 USD",
-  //     icon: "arrow-up-right",
-  //     iconColor: "#F8332F",
-  //     backgroundColor: "#FEE0E0",
-  //     textColor: "#F8332F",
-  //   },
-  //   {
-  //     id: 3,
-  //     type: "Purchase",
-  //     status: "Completed",
-  //     date: "Feb 27, 2022",
-  //     amount: "$20.00 USD",
-  //     icon: "arrow-up-right",
-  //     iconColor: "#F8332F",
-  //     backgroundColor: "#FEE0E0",
-  //     textColor: "#F8332F",
-  //   },
-  // ];
   const [user, setUser] = useState(null);
   const [transactions, setTransactions] = useState([]);
+
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -81,6 +36,7 @@ const Profile = () => {
     };
     getUser();
   }, []);
+
   const date = transactions?.map((item) => {
     const date = new Date(item.created_at); // Example date
 
@@ -92,14 +48,30 @@ const Profile = () => {
 
     return formattedDate;
   });
+
+  const handleLogout = async () => {
+    try {
+      await axiosClient.post('/user/logout');
+      await AsyncStorage.removeItem("authToken");
+     
+      router.push('/login');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <CustomHeader text="Profile" />
         <View style={{ height: "100%", paddingHorizontal: "5%" }}>
           <View style={{ marginHorizontal: "auto", marginTop: "5%" }}>
-           
-            <FontAwesome style={{marginHorizontal:'auto', left:'35%'}}name="user-circle" size={90} color="black" />
+            <FontAwesome
+              style={{ marginHorizontal: "auto", left: "35%" }}
+              name="user-circle"
+              size={90}
+              color="black"
+            />
           </View>
           <View>
             <Text
@@ -121,9 +93,7 @@ const Profile = () => {
                 color: "rgba(164, 169, 174, 1)",
                 fontWeight: "500",
               }}
-            >
-              {/* United State */}
-            </Text>
+            ></Text>
           </View>
 
           <View
@@ -175,107 +145,114 @@ const Profile = () => {
             >
               Recent Transactions
             </Text>
-            {/* <TouchableOpacity onPress={() => router.push("(routes)/setting")}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontFamily: "Sora",
-                  fontWeight: "500",
-                  color: "rgba(164, 169, 174, 1)",
-                }}
-              >
-                View all
-              </Text>
-            </TouchableOpacity> */}
           </View>
 
           {transactions.length > 0 ? (
-          transactions.map((transaction, index) => (
-            <TouchableOpacity
-            // onPress={() => router.push(`/(routes)/transaction-details/${transaction.id}`)}
-            key={transaction.id} style={Dashs.transactionItem}>
-              <View style={Dashs.transactionRow}>
-                <View
-                  style={[
-                    Dashs.transactionIcon,
-                    { backgroundColor: transaction.status=='Received' &&'#E0F7EC'|| transaction.status=='Sent' &&'#FEE0E0' },
-                  ]}
-                >
-                  <Feather
-                    name={transaction.status =='Received'&& "arrow-down-left"|| transaction.status=='Sent'&&'arrow-up-right' }
-                    size={24}
-                    color={transaction.status=='Received' && '#04AD29' || transaction.status =='Sent' && '#F8332F'}
-                  />
-                </View>
-                <View style={Dashs.transactionDetails}>
-                  <Text
-                    style={{
-                      fontFamily: "Poppins",
-                      fontWeight: "500",
-                      fontSize: 14,
-                      lineHeight: 20.51,
-                      color: "#23303B",
-                    }}
+            transactions.map((transaction, index) => (
+              <TouchableOpacity
+                key={transaction.id}
+                style={Dashs.transactionItem}
+              >
+                <View style={Dashs.transactionRow}>
+                  <View
+                    style={[
+                      Dashs.transactionIcon,
+                      {
+                        backgroundColor:
+                          (transaction.status == "Received" && "#E0F7EC") ||
+                          (transaction.status == "Sent" && "#FEE0E0"),
+                      },
+                    ]}
                   >
-                    {transaction.type}
-                  </Text>
-                  <View style={Dashs.transactionInfo}>
+                    <Feather
+                      name={
+                        (transaction.status == "Received" &&
+                          "arrow-down-left") ||
+                        (transaction.status == "Sent" && "arrow-up-right")
+                      }
+                      size={24}
+                      color={
+                        (transaction.status == "Received" && "#04AD29") ||
+                        (transaction.status == "Sent" && "#F8332F")
+                      }
+                    />
+                  </View>
+                  <View style={Dashs.transactionDetails}>
                     <Text
                       style={{
                         fontFamily: "Poppins",
-                        color: transaction.status=='Received'&& '#04AD29'|| transaction.status=='Sent'&&'#F8332F',
                         fontWeight: "500",
-                        fontSize: 12,
-                        lineHeight: 17.58,
-                        marginRight:3
+                        fontSize: 14,
+                        lineHeight: 20.51,
+                        color: "#23303B",
                       }}
                     >
-                      {transaction.status}
+                      {transaction.type}
                     </Text>
-                    <Text
-                      style={{
-                        fontFamily: "Poppins",
-                        color: "#A4A9AE",
-                        fontWeight: "400",
-                        fontSize: 12,
-                        lineHeight: 17.58,
-                      }}
-                    >
-                      
-                      {date[index]}
-                    </Text>
+                    <View style={Dashs.transactionInfo}>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins",
+                          color:
+                            (transaction.status == "Received" && "#04AD29") ||
+                            (transaction.status == "Sent" && "#F8332F"),
+                          fontWeight: "500",
+                          fontSize: 12,
+                          lineHeight: 17.58,
+                          marginRight: 3,
+                        }}
+                      >
+                        {transaction.status}
+                      </Text>
+                      <Text
+                        style={{
+                          fontFamily: "Poppins",
+                          color: "#A4A9AE",
+                          fontWeight: "400",
+                          fontSize: 12,
+                          lineHeight: 17.58,
+                        }}
+                      >
+                        {date[index]}
+                      </Text>
+                    </View>
                   </View>
                 </View>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    fontWeight: "500",
-                    fontSize: 15,
-                    lineHeight: 29.3,
-                    fontFamily: "SofiaPro",
-                  }}
-                >
-                 
-                  ${transaction.amount}.00 USD
-                </Text>
-              </View>
-            </TouchableOpacity>
-            
-          ))
-        ) : (
-          <Text
-            style={{
-              textAlign: "center",
-              color: "#A4A9AE",
-              fontFamily: "Poppins",
-              fontSize: 14,
-              marginTop: 20,
-            }}
+                <View>
+                  <Text
+                    style={{
+                      fontWeight: "500",
+                      fontSize: 15,
+                      lineHeight: 29.3,
+                      fontFamily: "SofiaPro",
+                    }}
+                  >
+                    ${transaction.amount}.00 USD
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text
+              style={{
+                textAlign: "center",
+                color: "#A4A9AE",
+                fontFamily: "Poppins",
+                fontSize: 14,
+                marginTop: 20,
+              }}
+            >
+              No transactions
+            </Text>
+          )}
+
+          <TouchableOpacity
+            onPress={handleLogout}
+            style={styles.logoutButton}
           >
-            No  transactions  
-          </Text>
-        )}
+            <MaterialIcons name="logout" size={24} color="#fff" />
+            <Text style={styles.logoutButtonText}>Logout</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -283,6 +260,7 @@ const Profile = () => {
 };
 
 export default Profile;
+
 const styles = StyleSheet.create({
   container: {
     marginTop: 16,
@@ -343,5 +321,21 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "400",
     lineHeight: 23.44,
+  },
+  logoutButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#F8332F",
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginTop: 20,
+    marginBottom: 30,
+  },
+  logoutButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginLeft: 8,
   },
 });

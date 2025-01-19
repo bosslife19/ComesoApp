@@ -120,7 +120,7 @@ const Complain = () => {
             marginTop: "15%",
               marginBottom: 20,
             }}
-            onPress={() => {router.push('/(routes)/complain')}}
+            onPress={()=>{}}
           >
             <Text
               style={{

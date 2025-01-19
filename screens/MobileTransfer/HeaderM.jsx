@@ -1,11 +1,11 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { Fontisto, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome,  MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 export default function HeaderM() {
   const notification = () =>{
-    router.push("/(routes)/notifications")
+    router.push("/(routes)/profile/profile")
   }
   return (
     <View style={styles.container}>
@@ -18,7 +18,7 @@ export default function HeaderM() {
           <Text style={styles.greetingText}>Send Voucher</Text>
         </View>
         <TouchableOpacity onPress={()=> notification()} style={styles.bellContainer}>
-           <Fontisto name="bell" size={20} color="#A4A9AE" />
+        <FontAwesome name="user-circle" size={24} color="black" />
           {/* Red notification dot for bell */}
           {/* <View style={styles.notificationDot} /> */}
          </TouchableOpacity>
