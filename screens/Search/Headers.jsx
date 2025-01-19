@@ -16,7 +16,7 @@ const Headers = ()=> {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.profileContainer}>
-        <TouchableOpacity onPress={()=>goBacks()}>
+        <TouchableOpacity onPress={()=>router.push('/(routes)/profile/profile')}>
         {/* <Image 
             source={require('../../assets/images/profile.png')} 
             style={styles.profileImage}

@@ -10,7 +10,7 @@ export default function HeaderM() {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-      <TouchableOpacity onPress={()=> router.push('/(tabs)/home')} style={styles.bellContainer}>
+      <TouchableOpacity onPress={()=> router.back()} style={styles.bellContainer}>
       <MaterialIcons name="arrow-back-ios" size={14} color="#A4A9AE" />           
        </TouchableOpacity>
  

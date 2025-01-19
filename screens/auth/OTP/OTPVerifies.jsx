@@ -47,10 +47,10 @@ const OTPVerifies = () => {
           <Text style={styles.title}>Verify Your Email Address</Text>
           <Text style={styles.subtitle}>
             We sent a 4-digit code to{" "}
-            <Text style={styles.phoneNumber}>{userDetails.email}</Text>. Please enter it below to verify your account.
+            <Text style={styles.phoneNumber}>{userDetails.email}</Text>. Please enter it below to verify your account. Please check your spam folder if it's not in your inbox
 
           </Text>
-          <Text>Please check your spam folder if it's not in your inbox</Text>
+          
         </View>
 
         {/* OTP Input Section */}

@@ -11,8 +11,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const DashboardScreen = () => {
   const [user, setUser] = useState(null);
    const [transactions, setTransactions] = useState([]);
-   const {setUserDetails} = useContext(AuthContext);
+   const {setUserDetails, userDetails} = useContext(AuthContext);
 
+
+const [isUSno, setIsUsNo] = useState(false);
   const date = transactions?.map(item=>{
     const date = new Date(item.created_at); // Example date
 
@@ -32,13 +34,15 @@ const DashboardScreen = () => {
 
   useEffect(()=>{
     const getUser = async ()=>{
-     
+      const usCountryCodeRegex = /^\+1\s?[\d\s\-()]{10,}$/;
       try {
         
         const response = await axiosClient.get('/user');
         setUser(response.data.user);
         setTransactions(response.data.transactions);
         setUserDetails(response.data.user);
+        
+        setIsUsNo(usCountryCodeRegex.test(userDetails.phone));
        
         
       } catch (error) {
@@ -70,7 +74,7 @@ if(!user){
           >
             <View style={Dashs.boardContent}>
               <Text style={Dashs.balanceText}>Available Balance</Text>
-              <Text style={Dashs.balanceAmount}>{Platform.OS==='android' &&'$'}{user?.balance}</Text>
+              <Text style={Dashs.balanceAmount}>{isUSno? '$':'₵'}{user?.balance}</Text>
 
               <Text style={Dashs.holderText}>Holder</Text>
               <Text style={Dashs.holderName}>{user?.name} - {user?.phone}</Text>

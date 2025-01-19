@@ -253,7 +253,7 @@ const MobileTransferB = () => {
           }
           keyboardType="default"
           value={userInfo.Name}
-          placeholder="Username"
+          placeholder="Recipient's username"
           onChangeText={(value) => setUserInfo({ ...userInfo, Name: value })}
           placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
           onFocus={() => setIsFocuses(true)}

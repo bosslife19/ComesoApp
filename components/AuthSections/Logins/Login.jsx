@@ -161,7 +161,7 @@ export default function LoginScreen() {
                   { fontFamily: "SofiaPro", paddingHorizontal: 0 },
                   Platform.OS === "ios" && styles.iosPlaceholder, // Conditional styling for iOS
                 ]}
-                keyboardType="email-address"
+                // keyboardType="email-address"
                 value={email}
                 placeholder="email"
                 placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 

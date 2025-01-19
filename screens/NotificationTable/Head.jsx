@@ -8,7 +8,7 @@ export default function Head() {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-      <TouchableOpacity onPress={()=> router.push('/(tabs)/home')} style={styles.bellContainer}>
+      <TouchableOpacity onPress={()=> router.back()} style={styles.bellContainer}>
       <MaterialIcons name="arrow-back-ios" size={14} color="#A4A9AE" />           
        </TouchableOpacity>
  
@@ -16,7 +16,7 @@ export default function Head() {
           <Text style={styles.greetingText}>Notifications</Text>
         </View>
 
-        <TouchableOpacity onPress={()=> router.push('/(tabs)/home')} style={styles.bellContainer}>
+        <TouchableOpacity onPress={()=> router.push('/(routes)/profile/profile')} style={styles.bellContainer}>
         {/* <Image
             source={require('../../assets/images/profile.png')} 
             style={styles.profileImage}

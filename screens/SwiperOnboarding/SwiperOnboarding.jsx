@@ -66,7 +66,7 @@ export default function WelcomeIntroScreen() {
             await AsyncStorage.removeItem('onboarding');
            await AsyncStorage.setItem('onboarding', 'completed');
            
-            router.push("/(routes)/onboarding-section")
+            router.push("/login")
           }
           getStarted();
 

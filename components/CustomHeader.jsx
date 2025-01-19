@@ -9,7 +9,7 @@ const CustomHeader = ({text})=> {
     <View style={styles.container}>
       <View style={styles.row}>
         <TouchableOpacity 
-        onPress={()=>router.push('/(tabs)/home')} 
+        onPress={()=>router.back()} 
         style={styles.profileContainer}>
           <Image 
             source={require('../assets/images/headerback.png')} 
