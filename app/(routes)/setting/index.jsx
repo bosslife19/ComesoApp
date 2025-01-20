@@ -1,19 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  Modal,
+  TextInput,
+  Alert,
+  ActivityIndicator
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomHeader from "../../../components/CustomHeader";
 import axiosClient from "../../../axiosClient";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import {AuthContext} from '../../../context/AuthContext';
 
 const Settings = () => {
   const [user, setUser] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const {userDetails} = useContext(AuthContext);
+  const [loading, setLoading] = useState(false)
+
+  const [formValues, setFormValues] = useState({
+    name: userDetails.name,
+    email: userDetails.email,
+    phone: userDetails.phone,
+  });
+
+  const handleEditProfile = () => {
+    setModalVisible(true);
+  };
+
+  const handleSave = async () => {
+    try {
+      // Send updated data to the server
+      
+      if(!formValues.name||!formValues.email || !formValues.phone){
+        return Alert.alert('All fields are required', 'Fill in all the fields to continue');
+      }
+      setLoading(true);
+      await axiosClient.put("/user", formValues);
+      setLoading(false)
+      setUser(formValues); // Update the local state with new values
+      Alert.alert('Profile updated successfully', 'Your profile details have been updated successfully')
+      setModalVisible(false); // Close the modal
+    } catch (error) {
+      setLoading(false);
+      console.error("Failed to update profile:", error);
+    }
+  };
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -26,15 +64,13 @@ const Settings = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [user]);
 
-  const handleEditProfile = () => {
-    router.push("/edit-profile"); // Replace with your edit profile route
+  const handleInputChange = (key, value) => {
+    setFormValues((prevState) => ({ ...prevState, [key]: value }));
   };
 
-  const handleContactSupport = () => {
-    router.push("/contact-support"); // Replace with your contact support route
-  };
+  
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor:'white' }}>
@@ -50,17 +86,21 @@ const Settings = () => {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>User Information</Text>
             <View style={styles.infoItem}>
-              <Text style={styles.infoLabel}>Name:</Text>
+              <Text style={styles.infoLabel}>Username:</Text>
               <Text style={styles.infoValue}>{user?.name || "N/A"}</Text>
             </View>
             <View style={styles.infoItem}>
               <Text style={styles.infoLabel}>Email:</Text>
               <Text style={styles.infoValue}>{user?.email || "N/A"}</Text>
             </View>
-            {/* <TouchableOpacity style={styles.editButton} onPress={handleEditProfile}>
+            <View style={styles.infoItem}>
+              <Text style={styles.infoLabel}>Phone number:</Text>
+              <Text style={styles.infoValue}>{user?.phone || "N/A"}</Text>
+            </View>
+            <TouchableOpacity style={styles.editButton} onPress={handleEditProfile}>
               <MaterialIcons name="edit" size={20} color="#fff" />
               <Text style={styles.editButtonText}>Edit Profile</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </View>
 
           <View style={styles.section}>
@@ -80,6 +120,56 @@ const Settings = () => {
           </View>
         </View>
       </ScrollView>
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Edit Profile</Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder="Name"
+              value={formValues.name}
+              onChangeText={(text) => handleInputChange("name", text)}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={formValues.email}
+              onChangeText={(text) => handleInputChange("email", text)}
+              keyboardType="email-address"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Phone"
+              value={formValues.phone}
+              onChangeText={(text) => handleInputChange("phone", text)}
+              keyboardType="phone-pad"
+            />
+
+            <View style={styles.modalButtons}>
+
+              <TouchableOpacity
+                style={styles.saveButton}
+                onPress={handleSave}
+              >
+                {loading? <><ActivityIndicator size='small' color='white'/></>:<Text style={styles.saveButtonText}>Save</Text>}
+                
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -151,18 +241,62 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginLeft: 5,
   },
-  supportButton: {
-    flexDirection: "row",
-    alignItems: "center",
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
-    backgroundColor: "#F8332F",
-    padding: 12,
-    borderRadius: 8,
+    alignItems: "center",
   },
-  supportButtonText: {
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    width: "90%",
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    marginBottom: 20,
+  },
+  input: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 10,
+    marginVertical: 10,
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 20,
+  },
+  saveButton: {
+    backgroundColor: "#0A2EE2",
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
+    marginRight: 10,
+    alignItems: "center",
+  },
+  saveButtonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
-    marginLeft: 5,
+  },
+  cancelButton: {
+    backgroundColor: "#F8332F",
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
+    marginLeft: 10,
+    alignItems: "center",
+  },
+  cancelButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
