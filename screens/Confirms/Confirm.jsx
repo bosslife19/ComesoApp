@@ -10,7 +10,7 @@ import {AuthContext} from '@/context/AuthContext'
 
 const Confirm = () => {
   const {name, phone} = useLocalSearchParams();
-  const {userDetails} = useContext(AuthContext)
+  const {userDetails, isUSno} = useContext(AuthContext)
   
     const handleContinue = () => {
       if(!fromAmount){
@@ -30,7 +30,7 @@ const Confirm = () => {
   const [fromCountry, setFromCountry] = useState({
     countryCode: 'US',
     callingCode: '1',
-    currency: 'USD',
+    currency: isUSno?'USD':'GHC',
   });
 
   const [toCountry, setToCountry] = useState({

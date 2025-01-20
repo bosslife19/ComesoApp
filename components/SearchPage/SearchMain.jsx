@@ -26,12 +26,12 @@ const SearchScreen = () => {
       if (location) {
         
         try {
-          console.log(location.coords.latitude)
+          
           // `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=5.4798408%2C7.4704244&radius=1500&type=hospital&keyword=health&key=AIzaSyBrnYlsmSXdyxSCdY2RzQtQ30E9ABYuAI8`
           const res = await axios.get(
 `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.coords.latitude},${location.coords.longitude}&radius=1500&type=hospital&keyword=health&key=${process.env.EXPO_PUBLIC_GOOGLE_MAPS_API}`
           );
-          console.log(res.data);
+          
           if (res.data.results.length > 0) {
             setHospitals(res.data.results);
             setFilteredHospitals(res.data.results); // Initialize filteredHospitals

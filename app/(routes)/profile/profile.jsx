@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomHeader from "../../../components/CustomHeader";
 import CountryPicker, {
@@ -15,14 +15,14 @@ import CountryPicker, {
 } from "react-native-country-picker-modal";
 import { router } from "expo-router";
 import axiosClient from "../../../axiosClient";
-import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { Feather, FontAwesome, Fontisto, MaterialIcons } from "@expo/vector-icons";
 import Dashs from "../../../styles/Dashboard/Dashboard.styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import {AuthContext} from '../../../context/AuthContext';
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [transactions, setTransactions] = useState([]);
-
+const {isUSno} = useContext(AuthContext)
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -63,7 +63,32 @@ const Profile = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
-        <CustomHeader text="Profile" />
+       <View style={styles.headercontainer}>
+             <View style={styles.row}>
+               <TouchableOpacity 
+               onPress={()=>router.back()} 
+               style={styles.profileContainer}>
+                 <Image 
+                   source={require('../../../assets/images/headerback.png')} 
+                   width={30}
+                   height={30}
+                   resizeMode='contain'
+                   style={styles.profileImage}
+                 />
+                 
+                 
+               </TouchableOpacity>
+       
+               <View style={styles.greetingContainer}>
+                 <Text style={styles.greetingText}>Profile</Text>
+               </View>
+       
+               <TouchableOpacity onPress={()=> router.push("/(routes)/notifications") } style={styles.bellContainer}>
+               <Fontisto name="bell" size={24} color="black" />
+                 
+               </TouchableOpacity >
+             </View>
+           </View>
         <View style={{ height: "100%", paddingHorizontal: "5%" }}>
           <View style={{ marginHorizontal: "auto", marginTop: "5%" }}>
             <FontAwesome
@@ -128,8 +153,8 @@ const Profile = () => {
                 flexDirection: "row",
               }}
             >
-              ${user?.balance}.00
-              <Text style={{ fontSize: 8 }}>USD</Text>
+              {isUSno? '$':'₵'}{user?.balance}.00
+              <Text style={{ fontSize: 8 }}>{isUSno? 'USD':'GHC'}</Text>
             </Text>
           </View>
 
@@ -227,7 +252,7 @@ const Profile = () => {
                       fontFamily: "SofiaPro",
                     }}
                   >
-                    ${transaction.amount}.00 USD
+                  {isUSno? '$':'₵'}{transaction.amount}.00 {isUSno? 'USD':'GHC'}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -262,6 +287,47 @@ const Profile = () => {
 export default Profile;
 
 const styles = StyleSheet.create({
+  headercontainer: {
+    paddingTop: 10,
+    paddingHorizontal:23,
+     
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    
+    alignItems: 'center',
+  },
+  profileContainer: {
+    position: 'relative', // To position the notification dot relative to the image
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 30,
+  },
+  greetingContainer: {
+    flex: 1, // To push bell icon to the right side
+    alignItems: 'center',
+  },
+  greetingText: {
+    fontSize: 22,
+    fontWeight: '600',
+    lineHeight:27.72,
+    fontFamily:'Sora'
+  },
+  bellContainer: {
+    position: 'relative', // To position the notification dot relative to the bell icon
+  },
+  notificationDot: {
+    position: 'absolute',
+    top: -1,
+    right: -1,
+    width: 10,
+    height: 10,
+    borderRadius: 5, // Circular dot
+    backgroundColor: '#E73726',
+  },
   container: {
     marginTop: 16,
   },
@@ -326,7 +392,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#F8332F",
+    backgroundColor: "rgba(10, 46, 226, 1)",
     paddingVertical: 12,
     borderRadius: 8,
     marginTop: 20,

@@ -5,7 +5,7 @@ export const onboardingSwiperData = [
     id: 1,
     title: "Easy Payments",
     description: "Enjoy seamless payments .",
-    sortDescription: "processes",
+    sortDescription: "",
     sortDescription2: "",
     image: require("@/assets/images/frame1.png"), // Ensure this path is correct for your project setup
   },
@@ -13,7 +13,7 @@ export const onboardingSwiperData = [
     id: 2,
     title: "Easy Payments",
     description: "We guarantee the best ",
-    sortDescription: "experience on our .",
+    sortDescription: "experience on our ",
     sortDescription2: "platform",
     image: require("@/assets/images/Frame2.png"), // Ensure this path is correct for your project setup
   },

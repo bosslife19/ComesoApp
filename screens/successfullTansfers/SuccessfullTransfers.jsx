@@ -16,7 +16,7 @@ const SuccessfullTransfers = () => {
     <View style={styles.container}>
       {/* Header */}
       <HeaderM />
-      <Text style={styles.header}>Purchased Successfully</Text>
+      <Text style={styles.header}>Transfer Successful</Text>
 
       {/* Description */}
       <Text style={styles.description}>

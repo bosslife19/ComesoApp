@@ -11,10 +11,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const DashboardScreen = () => {
   const [user, setUser] = useState(null);
    const [transactions, setTransactions] = useState([]);
-   const {setUserDetails, userDetails} = useContext(AuthContext);
+   const {setUserDetails, userDetails,isUSno, setIsUsNo} = useContext(AuthContext);
 
 
-const [isUSno, setIsUsNo] = useState(false);
+
   const date = transactions?.map(item=>{
     const date = new Date(item.created_at); // Example date
 
@@ -194,7 +194,7 @@ if(!user){
                   }}
                 >
                  
-                  ${transaction.amount}.00 USD
+                 {isUSno? '$':'₵'}{transaction.amount}.00 {isUSno? 'USD':'GHC'}
                 </Text>
               </View>
             </TouchableOpacity>

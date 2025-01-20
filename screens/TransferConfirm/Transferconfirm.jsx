@@ -11,7 +11,7 @@ import { Entypo } from '@expo/vector-icons';
 const ConfirmTransfer = () => {
   const [buttonSpinner, setButtonSpinner] = useState(false);
   const {amount, name, phone} = useLocalSearchParams();
-  const {userDetails, setUserDetails} = useContext(AuthContext)
+  const {userDetails, setUserDetails, isUSno} = useContext(AuthContext)
 
 
   const handleContinue = async() => {
@@ -70,19 +70,19 @@ const ConfirmTransfer = () => {
           </View>
         
          <View style={{flexDirection:'row', alignItems:"center",justifyContent:"center",paddingVertical:10}}>
-         <Text style={styles.currencyText}>${amount}.00</Text>
-         <Text style={styles.currency}>USD</Text>
+         <Text style={styles.currencyText}>{isUSno? '$':'₵'}{amount}.00</Text>
+         <Text style={styles.currency}>{isUSno?'USD':"GHC"}</Text>
          </View>
          <View style={{flexDirection:'row',gap:15,alignItems:"center",justifyContent:"center"}}>
-         <Text style={styles.TrfText}>Transfer fee</Text>
-         <Text style={styles.amounts}>$10.00<Text style={{fontSize:9}}>USD</Text></Text>
+         {/* <Text style={styles.TrfText}>Transfer fee</Text>
+         <Text style={styles.amounts}>${1/100 * amount}<Text style={{fontSize:9}}>USD</Text></Text> */}
          </View>
         </View>
 
         {/* Row of Texts */}
         <View style={styles.rowContainer}>
-          <Text style={styles.rowTexts}>Converted Amount</Text>
-          <Text style={styles.rowText}>E230.00 <Text style={{fontSize:9}}>EUR</Text></Text>
+          {/* <Text style={styles.rowTexts}>Converted Amount</Text>
+          <Text style={styles.rowText}>E230.00 <Text style={{fontSize:9}}>EUR</Text></Text> */}
         </View>
 
 

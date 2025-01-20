@@ -13,7 +13,7 @@ const TransactionList = () => {
   const [transactions, setTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [filter, setFilter] = useState("all");
-  const { setUserDetails,userDetails } = useContext(AuthContext);
+  const { setUserDetails,userDetails, isUSno } = useContext(AuthContext);
   const [open, setOpen] = useState(false); // State to manage dropdown visibility
   
   const [items, setItems] = useState([
@@ -115,7 +115,7 @@ const TransactionList = () => {
         >
           <Text style={styles.totalBalanceTitle}>Total Balance</Text>
           <Text style={styles.totalBalance}>
-            ${userDetails.balance}.00 <Text style={styles.currency}>USD</Text>
+          {isUSno? '$':'₵'}{userDetails.balance}.00 <Text style={styles.currency}>USD</Text>
           </Text>
         </View>
         <View style={styles.searchContainer}>
@@ -229,7 +229,7 @@ const TransactionList = () => {
                   }}
                 >
                  
-                  ${transaction.amount}.00 USD
+                 {isUSno? '$':'₵'}{transaction.amount}.00 USD
                 </Text>
               </View>
             </TouchableOpacity>

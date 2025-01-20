@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from "react-native";
 import { useRouter, useLocalSearchParams, router } from "expo-router";
 import axiosClient from "../../../axiosClient";
 import { AntDesign } from "@expo/vector-icons";
-
+ import { AuthContext } from "../../../context/AuthContext";
 const transactionDetails = () => {
   const { id } = useLocalSearchParams();
   const [transaction, setTransaction] = useState(null);
   const [loading, setLoading] = useState(true);
+  const {isUSno} = useContext(AuthContext)
 
   useEffect(() => {
     const fetchTransactionDetails = async () => {
@@ -70,7 +71,7 @@ const transactionDetails = () => {
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.label}>Amount:</Text>
-        <Text style={styles.value}>${transaction.amount}.00 USD</Text>
+        <Text style={styles.value}>{isUSno? '$':'₵'}{transaction.amount}.00 USD</Text>
       </View>
       <View style={styles.detailRow}>
         <Text style={styles.label}>Date:</Text>

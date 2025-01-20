@@ -10,6 +10,7 @@ export const AuthProvider = ({children})=>{
     const [authToken, setAuthToken] = useState("");
     const [location, setLocation] = useState(null)
     const [errorMsg, setErrorMsg] = useState(null);
+    const [isUSno, setIsUsNo] = useState(false);
     useEffect(() => {
         async function getCurrentLocation() {
           
@@ -31,7 +32,7 @@ export const AuthProvider = ({children})=>{
   
 
    return (
-    <AuthContext.Provider value={{userDetails, authToken, setUserDetails, location}}>
+    <AuthContext.Provider value={{userDetails, authToken, setUserDetails, location, isUSno, setIsUsNo}}>
         {children}
     </AuthContext.Provider>
    )

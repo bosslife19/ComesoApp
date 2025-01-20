@@ -10,7 +10,7 @@ import axiosClient from "../../../axiosClient";
 import { router } from "expo-router";
 
 const AddMoney = () => {
-  const { userDetails, setUserDetails } = useContext(AuthContext);
+  const { userDetails, setUserDetails, isUSno } = useContext(AuthContext);
   const paystackWebViewRef = useRef(paystackProps.PayStackRef);
   const [amount, setAmount] = useState(0);
 
@@ -117,7 +117,7 @@ const AddMoney = () => {
           style={{ marginVertical: "5%", paddingHorizontal: "5%", gap: "5%" }}
         >
           <Text style={{ fontSize: 36, fontWeight: "500" }}>
-            ${userDetails.balance}
+          {isUSno? '$':'₵'}{userDetails.balance}
           </Text>
           <View style={{ flexDirection: "row", gap: "8%", marginTop: "5%" }}>
             <TouchableOpacity
@@ -192,7 +192,7 @@ const AddMoney = () => {
         alignItems: 'center', // Vertically align the content
       }}
     >
-      <Text style={{ fontSize: 18, paddingLeft: 10, color: "#333" }}>$</Text>  
+      <Text style={{ fontSize: 18, paddingLeft: 10, color: "#333" }}>{isUSno? '$':'₵'}</Text>  
       
       <TextInput
         placeholder="Amount"
