@@ -17,13 +17,14 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import SectionsLogin from "@/styles/Login/Login.styles";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "@/context/AuthContext";
 import * as LocalAuthentication from "expo-local-authentication";
 import { Platform } from "react-native";
+import SpinningLogo from "@/LoadingScreen/SpinningLogo";
 
 export default function LoginScreen() {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -33,7 +34,7 @@ export default function LoginScreen() {
   const { setUserDetails, userDetails } = useContext(AuthContext);
   const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
   const [authToken, setAuthToken] = useState(null);
-
+  const [isInitialized, setIsInitialized] = useState(false);
   const handleFingerPrint = async () => {
     const isBiometricAvailable = await LocalAuthentication.hasHardwareAsync();
 
@@ -64,6 +65,7 @@ export default function LoginScreen() {
     if (auth.success) {
       const details = await AsyncStorage.getItem("userDetails");
       setUserDetails(JSON.parse(details));
+      await AsyncStorage.setItem('loggedIn', 'yes');
       return router.push("/(tabs)/home");
     } else {
       Toast.show({
@@ -102,6 +104,7 @@ export default function LoginScreen() {
             text2:'Please Verify your email to continue'
           })
         }else{
+          await AsyncStorage.setItem('loggedIn', 'yes');
           Toast.show({
             type: "success",
             text1: "Login Successful",
@@ -121,14 +124,40 @@ export default function LoginScreen() {
       });
     }
   };
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     const getToken = async () => {
       const token = await AsyncStorage.getItem("authToken");
       setAuthToken(token);
     };
+    const checkLogin = async ()=>{
+      const loggedIn = await AsyncStorage.getItem('loggedIn');
+      if(loggedIn){
+        setLoggedIn(true);
+        setIsInitialized(true);
+
+      }else{
+        setLoggedIn(false);
+        setIsInitialized(true);
+
+      }
+    }
     getToken();
+    checkLogin();
   }, []);
+  if (!isInitialized) {
+    // Render loading state while determining the login status
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <SpinningLogo/>
+      </View>
+    );
+  }
+  if(loggedIn){
+    router.push('/(tabs)/home');
+    return null
+  }
 
   return (
     <>
