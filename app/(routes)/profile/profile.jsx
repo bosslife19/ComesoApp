@@ -53,6 +53,7 @@ const {isUSno} = useContext(AuthContext)
     try {
       await axiosClient.post('/user/logout');
       await AsyncStorage.removeItem("authToken");
+      await AsyncStorage.removeItem('loggedIn');
      
       router.push('/login');
     } catch (error) {
