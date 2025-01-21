@@ -340,7 +340,7 @@ export default function SignUpScreen() {
             </Text>
             <TouchableOpacity onPress={() => router.push("/login")}>
               <Text
-                style={[SectionsLogin.signUpText, { fontFamily: "SofiaPro" }]}
+                style={[SectionsLogin.signUpText, { fontFamily: "SofiaPro", marginTop:Platform.OS=='ios' && 2 }]}
               >
                 Login
               </Text>

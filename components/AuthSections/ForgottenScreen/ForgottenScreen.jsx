@@ -26,6 +26,7 @@ export default function ForgottenScreen() {
         const res = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/api/user/request-reset-password`,{email});
         if(res.data.error){
           setLoading(false);
+          Alert.alert('Error', 'This user email does not exist');
           Toast.show({
                   type: "error",
                   text1: res.data.error,
@@ -81,8 +82,8 @@ export default function ForgottenScreen() {
         </Text>
       </View>
 
-      <View style={styles.formContainer}>
-        <View style={styles.inputContainer}>
+      <KeyboardAvoidingView style={styles.formContainer}>
+        <View style={[styles.inputContainer, {top: '-10%'}]}>
           <Ionicons
             name="mail-outline"
             size={20}
@@ -100,14 +101,14 @@ export default function ForgottenScreen() {
           />
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleForgotPassword}>
+        <TouchableOpacity style={[styles.button, {top: '-10%'}]} onPress={handleForgotPassword}>
           {loading ? (
             <ActivityIndicator size="small" color="white" />
           ) : (
-            <Text style={styles.buttonText}>Send Reset Link</Text>
+            <Text style={styles.buttonText}>Send Reset Code</Text>
           )}
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     </KeyboardAvoidingView>
   );
 }

@@ -38,6 +38,7 @@ axiosClient.interceptors.response.use(
             if (response && response.status === 401) {
                 
                 await AsyncStorage.removeItem('authToken'); // Await the token removal
+                await AsyncStorage.removeItem('loggedIn');
                 router.push('/login');
             }
         } catch (err) {
