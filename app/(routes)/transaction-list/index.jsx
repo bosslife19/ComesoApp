@@ -101,7 +101,7 @@ const TransactionList = () => {
       <View style={{ paddingVertical: 20 }}>
         <CustomHeader text="Transactions" />
       </View>
-      <View style={{ flex: 1, backgroundColor: "#F9F9FB" }}>
+      <View style={{ flex: 1, backgroundColor: "#F9F9FB", }}>
         <View
           style={{
             flexDirection: "row",
@@ -111,6 +111,9 @@ const TransactionList = () => {
             paddingVertical: 20,
             marginBottom: 10,
             backgroundColor: "#fff",
+            marginTop:10,
+            height:'10%',
+            alignItems:'center'
           }}
         >
           <Text style={styles.totalBalanceTitle}>Total Balance</Text>
@@ -131,7 +134,7 @@ const TransactionList = () => {
         </View>
         <View style={{justifyContent:"center", marginHorizontal:"auto"}}>
         <View style={styles.filterContainer}>
-        <DropDownPicker
+        {/* <DropDownPicker
   open={open}
   value={filter}
   items={items}
@@ -155,7 +158,7 @@ const TransactionList = () => {
   }}
   zIndex={1000}
   zIndexInverse={3000}
- />
+ /> */}
 
         </View>
         </View>

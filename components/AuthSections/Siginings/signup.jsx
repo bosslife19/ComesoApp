@@ -36,8 +36,8 @@ export default function SignUpScreen() {
   const [agreePrivacy, setAgreePrivacy] = useState(false);
   const [buttonSpinner, setButtonSpinner] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [countryCode, setCountryCode] = useState("US"); // Default to 'US'
-  const [callingCode, setCallingCode] = useState("1"); // Default calling code for 'US'
+  const [countryCode, setCountryCode] = useState("GH"); // Default to 'US'
+  const [callingCode, setCallingCode] = useState("+233"); // Default calling code for 'US'
   
 
   const [name, setName] = useState("");
@@ -204,7 +204,7 @@ export default function SignUpScreen() {
               <CountryPicker withCallingCode withFilter countryCode={countryCode} onSelect={onSelectCountry} containerButtonStyle={styles.countryPicker} />
               <TextInput
                 style={[styles.phoneInput, Platform.OS === "ios" && styles.iosPlaceholder,]}
-                placeholder="Phone Number"
+                placeholder={`Phone number (e.g. ${callingCode}123456789)`}
                 placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
                 value={phoneNumber}
                 onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ""))}
