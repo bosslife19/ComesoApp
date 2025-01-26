@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "comeso",
+    "name": "COMESO",
     "slug": "comeso",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/sendmoni.png",
+    "icon": "./assets/images/comesologo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -18,10 +18,11 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/sendmoni.png",
+        "foregroundImage":"./assets/images/comesologo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.davidwoks.comeso",
+      "package": "com.mycomeso.comeso",
+      "googleServicesFile": "./google-services.json",
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
@@ -43,7 +44,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/sendmoni.png",
+          "image": "./assets/images/comesologo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
