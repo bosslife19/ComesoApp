@@ -18,10 +18,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage":"./assets/images/comesologo.png",
+        "foregroundImage": "./assets/images/comesologo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.mycomeso.comeso",
+      "package": "com.davidwoks.comeso",
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
@@ -54,6 +54,13 @@
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Comeso uses your location to find nearby hospitals and healthcare facilities, providing you with the most relevant and convenient options. Would you like to allow Comeso to access your location?"
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#ffffff"
         }
       ],
       [

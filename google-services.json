@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:72749393332:android:34e6343036978cf0de3ee1",
+        "android_client_info": {
+          "package_name": "com.davidwoks.comeso"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5zKuqH8WQRCZC3JnADBkuI0AmlHZu8WI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:72749393332:android:a186c502138b4a5fde3ee1",
         "android_client_info": {
           "package_name": "com.mycomeso.comeso"
