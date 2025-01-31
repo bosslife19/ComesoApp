@@ -24,7 +24,7 @@ const SpinningLogo = () => {
   return (
     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
       <Animated.Image
-        source={require('../assets/images/sendmoni.png')} // Your PNG logo
+        source={require('../assets/images/comesologo.png')} // Your PNG logo
         style={{
           width: 100, // Set the width of the logo
           height: 100, // Set the height of the logo
