@@ -73,7 +73,7 @@ export default function ForgottenScreen() {
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={require("../../../assets/images/sendmoni.png")}
+          source={require("../../../assets/images/comesologo.png")}
           style={styles.logo}
         />
         <Text style={styles.title}>Forgot Password</Text>

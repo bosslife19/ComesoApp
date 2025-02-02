@@ -19,6 +19,9 @@ const Confirm = () => {
       if(fromAmount > userDetails.balance){
         return Alert.alert('Insufficient funds', 'You do not have sufficient vouchers to send');
       }
+      if(fromAmount < 10){
+        return Alert.alert('Minimum voucher transferable is 10')
+      }
         router.push({
           pathname:"/(routes)/confirm-transfer",
           params:{amount: fromAmount, name, phone}

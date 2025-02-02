@@ -136,13 +136,13 @@ const Settings = () => {
               value={formValues.name}
               onChangeText={(text) => handleInputChange("name", text)}
             />
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               placeholder="Email"
               value={formValues.email}
               onChangeText={(text) => handleInputChange("email", text)}
               keyboardType="email-address"
-            />
+            /> */}
             <TextInput
               style={styles.input}
               placeholder="Phone"

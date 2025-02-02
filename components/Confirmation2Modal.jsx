@@ -71,7 +71,7 @@ import { router } from "expo-router";
               marginTop:10
               }}
             >
-              You have successfully the user as a beneficiary.
+              You have successfully added the user as a beneficiary.
             </Text>
           </View>
   

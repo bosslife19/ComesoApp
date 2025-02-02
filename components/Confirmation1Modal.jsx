@@ -16,10 +16,12 @@ import axiosClient from "../axiosClient";
 
 const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name, phone }) => {
   const [found, setFound] = useState(true)
+  
   const handleAddBeneficary = async ()=>{
     try {
       const res = await axiosClient.post('/beneficiary', {
         name,
+        phone
         // email,
         // phone,
       })

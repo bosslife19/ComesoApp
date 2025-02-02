@@ -209,7 +209,7 @@ getBeneficiaries();
           email={email}
           name={name}
           
-          phone={phoneNumber}
+          phone={'+'+ phoneNumber}
         />
       )}
       {openSecondConfirmation && (

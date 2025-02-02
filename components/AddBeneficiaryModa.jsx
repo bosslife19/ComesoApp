@@ -19,6 +19,7 @@ import {
   import CustomBlueButton from "./CustomBlueButton";
 import axiosClient from "../axiosClient";
   import SectionsLogin from "../styles/Login/Login.styles"
+import { addNotificationResponseClearedListener } from "expo-notifications";
   const AddBeneficiaryModal = ({ toggleModal, setPhonenumber, setName,setemail, openFirstConfirm}) => {
     const[name, setname] = useState('')
     
@@ -32,7 +33,7 @@ import axiosClient from "../axiosClient";
       setCountryCode(country.cca2); // Set the selected country code
       setCallingCode(country.callingCode[0]); // Set the corresponding calling code
     };
-
+    
     const handleAddBeneficiary = async ()=>{
       if(!name){
         return Toast.show({
@@ -41,15 +42,34 @@ import axiosClient from "../axiosClient";
           text2: "Enter beneficiary username to continue",
         });
        }
+       
  
       setPhonenumber(phone);
       setName(name);
       
       setemail(email);
       try {
+        
         setButtonSpinner(true);
-        const response = await axiosClient.post('/user/find', {name});
-      if(response.data.error){
+        const response = await axiosClient.post('/user/find', {name, phone: '+'+phone});
+       
+      if(response.data.error == 'User not found!'){
+        
+        setButtonSpinner(false);
+        openFirstConfirm();
+      }
+      if(response.data.beneficiary){
+        setButtonSpinner(false)
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Beneficiary already exists',
+          position: 'top', // Can be 'top', 'bottom', or 'center'
+          visibilityTime: 4000, // Duration the toast is visible
+        });
+        return;
+      }
+      else if(response.data.error !='User not found!'){
         setButtonSpinner(false)
         Toast.show({
           type: 'error',
@@ -151,7 +171,24 @@ import axiosClient from "../axiosClient";
             >
               <TextInput  
               style={[SectionsLogin.input, { fontFamily: "SofiaPro" }]}
-               placeholder="Input beneficiary username" onChangeText={(val)=>setname(val)}
+               placeholder="Input beneficiary's name or username" onChangeText={(val)=>setname(val)}
+                 placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
+               />
+            </View>
+            <View
+              style={{
+                backgroundColor: "rgba(164, 169, 174, 0.2)",
+                width: "100%",
+                marginHorizontal: "auto",
+                marginTop: 20,
+                borderRadius: 10,
+                // paddingVertical: 5,
+              }}
+            >
+              <TextInput  
+              style={[SectionsLogin.input, { fontFamily: "SofiaPro", fontSize:13 }]}
+              keyboardType="numeric"
+               placeholder="Beneficiary's phone number starting with  countrry code (e.g.233)" onChangeText={(val)=>setPhone(val)}
                  placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
                />
             </View>

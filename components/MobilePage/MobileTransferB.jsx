@@ -9,7 +9,8 @@ import {
    Alert,
   ActivityIndicator,
   Platform,
-  Dimensions
+  Dimensions,
+  KeyboardAvoidingView
 } from "react-native";
 import Toast from "react-native-toast-message";
 
@@ -74,6 +75,7 @@ const MobileTransferB = () => {
     );
   };
   const handleContinue = async () => {
+    let receiver;
     // if (countryCode === "US") {
     //   Toast.show({
     //     type: "error",
@@ -111,8 +113,13 @@ const MobileTransferB = () => {
         return;
       }
 
-
-      const receiver = response.data.user;
+      if(response.data.user){
+        receiver = response.data.user
+      }
+      else if(response.data.beneficiary){
+        receiver = response.data.beneficiary
+      }
+      
 
       const res = await axiosClient.post('/user/check-password', {password:userInfo.password});
       if(res.data.status ==false){
@@ -176,180 +183,185 @@ const MobileTransferB = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <HeaderM />
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} 
+    style={{ flex: 1 }}>
+          <View style={styles.container}>
+     
+     <HeaderM />
 
-      {/* Search Bar */}
-      <View style={styles.searchContainer}>
-        <TouchableOpacity>
-          <MaterialIcons name="search" size={24} color="#8E949A" />
-        </TouchableOpacity>
-        <TextInput
-          style={[styles.searchInput, { fontFamily: "SofiaPro" }]}
-          placeholder="Search"
-          placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
-          value={searchText}
-          onChangeText={setSearchText}
-          
-        />
-      </View>
-
-      <Text style={styles.sectionTitle}>Beneficiaries</Text>
-
-      {/* List of Beneficiaries */}
-      <FlatList
-        data={beneficiaries}
-        keyExtractor={(item) => item.id}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            key={item.id}
-            onPress={() =>
-              toggleSelectBeneficiary(
-                item.id,
-                item.name,
-                
-                item.phone
-              )
-            }
-            style={[
-              styles.beneficiaryItem,
-              selectedBeneficiaryId === item.id && styles.selectedBeneficiary,
-            ]}
-          >
-            <View style={styles.beneficiaryItem}>
-              {/* <Image
-                                source={item.img ? item.img : logo}
-                                style={styles.beneficiaryImage}
-                            /> */}
-              <Entypo
-                name="user"
-                size={60}
-                color="black"
-                style={styles.beneficiaryImage}
-              />
-              <Text style={styles.beneficiaryName}>{item.name}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
-        ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-          <Text style={styles.noBeneficiariesText}>No beneficiaries found</Text>
-          <AddBeneficiaryButton />
-        </View>
-        }
-      />
-
-      {/* Make New Transfer Form */}
-      <View style={styles.formContainer}>
-        <Text style={styles.formTitle}>Make new transfer</Text>
-        
-        {/* Name Input */}
-        <TextInput 
-          style={[styles.input,
-            { backgroundColor: isFocuses ? "#FFFFFF" : "#A4A9AE26" },
-              ]
-          }
-          keyboardType="default"
-          value={userInfo.Name}
-          placeholder="Recipient's username"
-          onChangeText={(value) => setUserInfo({ ...userInfo, Name: value })}
-          placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
-          onFocus={() => setIsFocuses(true)}
-              onBlur={() => setIsFocuses(false)}
-        />
-
-        {/* Phone Number Input */}
-        {/* <View 
-              style={[
-                styles.phoneContainer,
-                { backgroundColor: isFocused ? "#FFFFFF" : "#A4A9AE26" },
-              ]}
-        
-        >
-        <TouchableOpacity style={styles.flagButton}>
-        <CountryPicker
-          countryCode={countryCode}
-          withFilter
-          withFlag
-          withCallingCode
-          withCountryNameButton={false}
-          onSelect={onSelectCountry}
-        />
-      </TouchableOpacity>
-      <Text style={styles.callingCode}>+{callingCode}</Text>
-      <TextInput
-        style={styles.phoneInput}
-        keyboardType="phone-pad"
-        value={phoneNumber}
-        onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ""))}
-        placeholder="Receiver’s Mobile Number"
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-      />
-        </View> */}
-
-        {/* Password Input */}
-        <View
-          style={{
-            marginTop: 20,
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 10,
-          }}
-        >
-          <View style={{ width: "100%" }}>
-            <TextInput
-              style={[styles.input,{ backgroundColor: isFocus ? "#FFFFFF" : "#A4A9AE26" },]}
-              secureTextEntry={!isPasswordVisible}
-              value={userInfo.password}
-              placeholder="Input your password"
-              placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
-              onChangeText={(value) =>
-                setUserInfo({ ...userInfo, password: value })
-              }
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-            />
-            <TouchableOpacity
-              style={SectionsLogin.visibleIcon}
-              onPress={() => setPasswordVisible(!isPasswordVisible)}
-            >
-              {isPasswordVisible ? (
-                <Ionicons name="eye-off-outline" size={20} color={"#747474"} />
-              ) : (
-                <Ionicons name="eye-outline" size={20} color={"#747474"} />
-              )}
-            </TouchableOpacity>
-          </View>
-
+     {/* Search Bar */}
+     <View style={styles.searchContainer}>
+       <TouchableOpacity>
+         <MaterialIcons name="search" size={24} color="#8E949A" />
+       </TouchableOpacity>
+       <TextInput
+         style={[styles.searchInput, { fontFamily: "SofiaPro" }]}
+         placeholder="Search"
+         placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
+         value={searchText}
+         onChangeText={setSearchText}
          
-        </View>
+       />
+     </View>
 
-        {/* Continue Button */}
-        <TouchableOpacity
-          onPress={handleContinue}
-          style={[SectionsLogin.loginButtons]}
-          disabled={buttonSpinner}
-        >
-          {buttonSpinner ? (
-            <ActivityIndicator size="small" color={"white"} />
-          ) : (
-            <Text
-              style={[
-                SectionsLogin.loginButtonText,
-                { fontFamily: "SofiaPro", fontWeight: "700" },
-              ]}
-            >
-              Continue
-            </Text>
-          )}
-        </TouchableOpacity>
-      </View>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
+     <Text style={styles.sectionTitle}>Beneficiaries</Text>
 
-    </View>
+     {/* List of Beneficiaries */}
+     <FlatList
+       data={beneficiaries}
+       keyExtractor={(item) => item.id}
+       horizontal
+       showsHorizontalScrollIndicator={false}
+       renderItem={({ item }) => (
+         <TouchableOpacity
+           key={item.id}
+           onPress={() =>
+             toggleSelectBeneficiary(
+               item.id,
+               item.name,
+               
+               item.phone
+             )
+           }
+           style={[
+             styles.beneficiaryItem,
+             selectedBeneficiaryId === item.id && styles.selectedBeneficiary,
+           ]}
+         >
+           <View style={styles.beneficiaryItem}>
+             {/* <Image
+                               source={item.img ? item.img : logo}
+                               style={styles.beneficiaryImage}
+                           /> */}
+             <Entypo
+               name="user"
+               size={60}
+               color="black"
+               style={styles.beneficiaryImage}
+             />
+             <Text style={styles.beneficiaryName}>{item.name}</Text>
+           </View>
+         </TouchableOpacity>
+       )}
+       ListEmptyComponent={
+         <View style={styles.emptyContainer}>
+         <Text style={styles.noBeneficiariesText}>No beneficiaries found</Text>
+         <AddBeneficiaryButton />
+       </View>
+       }
+     />
+
+     {/* Make New Transfer Form */}
+     <View style={styles.formContainer}>
+       <Text style={styles.formTitle}>Make new transfer</Text>
+       
+       {/* Name Input */}
+       <TextInput 
+         style={[styles.input,
+           { backgroundColor: isFocuses ? "#FFFFFF" : "#A4A9AE26" },
+             ]
+         }
+         keyboardType="default"
+         value={userInfo.Name}
+         placeholder="Recipient's username"
+         onChangeText={(value) => setUserInfo({ ...userInfo, Name: value })}
+         placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
+         onFocus={() => setIsFocuses(true)}
+             onBlur={() => setIsFocuses(false)}
+       />
+
+       {/* Phone Number Input */}
+       {/* <View 
+             style={[
+               styles.phoneContainer,
+               { backgroundColor: isFocused ? "#FFFFFF" : "#A4A9AE26" },
+             ]}
+       
+       >
+       <TouchableOpacity style={styles.flagButton}>
+       <CountryPicker
+         countryCode={countryCode}
+         withFilter
+         withFlag
+         withCallingCode
+         withCountryNameButton={false}
+         onSelect={onSelectCountry}
+       />
+     </TouchableOpacity>
+     <Text style={styles.callingCode}>+{callingCode}</Text>
+     <TextInput
+       style={styles.phoneInput}
+       keyboardType="phone-pad"
+       value={phoneNumber}
+       onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ""))}
+       placeholder="Receiver’s Mobile Number"
+       onFocus={() => setIsFocused(true)}
+       onBlur={() => setIsFocused(false)}
+     />
+       </View> */}
+
+       {/* Password Input */}
+       <View
+         style={{
+           marginTop: 20,
+           flexDirection: "row",
+           alignItems: "center",
+           gap: 10,
+         }}
+       >
+         <View style={{ width: "100%" }}>
+           <TextInput
+             style={[styles.input,{ backgroundColor: isFocus ? "#FFFFFF" : "#A4A9AE26" },]}
+             secureTextEntry={!isPasswordVisible}
+             value={userInfo.password}
+             placeholder="Input your password"
+             placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
+             onChangeText={(value) =>
+               setUserInfo({ ...userInfo, password: value })
+             }
+             onFocus={() => setIsFocus(true)}
+             onBlur={() => setIsFocus(false)}
+           />
+           <TouchableOpacity
+             style={SectionsLogin.visibleIcon}
+             onPress={() => setPasswordVisible(!isPasswordVisible)}
+           >
+             {isPasswordVisible ? (
+               <Ionicons name="eye-off-outline" size={20} color={"#747474"} />
+             ) : (
+               <Ionicons name="eye-outline" size={20} color={"#747474"} />
+             )}
+           </TouchableOpacity>
+         </View>
+
+        
+       </View>
+
+       {/* Continue Button */}
+       <TouchableOpacity
+         onPress={handleContinue}
+         style={[SectionsLogin.loginButtons]}
+         disabled={buttonSpinner}
+       >
+         {buttonSpinner ? (
+           <ActivityIndicator size="small" color={"white"} />
+         ) : (
+           <Text
+             style={[
+               SectionsLogin.loginButtonText,
+               { fontFamily: "SofiaPro", fontWeight: "700" },
+             ]}
+           >
+             Continue
+           </Text>
+         )}
+       </TouchableOpacity>
+     </View>
+     <Toast ref={(ref) => Toast.setRef(ref)} />
+
+   </View>
+    </KeyboardAvoidingView>
+
   );
 };
 

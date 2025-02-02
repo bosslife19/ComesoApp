@@ -104,13 +104,13 @@ export default function SignUpScreen() {
     }
   
     try {
-      setButtonSpinner(true);
-      
+       setButtonSpinner(true);
+     
       const response = await axios.post(`${baseUrl}/api/sign-up`, {
         name,
         email,
         password,
-        phone: "+" + callingCode + phoneNumber,
+        phone:'+'+callingCode + phoneNumber,
       });
       await AsyncStorage.clear();
       setButtonSpinner(false);
@@ -132,6 +132,7 @@ export default function SignUpScreen() {
       // Redirect to login page
       router.push("/(routes)/otpmain");
     } catch (error) {
+      
       setButtonSpinner(false);
       Toast.show({
         type: "error",
