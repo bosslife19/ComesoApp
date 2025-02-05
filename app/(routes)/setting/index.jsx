@@ -109,10 +109,10 @@ const Settings = () => {
               <Text style={styles.infoLabel}>Email:</Text>
               <Text style={styles.infoValue}>support@mycomeso.com</Text>
             </View>
-            <View style={styles.infoItem}>
+            {/* <View style={styles.infoItem}>
               <Text style={styles.infoLabel}>Phone number</Text>
               <Text style={styles.infoValue}>+2349066487638</Text>
-            </View>
+            </View> */}
             <TouchableOpacity style={styles.editButton} onPress={()=>router.push('/(routes)/complain')}>
             <MaterialIcons name="support-agent" size={24} color="white" />
               <Text style={styles.editButtonText}>Contact support</Text>

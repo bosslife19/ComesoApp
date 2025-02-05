@@ -23,40 +23,43 @@ export default function ForgottenScreen() {
     if (email) {
       setLoading(true);
       try {
-        const res = await axios.post(`${process.env.EXPO_PUBLIC_BASE_URL}/api/user/request-reset-password`,{email});
-        if(res.data.error){
+        const res = await axios.post(
+          `${process.env.EXPO_PUBLIC_BASE_URL}/api/user/request-reset-password`,
+          { email }
+        );
+        if (res.data.error) {
           setLoading(false);
-          Alert.alert('Error', 'This user email does not exist');
+          Alert.alert("Error", "This user email does not exist");
           Toast.show({
-                  type: "error",
-                  text1: res.data.error,
-                  text2: "The user email does not exist",
-                  position: 'top', // Can be 'top', 'bottom', or 'center'
-          visibilityTime: 4000, 
-                });
+            type: "error",
+            text1: res.data.error,
+            text2: "The user email does not exist",
+            position: "top", // Can be 'top', 'bottom', or 'center'
+            visibilityTime: 4000,
+          });
 
-                return;
-
+          return;
         }
-        if(res.data.message){
+        if (res.data.message) {
           setLoading(false);
           Toast.show({
             type: "success",
             text1: res.data.message,
             text2: "Check your email to verify the Otp",
-            position: 'top', // Can be 'top', 'bottom', or 'center'
-          visibilityTime: 3000, 
+            position: "top", // Can be 'top', 'bottom', or 'center'
+            visibilityTime: 3000,
           });
         }
 
-        setTimeout(()=>{
-          
-          router.push({pathname:'/(routes)/password-reset-otp', params:{email}});
-          
+        setTimeout(() => {
+          router.push({
+            pathname: "/(routes)/password-reset-otp",
+            params: { email },
+          });
         }, 5000);
       } catch (error) {
         setLoading(false);
-        Alert.alert('Email is invalid', 'Invalid email entered');
+        Alert.alert("Email is invalid", "Invalid email entered");
         // Toast.show({
         //   type: "error",
         //   text1: 'Error',
@@ -71,6 +74,16 @@ export default function ForgottenScreen() {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
+      <View style={{marginVertical:20, left:'5%'}}>
+        <TouchableOpacity onPress={() => router.back()}>
+          <Image
+            source={require("../../../assets/images/headerback.png")}
+            width={20}
+            height={20}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      </View>
       <View style={styles.header}>
         <Image
           source={require("../../../assets/images/comesologo.png")}
@@ -83,7 +96,7 @@ export default function ForgottenScreen() {
       </View>
 
       <KeyboardAvoidingView style={styles.formContainer}>
-        <View style={[styles.inputContainer, {top: '-10%'}]}>
+        <View style={[styles.inputContainer, { top: "-10%" }]}>
           <Ionicons
             name="mail-outline"
             size={20}
@@ -101,7 +114,10 @@ export default function ForgottenScreen() {
           />
         </View>
 
-        <TouchableOpacity style={[styles.button, {top: '-10%'}]} onPress={handleForgotPassword}>
+        <TouchableOpacity
+          style={[styles.button, { top: "-10%" }]}
+          onPress={handleForgotPassword}
+        >
           {loading ? (
             <ActivityIndicator size="small" color="white" />
           ) : (

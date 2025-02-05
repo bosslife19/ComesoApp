@@ -51,7 +51,7 @@ import { addNotificationResponseClearedListener } from "expo-notifications";
       try {
         
         setButtonSpinner(true);
-        const response = await axiosClient.post('/user/find', {name, phone: '+'+phone});
+        const response = await axiosClient.post('/user/find', {name, phone: phone});
        
       if(response.data.error == 'User not found!'){
         
@@ -187,8 +187,9 @@ import { addNotificationResponseClearedListener } from "expo-notifications";
             >
               <TextInput  
               style={[SectionsLogin.input, { fontFamily: "SofiaPro", fontSize:13 }]}
-              keyboardType="numeric"
-               placeholder="Beneficiary's phone number starting with  countrry code (e.g.233)" onChangeText={(val)=>setPhone(val)}
+              
+              
+               placeholder="Beneficiary's phone number (e.g.+23361***)" onChangeText={(val)=>setPhone(val)}
                  placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
                />
             </View>

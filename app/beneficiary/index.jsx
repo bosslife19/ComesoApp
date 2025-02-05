@@ -42,6 +42,8 @@ const Beneficiary = () => {
   const toggleSecondConfirmation = () =>
     setOpenSecondConfirmation(!openSecondConfirmation);
 
+  
+
   useEffect(()=>{
 const getBeneficiaries = async ()=>{
   try {
@@ -116,10 +118,10 @@ getBeneficiaries();
                   alignItems: "center",
                 }}
                 onPress={() => {
-                  setModalData({
-                    image: item.avatar,
-                  });
-                  setOpenModal(true);
+                  // setModalData({
+                  //   image: item.avatar,
+                  // });
+                  // setOpenModal(true);
                 }}
               >
                 {/* <Image
@@ -204,12 +206,13 @@ getBeneficiaries();
       {openfirstConfirmation && (
         <Confirmation1Modal
           toggleModal={toggleFirstConfirmation}
+          // openFirst={toggleAddBenModal}
           openSecondConfirm={toggleSecondConfirmation}
           image={modalData.image}
           email={email}
           name={name}
           
-          phone={'+'+ phoneNumber}
+          phone={phoneNumber}
         />
       )}
       {openSecondConfirmation && (

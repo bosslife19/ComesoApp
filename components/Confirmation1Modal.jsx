@@ -12,10 +12,10 @@ import CustomHeader from "./CustomHeader";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import CustomBlueButton from "./CustomBlueButton";
 import axiosClient from "../axiosClient";
+import { router } from "expo-router";
 
 
-const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name, phone }) => {
-  const [found, setFound] = useState(true)
+const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name, phone, openFirst }) => {
   
   const handleAddBeneficary = async ()=>{
     try {
@@ -25,10 +25,13 @@ const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name
         // email,
         // phone,
       })
-      if(res.data.status ==false){
-        setFound(false);
-        
-      }
+     if(res.data.error){
+      return Alert.alert('Error', res.data.error)
+      
+     }
+     toggleModal();
+    openSecondConfirm();
+     
     } catch (error) {
       console.log(error);
     }
@@ -109,14 +112,19 @@ const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name
               shadowOffset: { width: -2, height: 4 },
               shadowOpacity: 0.2,
               shadowRadius: 3,
-              elevation: 0.3,
+              elevation: 0.2,
+              marginBottom:20,
+              marginTop:5
             }}
           >
-            <View style={{ position: "absolute", left: "90%", top: "60%" }}>
-              <Feather name="edit-3" size={11} color="rgba(164, 169, 174, 1)" />
-            </View>
+            <TouchableOpacity onPress={()=>{
+              toggleModal();
+              // openFirst();
+            }} style={{ position: "absolute", left: "90%", top: "60%" }}>
+              <Feather name="edit-3" size={20} color="rgba(164, 169, 174, 1)" />
+            </TouchableOpacity>
 
-            <TextInput />
+           
           </View>
         </View>
 
@@ -166,11 +174,9 @@ const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name
 
       onPress={()=>{
         handleAddBeneficary();
-        if(!found){
-          return Alert.alert('Not Found', 'Beneficiary not found');
-        }
-        toggleModal();
-        openSecondConfirm();
+        
+        
+       
       }}
       
     >
