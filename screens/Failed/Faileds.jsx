@@ -9,7 +9,7 @@ export default function Faileds() {
     const router = useRouter();
   
     const handleContinue = () => {
-      router.push("/(routes)/successfulmodal");
+      router.push("/(tabs)/home");
     };
   
     return (
