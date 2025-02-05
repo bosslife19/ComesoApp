@@ -29,6 +29,8 @@ const ConfirmTransfer = () => {
         }));
         
       router.push("/(routes)/successfull-transfer")
+      }else if(res.data.error){
+        return Alert.alert('Error', res.data.error);
       }
     } catch (error) {
       setButtonSpinner(false)
