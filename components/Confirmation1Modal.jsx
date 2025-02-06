@@ -3,16 +3,15 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  TextInput,
-  StyleSheet,
+  
   Alert,
 } from "react-native";
 import React, { useState } from "react";
 import CustomHeader from "./CustomHeader";
-import { AntDesign, Feather } from "@expo/vector-icons";
-import CustomBlueButton from "./CustomBlueButton";
+import {  Feather } from "@expo/vector-icons";
+// import CustomBlueButton from "./CustomBlueButton";
 import axiosClient from "../axiosClient";
-import { router } from "expo-router";
+
 
 
 const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name, phone, openFirst }) => {
@@ -29,8 +28,11 @@ const Confirmation1Modal = ({ toggleModal, image, openSecondConfirm, email, name
       return Alert.alert('Error', res.data.error)
       
      }
-     toggleModal();
-    openSecondConfirm();
+     if(res.data.status){
+      toggleModal();
+      openSecondConfirm();
+     }
+
      
     } catch (error) {
       console.log(error);
