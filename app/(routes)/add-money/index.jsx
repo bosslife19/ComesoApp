@@ -19,6 +19,8 @@ const AddMoney = () => {
   }
   return (
     <SafeAreaView style={{ flex: 1 }}>
+       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} 
+        style={{ flex: 1 }}>
       <View style={styles.container}>
       <View style={styles.row}>
         <TouchableOpacity onPress={()=>router.back()} style={styles.profileContainer}>
@@ -50,7 +52,7 @@ const AddMoney = () => {
         </TouchableOpacity>
       </View>
     </View>
-      <Paystack
+    <Paystack
         paystackKey={process.env.EXPO_PUBLIC_PAYSTACK_PUBLIC}
         billingEmail={userDetails.email}
         amount={amount}
@@ -177,7 +179,7 @@ const AddMoney = () => {
 
       <View style={{ paddingHorizontal: "5%", marginTop: "10%" }}>
         <Text style={{ fontFamily: "Alata", fontWeight: "400", fontSize: 19 }}>
-          Top up with Paystack
+          Top up your COMESO
         </Text>
       </View>
      <View
@@ -249,11 +251,14 @@ const AddMoney = () => {
         </TouchableOpacity>
       ))}
     </ScrollView>
-    <Text style={{ fontWeight: "300", fontSize: 14 ,paddingHorizontal: "5%",marginTop:10,color:"#333333B2",lineHeight:20.3,}}>
+    {/* <Text style={{ fontWeight: "300", fontSize: 14 ,paddingHorizontal: "5%",marginTop:10,color:"#333333B2",lineHeight:20.3,}}>
       Selecting any of the provided banks automatically opens the app for you to transfer money into your wallet.
-        </Text>
+        </Text> */}
       </View>
       
+        </KeyboardAvoidingView>
+
+
     </SafeAreaView>
   );
 };
