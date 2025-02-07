@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, TextInput, Alert, StyleSheet, ScrollView, Platform } from "react-native";
+import { View, Text, Image, TouchableOpacity, TextInput, Alert, StyleSheet, ScrollView, Platform, KeyboardAvoidingView} from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Paystack, paystackProps } from "react-native-paystack-webview";
