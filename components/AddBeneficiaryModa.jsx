@@ -35,11 +35,11 @@ import { addNotificationResponseClearedListener } from "expo-notifications";
     };
     
     const handleAddBeneficiary = async ()=>{
-      if(!name){
+      if(!name || !phone){
         return Toast.show({
           type: "error",
-          text1: "username is required",
-          text2: "Enter beneficiary username to continue",
+          text1: "All fields are required",
+          text2: "Enter beneficiary name and phone number to proceed",
         });
        }
        
