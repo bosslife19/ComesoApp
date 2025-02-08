@@ -35,6 +35,7 @@ const AddMoney = () => {
           email: userDetails.email,
           amount: amount *100,
           callback_url, 
+          metadata: { cancel_action: "https://paystack.com/docs/api/" }
           
         },
         {
@@ -73,9 +74,11 @@ const AddMoney = () => {
         router.push('/(tabs)/home');
       }).catch(e=>console.log(e));
     }
-    // if(url.includes(cancel_url)){
+    if(url.includes('https://paystack.com/docs/api/')){
       
-    // }
+      setModalVisible(false);
+      Alert.alert('Payment Canceled', 'You have canceled this payment');
+    }
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -322,7 +325,10 @@ const AddMoney = () => {
           source={{ uri: paymentUrl }} 
           onNavigationStateChange={handleWebViewNavigation} 
         />
-        <Button title="Cancel" onPress={() => setModalVisible(false)} />
+        {/* <TouchableOpacity activeOpacity={1} style={{position:'absolute', backgroundColor:'white', width:'50%', left:'30%', top:'40%', height:100}}>
+          <Text>Cancel</Text>
+        </TouchableOpacity> */}
+        <Button  title="Cancel" onPress={() => setModalVisible(false)} />
       </Modal>
         </KeyboardAvoidingView>
 
