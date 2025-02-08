@@ -1,26 +1,87 @@
-import { View, Text, Image, TouchableOpacity, TextInput, Alert, StyleSheet, ScrollView, Platform, KeyboardAvoidingView} from "react-native";
+import { View, Text, Image, TouchableOpacity, TextInput, Alert, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, ActivityIndicator, Modal, Button} from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Paystack, paystackProps } from "react-native-paystack-webview";
+import { WebView } from "react-native-webview";
 
 import CustomHeader from "../../../components/CustomHeader";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import { AuthContext } from "@/context/AuthContext";
 import axiosClient from "../../../axiosClient";
 import { router } from "expo-router";
+import axios from "axios";
 
 const AddMoney = () => {
   const { userDetails, setUserDetails, isUSno } = useContext(AuthContext);
   const paystackWebViewRef = useRef(paystackProps.PayStackRef);
   const [amount, setAmount] = useState(0);
-
+  const [paymentUrl, setPaymentUrl] = useState('')
+  const [loading, setLoading] = useState(false);
+  const [modalVisible,setModalVisible] = useState(false)
+  const callback_url = 'https://mycomeso.com';
+  const cancel_url = "https://google.com";
   const notification = () =>{
     router.push("/(routes)/notifications")
   }
+  const initializeTransaction = async () => {
+     if (amount == 0) {
+              return Alert.alert('Amount Required', 'Please enter amount of voucher you want to add');
+            }
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        'https://api.paystack.co/transaction/initialize',
+        {
+          email: userDetails.email,
+          amount: amount *100,
+          callback_url, 
+          
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.EXPO_PUBLIC_PAYSTACK_SECRET}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      
+      
+      setPaymentUrl(response.data.data.authorization_url);
+
+      
+      setLoading(false);
+      setModalVisible(true)
+      
+    } catch (error) {
+      setLoading(false);
+      console.error('Error initializing transaction:', error.response?.data || error.message);
+    }
+  };
+  const handleWebViewNavigation = (navState) => {
+    const { url } = navState;
+
+    // Paystack redirects to this URL on success
+    if (url.includes(callback_url)) {
+      
+      setModalVisible(false); // Close the WebView
+      Alert.alert('Success', 'Payment Successful');
+      axiosClient.post('/user/top-up', {amount}).then(res=>{
+        setUserDetails(prev=>({
+          ...prev,
+          balance: prev.balance + amount
+        }))
+        router.push('/(tabs)/home');
+      }).catch(e=>console.log(e));
+    }
+    // if(url.includes(cancel_url)){
+      
+    // }
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} 
         style={{ flex: 1 }}>
+          {loading && <ActivityIndicator size="large" color="#0000ff" />}
       <View style={styles.container}>
       <View style={styles.row}>
         <TouchableOpacity onPress={()=>router.back()} style={styles.profileContainer}>
@@ -237,10 +298,11 @@ const AddMoney = () => {
             marginRight: "3%", // Add space between items
           }}
           onPress={() => {
-            if (amount == 0) {
-              return Alert.alert('Amount Required', 'Please enter amount of voucher you want to add');
-            }
-            paystackWebViewRef.current.startTransaction();
+            // if (amount == 0) {
+            //   return Alert.alert('Amount Required', 'Please enter amount of voucher you want to add');
+            // }
+            // paystackWebViewRef.current.startTransaction();
+            initializeTransaction();
           }}
         >
           <Image
@@ -255,7 +317,13 @@ const AddMoney = () => {
       Selecting any of the provided banks automatically opens the app for you to transfer money into your wallet.
         </Text> */}
       </View>
-      
+      <Modal visible={modalVisible} animationType="slide">
+        <WebView 
+          source={{ uri: paymentUrl }} 
+          onNavigationStateChange={handleWebViewNavigation} 
+        />
+        <Button title="Cancel" onPress={() => setModalVisible(false)} />
+      </Modal>
         </KeyboardAvoidingView>
 
 
