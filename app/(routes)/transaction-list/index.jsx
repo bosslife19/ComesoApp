@@ -165,7 +165,7 @@ const TransactionList = () => {
 
        <View style={{paddingHorizontal:10,}}>
        {transactions.length > 0 ? (
-           transactions.slice().reverse().map((transaction, index) => (
+           transactions.map((transaction, index) => (
             <TouchableOpacity
             // onPress={() => router.push(`/(routes)/transaction-details/${transaction.id}`)}
             key={transaction.id} style={Dashs.transactionItem}>

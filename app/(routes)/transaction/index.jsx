@@ -160,7 +160,7 @@ const Transactions = () => {
         </TouchableOpacity>
 
 {
- transactions.slice().reverse().map(item=>(
+ transactions.map(item=>(
         <View
           style={{
             shadowColor: "#171717",

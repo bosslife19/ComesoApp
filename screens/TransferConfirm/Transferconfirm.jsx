@@ -28,12 +28,14 @@ const ConfirmTransfer = () => {
           balance: prev.balance - amount
         }));
         
+        Alert.alert('Success', `You have successfully sent ${amount} to ${phone}. Your current balance is ${userDetails.balance - amount}`)
       router.push("/(routes)/successfull-transfer")
       }else if(res.data.error){
         return Alert.alert('Error', res.data.error);
       }
     } catch (error) {
       setButtonSpinner(false)
+      
       router.push('/(routes)/failed');
       
     }

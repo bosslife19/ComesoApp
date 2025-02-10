@@ -174,7 +174,7 @@ const {isUSno} = useContext(AuthContext)
           </View>
 
           {transactions.length > 0 ? (
-            transactions.slice().reverse().map((transaction, index) => (
+            transactions.map((transaction, index) => (
               <TouchableOpacity
                 key={transaction.id}
                 style={Dashs.transactionItem}

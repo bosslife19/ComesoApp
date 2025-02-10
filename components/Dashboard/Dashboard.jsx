@@ -127,7 +127,7 @@ if(!user){
           </View>
 
           {transactions.length > 0 ? (
-          transactions.slice().reverse().map((transaction, index) => (
+          transactions.map((transaction, index) => (
             <TouchableOpacity
             // onPress={() => router.push(`/(routes)/transaction-details/${transaction.id}`)}
             key={transaction.id} style={Dashs.transactionItem}>
