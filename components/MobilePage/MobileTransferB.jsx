@@ -56,7 +56,7 @@ const MobileTransferB = () => {
       setSelectedBeneficiaryId(id); // Select the new beneficiary
       setUserInfo({
         ...userInfo,
-        Name: name
+        phone:phone
       });
       setPhoneNumber(phone);
     }
@@ -98,7 +98,7 @@ const MobileTransferB = () => {
     try {
       setButtonSpinner(true)
       const response = await axiosClient.post(`/user/find`, {
-        name: userInfo.Name,
+        phone: userInfo.phone,
       });
 
       if (response.data.error) {
@@ -262,9 +262,9 @@ const MobileTransferB = () => {
              ]
          }
          keyboardType="default"
-         value={userInfo.Name}
-         placeholder="Recipient's username"
-         onChangeText={(value) => setUserInfo({ ...userInfo, Name: value })}
+         value={userInfo.phone}
+         placeholder="Beneficiary's phone number"
+         onChangeText={(value) => setUserInfo({ ...userInfo, phone: value })}
          placeholderTextColor={Platform.OS === "ios"?"#aaa":'#8E949A' }
          onFocus={() => setIsFocuses(true)}
              onBlur={() => setIsFocuses(false)}

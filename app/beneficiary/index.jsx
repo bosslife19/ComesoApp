@@ -35,6 +35,7 @@ const Beneficiary = () => {
   const [openAddBeneficiary, setOpenAddBeneficiary] = useState(false);
   const [openfirstConfirmation, setOpenFirstConfirmation] = useState(false);
   const [openSecondConfirmation, setOpenSecondConfirmation] = useState(false);
+  const [searchTerm, setSearchterm] = useState("")
   const toggleModal = () => setOpenModal(!openModal);
   const toggleAddBenModal = () => setOpenAddBeneficiary(!setOpenAddBeneficiary);
   const toggleFirstConfirmation = () =>
@@ -59,6 +60,20 @@ const getBeneficiaries = async ()=>{
 getBeneficiaries();
   }, [])
 
+  useEffect(()=>{
+   
+    if(searchTerm){
+      setBeneficiaries(prev =>
+        prev.filter(item =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.phone.includes(searchTerm)
+        ));
+    }
+    
+
+  }, [searchTerm])
+  
+
   return (
     <SafeAreaView style={{ flex: 1,}}>
       <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
@@ -80,6 +95,7 @@ getBeneficiaries();
             }}
             placeholder="search"
             placeholderTextColor={Platform.OS==='ios'&&'#aaa'}
+            onChangeText={(val)=>setSearchterm(val)}
           />
         </View>
         <View style={{ marginTop: 20 }}>
