@@ -61,7 +61,7 @@ export default function TabLayout() {
      <Tabs.Screen
        name="send/index"
        options={{
-         title: 'Send',
+         title: '',
          tabBarIcon: ({ color, focused }) => (
           <TabIcon icon={icons.sendIcon} color={color} name='' focused={focused}/>
          ),
