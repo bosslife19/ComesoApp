@@ -202,7 +202,7 @@ const Beneficiary = () => {
                         flex: 1,
                         justifyContent: "center",
                         alignItems: "center",
-                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        backgroundColor: "rgba(201, 193, 193, 0.25)",
                       }}
                     >
                       <View
