@@ -20,6 +20,7 @@ import CustomBlueButton from "./CustomBlueButton";
 import axiosClient from "../axiosClient";
 import SectionsLogin from "../styles/Login/Login.styles";
 import { addNotificationResponseClearedListener } from "expo-notifications";
+import { router } from "expo-router";
 const AddBeneficiaryModal = ({
   toggleModal,
   setPhonenumber,
@@ -49,6 +50,8 @@ const handleAddAlreadyExisting = async ()=>{
     if(res.data.error){
       return Alert.alert('Error', res.data.error);
     }
+    Alert.alert('Success', 'You have successfully added this user as a beneficiary')
+    router.push('/beneficiary')
   } catch (error) {
     // setButtonSpinner(false)
     Alert.alert('Error', 'Some error occured in the server')

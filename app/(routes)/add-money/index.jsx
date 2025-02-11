@@ -5,7 +5,7 @@ import { Paystack, paystackProps } from "react-native-paystack-webview";
 import { WebView } from "react-native-webview";
 
 import CustomHeader from "../../../components/CustomHeader";
-import { Feather, FontAwesome } from "@expo/vector-icons";
+import { Fontisto } from "@expo/vector-icons";
 import { AuthContext } from "@/context/AuthContext";
 import axiosClient from "../../../axiosClient";
 import { router } from "expo-router";
@@ -111,7 +111,7 @@ const AddMoney = () => {
             height={30}
             resizeMode='contain'
           /> */}
-          <FontAwesome name="user-circle-o" size={30} color="black" />
+          <Fontisto name="bell" size={30} color="black" />
           
         </TouchableOpacity>
       </View>
@@ -138,94 +138,61 @@ const AddMoney = () => {
         ref={paystackWebViewRef}
       />
 
+<View
+      style={{
+        marginTop: "10%",
+        height: "25%",
+        width: "90%",
+        marginHorizontal: "5%",
+        backgroundColor: "#F8FAFC",
+        borderRadius: 12,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        elevation: 5,
+        padding: 16,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {/* Header */}
       <View
         style={{
-          marginTop: "10%",
-          height: "30%",
-          width: "90%",
-          marginHorizontal: "auto",
-          borderWidth: 0.2,
-          borderColor: "rgba(35, 48, 59, 1)",
-          borderRadius: 5,
-          overflow: "hidden",
+          height: "25%",
+          width: "100%",
+          backgroundColor: "#E0ECFF",
+          paddingHorizontal: "5%",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderTopLeftRadius: 12,
+          borderTopRightRadius: 12,
+          paddingVertical: 10,
         }}
       >
-        <View
+        <Text
           style={{
-            height: "25%",
-            width: "100%",
-            backgroundColor: "rgba(242, 245, 248, 1)",
-            paddingHorizontal: "5%",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
+            fontSize: 16,
+            fontFamily: "Poppins-Medium",
+            color: "#1E3A8A",
           }}
         >
-          <Text
-            style={{
-              fontSize: 16,
-              fontFamily: "Poppins",
-              fontWeight: 500,
-            }}
-          >
-            Your Balance
-          </Text>
-          <View>
-            <Feather
-              name="arrow-up-right"
-              size={20}
-              color="rgba(207, 211, 219, 1)"
-            />
-          </View>
-        </View>
-
-        <View
-          style={{ marginVertical: "5%", paddingHorizontal: "5%", gap: "5%" }}
-        >
-          <Text style={{ fontSize: 36, fontWeight: "500" }}>
-          {isUSno? '$':'₵'}{userDetails.balance}
-          </Text>
-          <View style={{ flexDirection: "row", gap: "8%", marginTop: "5%" }}>
-            <TouchableOpacity
-              style={{
-                width: 92,
-                height: 40,
-                backgroundColor: "rgba(0, 92, 232, 1)",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                paddingHorizontal: 8,
-                borderRadius: 20,
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 14 }}>Copy</Text>
-              <View style={{}}>
-                <Feather name="edit-2" size={20} color="white" />
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{
-                width: 92,
-                height: 40,
-                backgroundColor: "rgba(241, 242, 243, 0.8)",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                paddingHorizontal: 8,
-                borderRadius: 20,
-              }}
-            >
-              <Text style={{ color: "rgba(51, 51, 51, 0.7)", fontSize: 14 }}>
-                Share
-              </Text>
-              <View style={{}}>
-                <Image source={require("../../../assets/images/forward.png")} />
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
+          Your Balance
+        </Text>
+        {/* <Feather name="arrow-up-right" size={20} color="#4A5568" /> */}
       </View>
+
+      {/* Balance Section */}
+      <View style={{ marginTop: "5%" }}>
+        <Text
+          style={{ fontSize: 36, fontWeight: "600", color: "#1E40AF" }}
+        >
+          {isUSno ? "$" : "₵"}
+          {userDetails.balance}
+        </Text>
+      </View>
+    </View>
       {/* <View>
         <View style={{ paddingHorizontal: "5%", marginTop: "4%" }}>
           <Text

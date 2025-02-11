@@ -114,6 +114,15 @@ export default function SignUpScreen() {
       });
       await AsyncStorage.clear();
       setButtonSpinner(false);
+
+      if(response.data.error){
+        return Toast.show({
+          type: "error",
+          position: "top",
+          text1: "Error",
+          text2: response.data.error,
+        });
+      }
   
       await AsyncStorage.setItem("userDetails", JSON.stringify(response.data.user));
       // await AsyncStorage.setItem("authToken", response.data.token);
@@ -140,7 +149,7 @@ export default function SignUpScreen() {
         text1: "Error",
         text2: error.response?.data?.message || "Something went wrong. Please try again.",
       });
-      console.log(error.response?.data?.message, error);
+      console.log(error);
     }
   };
   return (
