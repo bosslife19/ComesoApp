@@ -164,7 +164,7 @@ const TransactionList = () => {
         </View>
 
        <View style={{paddingHorizontal:10,}}>
-       {transactions.length > 0 ? (
+       {transactions?.length > 0 ? (
            transactions.map((transaction, index) => (
             <TouchableOpacity
             // onPress={() => router.push(`/(routes)/transaction-details/${transaction.id}`)}

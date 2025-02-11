@@ -119,11 +119,11 @@ if(!user){
         <View style={Dashs.recentTransactionsContainer}>
           <View style={Dashs.recentTransactionsHeader}>
             <Text style={Dashs.sectionTitle}>Recent Transactions</Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => router.push("/(routes)/transaction-list")}
               >
               <Text style={[Dashs.actionBoxText, {lineHeight: 13}]}>View All</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
           {transactions.length > 0 ? (
