@@ -154,7 +154,7 @@ if(!user){
                       color: "#23303B",
                     }}
                   >
-                    {transaction.type}
+                    {transaction.status=='Received'&&transaction.sender||transaction.status=='Sent'&&transaction.beneficiary ||'Top Up'}
                   </Text>
                   <View style={Dashs.transactionInfo}>
                     <Text
