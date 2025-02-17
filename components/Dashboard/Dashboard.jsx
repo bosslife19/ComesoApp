@@ -1,6 +1,6 @@
  import { AntDesign, Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Image, ImageBackground, ScrollView, StyleSheet, Platform } from "react-native";
+import { View, Text, TouchableOpacity, Image, ImageBackground, ScrollView, StyleSheet, Platform, Modal } from "react-native";
 import Dashs from "../../styles/Dashboard/Dashboard.styles";
 import Header from "../../screens/Dashboard/Header";
 import { router } from "expo-router";
@@ -13,7 +13,13 @@ const DashboardScreen = () => {
    const [transactions, setTransactions] = useState([]);
    const {setUserDetails, userDetails,isUSno, setIsUsNo} = useContext(AuthContext);
 
-
+   const [modalVisible, setModalVisible] = useState(false);
+   const [selectedTransaction, setSelectedTransaction] = useState(null);
+ 
+   const openModal = (transaction) => {
+     setSelectedTransaction(transaction);
+     setModalVisible(true);
+   };
 
   const date = transactions?.map(item=>{
     const date = new Date(item.created_at); // Example date
@@ -119,16 +125,17 @@ if(!user){
         <View style={Dashs.recentTransactionsContainer}>
           <View style={Dashs.recentTransactionsHeader}>
             <Text style={Dashs.sectionTitle}>Recent Transactions</Text>
-            {/* <TouchableOpacity
+            <TouchableOpacity
               onPress={() => router.push("/(routes)/transaction-list")}
               >
               <Text style={[Dashs.actionBoxText, {lineHeight: 13}]}>View All</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </View>
 
           {transactions.length > 0 ? (
           transactions.map((transaction, index) => (
             <TouchableOpacity
+            onPress={() => openModal(transaction)}
             // onPress={() => router.push(`/(routes)/transaction-details/${transaction.id}`)}
             key={transaction.id} style={Dashs.transactionItem}>
               <View style={Dashs.transactionRow}>
@@ -214,19 +221,148 @@ if(!user){
           </Text>
         )}
         </View>
-        
+        <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            {selectedTransaction && (
+              <>
+                <Text style={styles.modalTitle}>Transaction Details</Text>
+                <Text style={styles.modalText}>
+                  <Text style={styles.label}>Type: </Text>
+                  {selectedTransaction.type}
+                </Text>
+                <Text style={styles.modalText}>
+                  <Text style={styles.label}>Status: </Text>
+                  {selectedTransaction.status}
+                </Text>
+                <Text style={styles.modalText}>
+                  <Text style={styles.label}>Amount: </Text>
+                  {isUSno ? "$" : "₵"}
+                  {selectedTransaction.amount}.00 {isUSno ? "USD" : "GHC"}
+                </Text>
+                {selectedTransaction.sender && (
+                  <Text style={styles.modalText}>
+                    <Text style={styles.label}>Sender: </Text>
+                    {selectedTransaction.sender}
+                  </Text>
+                )}
+                {selectedTransaction.beneficiary && (
+                  <Text style={styles.modalText}>
+                    <Text style={styles.label}>Beneficiary: </Text>
+                    {selectedTransaction.beneficiary}
+                  </Text>
+                )}
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={styles.closeButtonText}>Close</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        </View>
+      </Modal>
+
       </View>
 
       </ScrollView>
    );
 };
- 
 const styles = StyleSheet.create({
+  transactionItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderColor: "#E5E5E5",
+  },
+  transactionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  transactionIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 10,
+  },
+  transactionDetails: {
+    flex: 1,
+  },
+  transactionText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#23303B",
+  },
+  transactionInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 3,
+  },
+  transactionStatus: {
+    fontSize: 12,
+    fontWeight: "500",
+    marginRight: 5,
+  },
+  transactionDate: {
+    fontSize: 12,
+    color: "#A4A9AE",
+  },
+  amountText: {
+    fontSize: 15,
+    fontWeight: "500",
+    fontFamily: "SofiaPro",
+    textAlign: "right",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: {
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  modalText: {
+    fontSize: 14,
+    marginBottom: 5,
+  },
+  label: {
+    fontWeight: "bold",
+  },
+  closeButton: {
+    marginTop: 15,
+    backgroundColor: "#F8332F",
+    padding: 10,
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "bold",
+  },
   scrollViewContainer: {
     flexGrow: 1,  
     backgroundColor: '#f5f5f5',  
    },
 });
+ 
+
 
 
 export default DashboardScreen;

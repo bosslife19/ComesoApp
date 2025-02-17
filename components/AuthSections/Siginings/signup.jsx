@@ -104,14 +104,15 @@ export default function SignUpScreen() {
     }
   
     try {
-       setButtonSpinner(true);
-     
+    setButtonSpinner(true);
+
       const response = await axios.post(`${baseUrl}/api/sign-up`, {
         name,
         email,
         password,
         phone:'+'+callingCode + phoneNumber,
       });
+      
       await AsyncStorage.clear();
       setButtonSpinner(false);
 

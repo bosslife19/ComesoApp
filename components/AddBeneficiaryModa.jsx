@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 
-import React, { useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import CountryPicker, {
   Country,
@@ -21,6 +21,7 @@ import axiosClient from "../axiosClient";
 import SectionsLogin from "../styles/Login/Login.styles";
 import { addNotificationResponseClearedListener } from "expo-notifications";
 import { router } from "expo-router";
+import { AuthContext } from "../context/AuthContext";
 const AddBeneficiaryModal = ({
   toggleModal,
   setPhonenumber,
@@ -36,6 +37,15 @@ const AddBeneficiaryModal = ({
   const [countryCode, setCountryCode] = useState("US");
   const [callingCode, setCallingCode] = useState("1");
   const [buttonSpinner, setButtonSpinner] = useState(false);
+  const [user, setUser] = useState(null)
+  useEffect(()=>{
+    const getUser = async ()=>{
+      const response = await axiosClient.get('/user');
+      setUser(response.data.user);
+    }
+    getUser();
+  }, [])
+  
   const onSelectCountry = (country) => {
     setCountryCode(country.cca2); // Set the selected country code
     setCallingCode(country.callingCode[0]); // Set the corresponding calling code
@@ -43,6 +53,9 @@ const AddBeneficiaryModal = ({
 const handleAddAlreadyExisting = async ()=>{
   if(!phone){
     return Alert.alert('Required', 'The phone field is required')
+  }
+  if(phone == user?.phone){
+    return Alert.alert('Error', 'You cannot add yourself as a beneficiary');
   }
   try {
     // setButtonSpinner(true)
@@ -64,6 +77,9 @@ const handleAddAlreadyExisting = async ()=>{
         text1: "All fields are required",
         text2: "Enter beneficiary name and phone number to proceed",
       });
+    }
+    if(phone == user?.phone){
+      return Alert.alert('Error', 'You cannot add yourself as a beneficiary');
     }
 
     setPhonenumber(phone);

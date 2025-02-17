@@ -3,7 +3,7 @@
     {
       id: 1,
       title: "Easy Payments",
-      description: "Enjoy seamless payments .",
+      description: "Enjoy seamless payments ",
       sortDescription: "",
       sortDescription2: "",
       image: require("@/assets/images/frame1.png"), // Ensure this path is correct for your project setup
@@ -20,7 +20,7 @@
       id: 3,
       title: "Track Your Payments",
       description: "Track all transactions ",
-      sortDescription: "made by you to all your .",
+      sortDescription: "made by you to all your ",
       sortDescription2: "beneficiaries",
       image: require("@/assets/images/Frame3.png"), // Ensure this path is correct for your project setup
     },

@@ -134,7 +134,7 @@ const SearchFacilities = () => {
                       {hospital.vicinity}
                     </Text>
                   </View>
-                  {/* <TouchableOpacity
+                  <TouchableOpacity
                     style={{ flex: 1, marginTop:3 }}
                     onPress={() =>
                       router.push({
@@ -152,7 +152,7 @@ const SearchFacilities = () => {
                       width={30}
                       height={30}
                     />
-                  </TouchableOpacity> */}
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>

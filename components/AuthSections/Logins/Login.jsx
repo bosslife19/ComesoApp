@@ -35,6 +35,8 @@ export default function LoginScreen() {
   const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
   const [authToken, setAuthToken] = useState(null);
   const [isInitialized, setIsInitialized] = useState(false);
+
+const [rememberMe, setRememberMe] = useState(false);
   const handleFingerPrint = async () => {
     const isBiometricAvailable = await LocalAuthentication.hasHardwareAsync();
 
@@ -65,7 +67,10 @@ export default function LoginScreen() {
     if (auth.success) {
       const details = await AsyncStorage.getItem("userDetails");
       setUserDetails(JSON.parse(details));
-      await AsyncStorage.setItem('loggedIn', 'yes');
+      if(rememberMe){
+        await AsyncStorage.setItem('loggedIn', 'yes');
+      }
+      
       return router.push("/(tabs)/home");
     } else {
       Toast.show({
@@ -226,7 +231,19 @@ export default function LoginScreen() {
                 )}
               </TouchableOpacity>
             </View>
-
+            <TouchableOpacity
+  style={{ flexDirection: "row", alignItems: "center", marginTop: 13,left:'5%' }}
+  onPress={() => setRememberMe(!rememberMe)}
+>
+  <Ionicons
+    name={rememberMe ? "checkbox-outline" : "square-outline"}
+    size={24}
+    color={rememberMe ? "#0A2EE2" : "#747474"}
+  />
+  <Text style={{ marginLeft: 8, fontFamily: "SofiaPro", color: "#8E949A" }}>
+    Remember Me
+  </Text>
+</TouchableOpacity>
             <TouchableOpacity
               style={SectionsLogin.loginButton}
               onPress={handleSignIn}

@@ -9,7 +9,7 @@ export const onboardingSwiperData = [
   {
     id: 1,
     title: "Easy Payments",
-    description: "Enjoy seamless payments.",
+    description: "Enjoy seamless payments",
     sortDescription: "",
     sortDescription2: "",
     image: require("../../assets/images/frame1.png"), // Ensure this path is correct for your project setup

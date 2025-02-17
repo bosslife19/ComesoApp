@@ -93,7 +93,7 @@ const {isUSno} = useContext(AuthContext)
         <View style={{ height: "100%", paddingHorizontal: "5%" }}>
           <View style={{ marginHorizontal: "auto", marginTop: "5%" }}>
             <FontAwesome
-              style={{ marginHorizontal: "auto", left: "35%" }}
+              style={{ marginHorizontal: "auto", left: "1%" }}
               name="user-circle"
               size={90}
               color="black"
@@ -213,7 +213,7 @@ const {isUSno} = useContext(AuthContext)
                         color: "#23303B",
                       }}
                     >
-                      {transaction.type}
+                       {transaction.status=='Received'&&transaction.sender||transaction.status=='Sent'&&transaction.beneficiary ||'Top Up'}
                     </Text>
                     <View style={Dashs.transactionInfo}>
                       <Text
