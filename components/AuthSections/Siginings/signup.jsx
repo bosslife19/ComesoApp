@@ -104,13 +104,15 @@ export default function SignUpScreen() {
     }
   
     try {
-    setButtonSpinner(true);
-
+    // setButtonSpinner(true);
+    return console.log(
+      (callingCode.startsWith("+") ? callingCode : "+" + callingCode) + phoneNumber
+    );
       const response = await axios.post(`${baseUrl}/api/sign-up`, {
         name,
         email,
         password,
-        phone:'+'+callingCode + phoneNumber,
+        phone:(callingCode.startsWith("+") ? callingCode : "+" + callingCode) + phoneNumber,
       });
       
       await AsyncStorage.clear();
@@ -186,7 +188,7 @@ export default function SignUpScreen() {
                 Platform.OS === "ios" && styles.iosPlaceholder, // Conditional styling for iOS
               ]}
               keyboardType="default"
-              placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
+              placeholderTextColor={Platform.OS === "ios" ? "#111" : undefined} 
               value={name}
               placeholder="Username"
               onChangeText={(value) => setName(value)}
@@ -202,7 +204,7 @@ export default function SignUpScreen() {
                 Platform.OS === "ios" && styles.iosPlaceholder, // Conditional styling for iOS
               ]}
               keyboardType="email-address"
-              placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
+              placeholderTextColor={Platform.OS === "ios" ? "#111" : undefined} 
               value={email}
               placeholder="email"
               onChangeText={(value) => setEmail(value)}
@@ -215,8 +217,8 @@ export default function SignUpScreen() {
               <CountryPicker withCallingCode withFilter countryCode={countryCode} onSelect={onSelectCountry} containerButtonStyle={styles.countryPicker} />
               <TextInput
                 style={[styles.phoneInput, Platform.OS === "ios" && styles.iosPlaceholder,]}
-                placeholder={`Phone number (e.g. ${callingCode}123456789)`}
-                placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
+                placeholder={`Enter phone number (without ${callingCode})`} 
+                placeholderTextColor={Platform.OS === "ios" ? "#111" : undefined} 
                 value={phoneNumber}
                 onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ""))}
                 keyboardType="phone-pad"
@@ -239,7 +241,7 @@ export default function SignUpScreen() {
                 ]}
                 secureTextEntry={!isPasswordVisible}
                 value={password}
-                placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
+                placeholderTextColor={Platform.OS === "ios" ? "#111" : undefined} 
                 placeholder="password"
                 onChangeText={(value) => setPassword(value)}
               />
@@ -425,6 +427,6 @@ const styles = StyleSheet.create({
     lineHeight: 23.44,
   },
   iosPlaceholder:{
-    color:'#aaa'
+    color:'#111'
   }
 });
