@@ -104,10 +104,8 @@ export default function SignUpScreen() {
     }
   
     try {
-    // setButtonSpinner(true);
-    return console.log(
-      (callingCode.startsWith("+") ? callingCode : "+" + callingCode) + phoneNumber
-    );
+    setButtonSpinner(true);
+    
       const response = await axios.post(`${baseUrl}/api/sign-up`, {
         name,
         email,
