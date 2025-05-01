@@ -105,7 +105,7 @@ export default function SignUpScreen() {
   
     try {
     setButtonSpinner(true);
-    
+   await AsyncStorage.clear();
       const response = await axios.post(`${baseUrl}/api/sign-up`, {
         name,
         email,
