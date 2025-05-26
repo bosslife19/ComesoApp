@@ -18,10 +18,18 @@ const AddMoney = () => {
   const [paymentUrl, setPaymentUrl] = useState('')
   const [loading, setLoading] = useState(false);
   const [modalVisible,setModalVisible] = useState(false)
+  const [redpayModalVisible, setRedPayModalVisible] = useState(false);
   const callback_url = 'https://mycomeso.com';
   const cancel_url = "https://google.com";
   const notification = () =>{
     router.push("/(routes)/notifications")
+  }
+
+  const openRedPay = ()=>{
+         if (amount == 0) {
+              return Alert.alert('Amount Required', 'Please enter amount of voucher you want to add');
+            }
+            setRedPayModalVisible(true);
   }
   const initializeTransaction = async () => {
      if (amount == 0) {
@@ -58,6 +66,23 @@ const AddMoney = () => {
       console.error('Error initializing transaction:', error.response?.data || error.message);
     }
   };
+   const handleWebViewNavigationRedpay = (navState)=>{
+    const {url} = navState;
+    if(url =="https://mycomeso.com/redpay/success"){
+      setRedPayModalVisible(false);
+       Alert.alert('Success', 'Payment Successful');
+      axiosClient.post('/user/top-up', {amount}).then(res=>{
+        setUserDetails(prev=>({
+          ...prev,
+          balance: prev.balance + amount
+        }))
+        router.push('/(tabs)/home');
+      }).catch(e=>console.log(e));
+    }else if(url=="https://mycomeso.com/redpay/failed"){
+      setRedPayModalVisible(false);
+      Alert.alert('Payment Canceled', 'You have canceled this payment');
+    }
+   }
   const handleWebViewNavigation = (navState) => {
     const { url } = navState;
 
@@ -246,47 +271,74 @@ const AddMoney = () => {
       <Text style={{ fontFamily: "Alata", fontWeight: "400", fontSize: 19 ,paddingHorizontal: "5%",marginTop:10}}>
         Select Payment
         </Text>
-        <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false} // Hide the horizontal scroll indicator
-      contentContainerStyle={{
-        marginTop: "5%",
-        paddingHorizontal: "5%",
-      }}
-    >
-      {/* Wrap the TouchableOpacity components in the ScrollView */}
-      {[...Array(1)].map((_, index) => (
-        <TouchableOpacity
-          key={index}
-          style={{
-            backgroundColor: "white",
-            borderRadius: 10,
-            paddingHorizontal: 10,
-            paddingVertical: 0,
-            alignItems: "center",
-            justifyContent: "center",
-            marginRight: "3%", // Add space between items
-          }}
-          onPress={() => {
-            // if (amount == 0) {
-            //   return Alert.alert('Amount Required', 'Please enter amount of voucher you want to add');
-            // }
-            // paystackWebViewRef.current.startTransaction();
-            initializeTransaction();
-          }}
-        >
-          <Image
-            resizeMode="contain"
-            source={require("../../../assets/images/paystacklogo.png")}
-            style={styles.beneficiaryImage}
-          />
-        </TouchableOpacity>
-      ))}
-    </ScrollView>
+<ScrollView
+  horizontal
+  showsHorizontalScrollIndicator={false}
+  contentContainerStyle={{
+    marginTop: "5%",
+    paddingHorizontal: "5%",
+  }}
+>
+  {/* Paystack Button */}
+  <TouchableOpacity
+    style={{
+      backgroundColor: "white",
+      borderRadius: 10,
+      paddingHorizontal: 10,
+      paddingVertical: 0,
+      alignItems: "center",
+      justifyContent: "center",
+      marginRight: "3%",
+    }}
+    onPress={() => {
+      initializeTransaction(); // or your specific handler
+    }}
+  >
+    <Image
+      resizeMode="contain"
+      source={require("../../../assets/images/paystacklogo.png")}
+      style={styles.beneficiaryImage}
+    />
+  </TouchableOpacity>
+
+  {/* RedPay Button (example) */}
+  <TouchableOpacity
+    style={{
+      backgroundColor: "white",
+      borderRadius: 10,
+      paddingHorizontal: 10,
+      paddingVertical: 0,
+      alignItems: "center",
+      justifyContent: "center",
+      marginRight: "3%",
+    }}
+    onPress={() => {
+      // Add your second payment method logic here
+       openRedPay(); // or any other handler
+    }}
+  >
+    <Image
+      resizeMode="contain"
+      source={require("../../../assets/images/redpay.png")} // Replace with your second logo
+      style={styles.beneficiaryImage}
+    />
+  </TouchableOpacity>
+</ScrollView>
+
     {/* <Text style={{ fontWeight: "300", fontSize: 14 ,paddingHorizontal: "5%",marginTop:10,color:"#333333B2",lineHeight:20.3,}}>
       Selecting any of the provided banks automatically opens the app for you to transfer money into your wallet.
         </Text> */}
       </View>
+      <Modal visible={redpayModalVisible} animationType="slide">
+        <WebView 
+          source={{ uri: "https://mycomeso.com/redpay" }} 
+          onNavigationStateChange={handleWebViewNavigationRedpay} 
+        />
+        {/* <TouchableOpacity activeOpacity={1} style={{position:'absolute', backgroundColor:'white', width:'50%', left:'30%', top:'40%', height:100}}>
+          <Text>Cancel</Text>
+        </TouchableOpacity> */}
+        <Button  title="Cancel" onPress={() => setModalVisible(false)} />
+      </Modal>
       <Modal visible={modalVisible} animationType="slide">
         <WebView 
           source={{ uri: paymentUrl }} 
