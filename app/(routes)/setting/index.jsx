@@ -16,12 +16,24 @@ import axiosClient from "../../../axiosClient";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import {AuthContext} from '../../../context/AuthContext';
+import DropDownPicker from "react-native-dropdown-picker";
 
 const Settings = () => {
   const [user, setUser] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const {userDetails} = useContext(AuthContext);
   const [loading, setLoading] = useState(false)
+
+    const [open, setOpen] = useState(false);
+  const [currency, setCurrency] = useState(null);
+ 
+  const [items, setItems] = useState([
+    { label: 'USD - US Dollar', value: 'USD' },
+    { label: 'EUR - Euro', value: 'EUR' },
+    { label: 'NGN - Nigerian Naira', value: 'NGN' },
+    { label: 'GBP - British Pound', value: 'GBP' },
+    { label: 'GHC - Ghana Cedic', value: 'GHC' },
+  ]);
 
   const [formValues, setFormValues] = useState({
     name: userDetails.name,
@@ -40,6 +52,12 @@ const Settings = () => {
       if(!formValues.name||!formValues.email || !formValues.phone){
         return Alert.alert('All fields are required', 'Fill in all the fields to continue');
       }
+
+      if(currency){
+        formValues.currency = currency;
+      }
+
+      
       setLoading(true);
       await axiosClient.put("/user", formValues);
       setLoading(false)
@@ -64,7 +82,7 @@ const Settings = () => {
     };
 
     fetchUserData();
-  }, [user]);
+  }, []);
 
   const handleInputChange = (key, value) => {
     setFormValues((prevState) => ({ ...prevState, [key]: value }));
@@ -96,6 +114,10 @@ const Settings = () => {
             <View style={styles.infoItem}>
               <Text style={styles.infoLabel}>Phone number:</Text>
               <Text style={styles.infoValue}>{user?.phone || "N/A"}</Text>
+            </View>
+            <View style={styles.infoItem}>
+              <Text style={styles.infoLabel}>Currency:</Text>
+              <Text style={styles.infoValue}>{user?.currency || "N/A"}</Text>
             </View>
             <TouchableOpacity style={styles.editButton} onPress={handleEditProfile}>
               <MaterialIcons name="edit" size={20} color="#fff" />
@@ -150,6 +172,19 @@ const Settings = () => {
               onChangeText={(text) => handleInputChange("phone", text)}
               keyboardType="phone-pad"
             />
+             <View style={styles.dropdownContainer}>
+        <DropDownPicker
+          open={open}
+          value={currency}
+          items={items}
+          setOpen={setOpen}
+          setValue={setCurrency}
+          setItems={setItems}
+          placeholder="Select your currency"
+          style={styles.dropdown}
+          dropDownContainerStyle={styles.dropdownBox}
+        />
+      </View>
 
             <View style={styles.modalButtons}>
 
@@ -298,5 +333,17 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
+  },
+  dropdownContainer: {
+    zIndex: 1000, // ensure the dropdown appears above other elements
+    marginTop: 16,
+  },
+  dropdown: {
+    borderColor: '#ccc',
+    width:'100%',
+    // marginLeft:'5%'
+  },
+  dropdownBox: {
+    borderColor: '#ccc',
   },
 });

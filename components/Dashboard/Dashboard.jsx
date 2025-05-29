@@ -11,10 +11,25 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const DashboardScreen = () => {
   const [user, setUser] = useState(null);
    const [transactions, setTransactions] = useState([]);
-   const {setUserDetails, userDetails,isUSno, setIsUsNo} = useContext(AuthContext);
+   const {setUserDetails, userDetails,isUSno, setIsUsNo, currency} = useContext(AuthContext);
 
    const [modalVisible, setModalVisible] = useState(false);
    const [selectedTransaction, setSelectedTransaction] = useState(null);
+   const currencySymbols = {
+  USD: '$',
+  NGN: '₦',
+  GBP: '£',
+  EUR: '€',
+  INR: '₹',
+  JPY: '¥',
+  CNY: '¥',
+  CAD: 'CA$',
+  AUD: 'A$',
+  GHS: '₵',     // ✅ Ghanaian Cedi
+  GHC: '₵',     // Legacy code (some systems may still use GHC)
+};
+
+
  
    const openModal = (transaction) => {
      setSelectedTransaction(transaction);
@@ -80,7 +95,8 @@ if(!user){
           >
             <View style={Dashs.boardContent}>
               <Text style={Dashs.balanceText}>Available Balance</Text>
-              <Text style={Dashs.balanceAmount}>{isUSno? '$':'₵'}{user?.balance}</Text>
+              <Text style={Dashs.balanceAmount}> {currencySymbols[user?.currency || currency] || user?.currency || currency}
+  {user?.balance}</Text>
 
               <Text style={Dashs.holderText}>Holder</Text>
               <Text style={Dashs.holderName}>{user?.name} - {user?.phone}</Text>

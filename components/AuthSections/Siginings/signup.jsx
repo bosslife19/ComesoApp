@@ -10,6 +10,7 @@ import CountryPicker, {
   Country,
   CountryCode,
 } from "react-native-country-picker-modal";
+import DropDownPicker from 'react-native-dropdown-picker'
 import {
   ActivityIndicator,
   Alert,
@@ -28,6 +29,7 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from "@/context/AuthContext";
 import Toast from "react-native-toast-message";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignUpScreen() {
   const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
@@ -38,13 +40,23 @@ export default function SignUpScreen() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [countryCode, setCountryCode] = useState("GH"); // Default to 'US'
   const [callingCode, setCallingCode] = useState("+233"); // Default calling code for 'US'
+
+   const [open, setOpen] = useState(false);
+  const [currency, setCurrency] = useState(null);
+  const [items, setItems] = useState([
+    { label: 'USD - US Dollar', value: 'USD' },
+    { label: 'EUR - Euro', value: 'EUR' },
+    { label: 'NGN - Nigerian Naira', value: 'NGN' },
+    { label: 'GBP - British Pound', value: 'GBP' },
+    { label: 'GHC - Ghana Cedic', value: 'GHC' },
+  ]);
   
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {setUserDetails} = useContext(AuthContext);
-
+console.log(currency)
   // Handle phone number change, only numeric values
   const handlePhoneChange = (number) => {
     const filteredNumber = number.replace(/[^0-9]/g, ""); // Remove non-numeric characters
@@ -93,7 +105,7 @@ export default function SignUpScreen() {
       return;
     }
   
-    if (!name || !email || !password || !phoneNumber) {
+    if (!name || !email || !password || !phoneNumber || !currency) {
       Toast.show({
         type: "error",
         position: "top",
@@ -111,6 +123,7 @@ export default function SignUpScreen() {
         email,
         password,
         phone:(callingCode.startsWith("+") ? callingCode : "+" + callingCode) + phoneNumber,
+        currency
       });
       
       await AsyncStorage.clear();
@@ -154,8 +167,8 @@ export default function SignUpScreen() {
     }
   };
   return (
-    <ScrollView
-      contentContainerStyle={{
+    <SafeAreaView
+      style={{
         justifyContent: "center",
         paddingTop: "33%",
         height: "100%",
@@ -212,7 +225,8 @@ export default function SignUpScreen() {
           {/* Phone Number Input */}
           <View style={styles.container}>
             <View style={styles.phoneContainer}>
-              <CountryPicker withCallingCode withFilter countryCode={countryCode} onSelect={onSelectCountry} containerButtonStyle={styles.countryPicker} />
+              <TextInput value={callingCode} onChangeText={val=>setCallingCode(val)}/>
+              {/* <CountryPicker withCallingCode withFilter countryCode={countryCode} onSelect={onSelectCountry} containerButtonStyle={styles.countryPicker} /> */}
               <TextInput
                 style={[styles.phoneInput, Platform.OS === "ios" && styles.iosPlaceholder,]}
                 placeholder={`Enter phone number (without ${callingCode})`} 
@@ -222,6 +236,19 @@ export default function SignUpScreen() {
                 keyboardType="phone-pad"
               />
             </View>
+ <View style={styles.dropdownContainer}>
+        <DropDownPicker
+          open={open}
+          value={currency}
+          items={items}
+          setOpen={setOpen}
+          setValue={setCurrency}
+          setItems={setItems}
+          placeholder="Select your currency"
+          style={styles.dropdown}
+          dropDownContainerStyle={styles.dropdownBox}
+        />
+      </View>
           </View>
 
           <View
@@ -360,7 +387,7 @@ export default function SignUpScreen() {
         </View>
       </View>
       <Toast ref={(ref) => Toast.setRef(ref)} />
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -426,5 +453,17 @@ const styles = StyleSheet.create({
   },
   iosPlaceholder:{
     color:'#111'
-  }
+  },
+   dropdownContainer: {
+    zIndex: 1000, // ensure the dropdown appears above other elements
+    marginTop: 16,
+  },
+  dropdown: {
+    borderColor: '#ccc',
+    width:'90%',
+    marginLeft:'5%'
+  },
+  dropdownBox: {
+    borderColor: '#ccc',
+  },
 });

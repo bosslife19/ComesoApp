@@ -12,13 +12,26 @@ import { router } from "expo-router";
 import axios from "axios";
 
 const AddMoney = () => {
-  const { userDetails, setUserDetails, isUSno } = useContext(AuthContext);
+  const { userDetails, setUserDetails, isUSno, currency } = useContext(AuthContext);
   const paystackWebViewRef = useRef(paystackProps.PayStackRef);
   const [amount, setAmount] = useState(0);
   const [paymentUrl, setPaymentUrl] = useState('')
   const [loading, setLoading] = useState(false);
   const [modalVisible,setModalVisible] = useState(false)
   const [redpayModalVisible, setRedPayModalVisible] = useState(false);
+   const currencySymbols = {
+  USD: '$',
+  NGN: '₦',
+  GBP: '£',
+  EUR: '€',
+  INR: '₹',
+  JPY: '¥',
+  CNY: '¥',
+  CAD: 'CA$',
+  AUD: 'A$',
+  GHS: '₵',     // ✅ Ghanaian Cedi
+  GHC: '₵',     // Legacy code (some systems may still use GHC)
+};
   const callback_url = 'https://mycomeso.com';
   const cancel_url = "https://google.com";
   const notification = () =>{
@@ -29,9 +42,21 @@ const AddMoney = () => {
          if (amount == 0) {
               return Alert.alert('Amount Required', 'Please enter amount of voucher you want to add');
             }
+             const isNotinNigeria = currency !== 'NGN';
+const userIsNotNigerian = userDetails?.currency !== 'NGN';
+
+if (isNotinNigeria && userIsNotNigerian) {
+  return Alert.alert('Warning', 'RedPay is not available in your country yet. Please choose other payment options');
+}
             setRedPayModalVisible(true);
   }
   const initializeTransaction = async () => {
+   const isNotGhana = currency !== 'GHS' && currency !== 'GHC';
+const userIsNotGhanaian = userDetails?.currency !== 'GHS' && userDetails?.currency !== 'GHC';
+
+if (isNotGhana && userIsNotGhanaian) {
+  return Alert.alert('Warning', 'Paystack is not available in your country yet. Please choose other payment options');
+}
      if (amount == 0) {
               return Alert.alert('Amount Required', 'Please enter amount of voucher you want to add');
             }
@@ -213,8 +238,8 @@ const AddMoney = () => {
         <Text
           style={{ fontSize: 36, fontWeight: "600", color: "#1E40AF" }}
         >
-          {isUSno ? "$" : "₵"}
-          {userDetails.balance}
+         {currencySymbols[userDetails?.currency || currency] || userDetails?.currency || currency}
+  {userDetails?.balance}
         </Text>
       </View>
     </View>
@@ -250,7 +275,7 @@ const AddMoney = () => {
         alignItems: 'center', // Vertically align the content
       }}
     >
-      <Text style={{ fontSize: 18, paddingLeft: 10, color: "#333" }}>{isUSno? '$':'₵'}</Text>  
+      <Text style={{ fontSize: 18, paddingLeft: 10, color: "#333" }}> {currencySymbols[userDetails?.currency || currency] || userDetails?.currency || currency}</Text>  
       
       <TextInput
         placeholder="Amount"
@@ -269,7 +294,7 @@ const AddMoney = () => {
     </View>
       <View>
       <Text style={{ fontFamily: "Alata", fontWeight: "400", fontSize: 19 ,paddingHorizontal: "5%",marginTop:10}}>
-        Select Payment
+        Select Payment Option
         </Text>
 <ScrollView
   horizontal
@@ -337,7 +362,7 @@ const AddMoney = () => {
         {/* <TouchableOpacity activeOpacity={1} style={{position:'absolute', backgroundColor:'white', width:'50%', left:'30%', top:'40%', height:100}}>
           <Text>Cancel</Text>
         </TouchableOpacity> */}
-        <Button  title="Cancel" onPress={() => setModalVisible(false)} />
+        <Button  title="Cancel" onPress={() => setRedPayModalVisible(false)} />
       </Modal>
       <Modal visible={modalVisible} animationType="slide">
         <WebView 
