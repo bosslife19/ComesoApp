@@ -2,6 +2,7 @@ import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import Constants from "expo-constants";
 import { Platform } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function registerForPushNotificationsAsync() {
   if (Platform.OS === "android") {
@@ -38,7 +39,8 @@ export async function registerForPushNotificationsAsync() {
           projectId,
         })
       ).data;
-      console.log(pushTokenString);
+
+      await AsyncStorage.setItem('pushToken', pushTokenString);
       return pushTokenString;
     } catch (e: unknown) {
       throw new Error(`${e}`);
