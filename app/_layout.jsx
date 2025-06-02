@@ -13,6 +13,17 @@ import { AuthProvider } from "../context/AuthContext";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Platform } from "react-native";
+import { NotificationProvider } from "@/context/NotificationsContext";
+import * as Notifications from 'expo-notifications'
+
+// Prevent the splash screen from auto-hiding before asset loading is complete.
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -47,6 +58,7 @@ export default function RootLayout() {
 
   return (
      <AuthProvider>
+      <NotificationProvider>
       <Stack screenOptions={{ headerShown: false }}>
         {/* Other Screens */}
         <Stack.Screen name="index" />
@@ -64,6 +76,8 @@ export default function RootLayout() {
         {/* <Stack.Screen name="(routes)/profile/index" /> */}
 
        </Stack>
+      </NotificationProvider>
+
     </AuthProvider>
   );
 }

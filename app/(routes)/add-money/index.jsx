@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, TextInput, Alert, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, ActivityIndicator, Modal, Button} from "react-native";
+import { View, Text, Image, TouchableOpacity, TextInput, Alert, StyleSheet, ScrollView, Platform, KeyboardAvoidingView, ActivityIndicator, Modal, Button, ImageBackground} from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Paystack, paystackProps } from "react-native-paystack-webview";
@@ -10,7 +10,7 @@ import { AuthContext } from "@/context/AuthContext";
 import axiosClient from "../../../axiosClient";
 import { router } from "expo-router";
 import axios from "axios";
-
+import Dashs from '../../../styles/Dashboard/Dashboard.styles'
 const AddMoney = () => {
   const { userDetails, setUserDetails, isUSno, currency } = useContext(AuthContext);
   const paystackWebViewRef = useRef(paystackProps.PayStackRef);
@@ -188,61 +188,22 @@ if (isNotGhana && userIsNotGhanaian) {
         ref={paystackWebViewRef}
       />
 
-<View
-      style={{
-        marginTop: "10%",
-        height: "25%",
-        width: "90%",
-        marginHorizontal: "5%",
-        backgroundColor: "#F8FAFC",
-        borderRadius: 12,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
-        elevation: 5,
-        padding: 16,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      {/* Header */}
-      <View
-        style={{
-          height: "25%",
-          width: "100%",
-          backgroundColor: "#E0ECFF",
-          paddingHorizontal: "5%",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderTopLeftRadius: 12,
-          borderTopRightRadius: 12,
-          paddingVertical: 10,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 16,
-            fontFamily: "Poppins-Medium",
-            color: "#1E3A8A",
-          }}
-        >
-          Your Balance
-        </Text>
-        {/* <Feather name="arrow-up-right" size={20} color="#4A5568" /> */}
-      </View>
 
-      {/* Balance Section */}
-      <View style={{ marginTop: "5%" }}>
-        <Text
-          style={{ fontSize: 36, fontWeight: "600", color: "#1E40AF" }}
-        >
-         {currencySymbols[userDetails?.currency || currency] || userDetails?.currency || currency}
-  {userDetails?.balance}
-        </Text>
-      </View>
-    </View>
+     <View style={[Dashs.board, {width:'90%', height:'30%', marginTop:25, marginLeft:"5%"}]}>
+          <ImageBackground
+             source={require("../../../assets/images/board.png")}
+            style={Dashs.boardImage}
+          >
+            <View style={Dashs.boardContent}>
+              <Text style={Dashs.balanceText}>Available Balance</Text>
+              <Text style={Dashs.balanceAmount}> {currencySymbols[userDetails?.currency || currency] || userDetails?.currency || currency}
+  {userDetails?.balance}</Text>
+
+              <Text style={Dashs.holderText}>Holder</Text>
+              <Text style={Dashs.holderName}>{userDetails?.name} - {userDetails?.phone}</Text>
+            </View>
+          </ImageBackground>
+        </View>
       {/* <View>
         <View style={{ paddingHorizontal: "5%", marginTop: "4%" }}>
           <Text
