@@ -29,7 +29,7 @@
       "package": "com.davidwoks.comeso",
       "config":{
         "googleMaps":{
-          "apiKey":"AIzaSyB8ZwB0XK2ZOLR_qeW2ZJo6GmSXSC6VH6I"
+          "apiKey":""
         }
       },
       "googleServicesFile": "./google-services.json",
