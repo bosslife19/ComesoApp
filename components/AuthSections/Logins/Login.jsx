@@ -141,6 +141,7 @@ const [rememberMe, setRememberMe] = useState(false);
       if(loggedIn){
         setLoggedIn(true);
         setIsInitialized(true);
+        router.replace('/(tabs)/home')
 
       }else{
         setLoggedIn(false);
@@ -150,7 +151,7 @@ const [rememberMe, setRememberMe] = useState(false);
     }
     getToken();
     checkLogin();
-  }, []);
+  }, [loggedIn, isInitialized]);
   if (!isInitialized) {
     // Render loading state while determining the login status
     return (
@@ -159,11 +160,7 @@ const [rememberMe, setRememberMe] = useState(false);
       </View>
     );
   }
-  if(loggedIn){
-    router.push('/(tabs)/home');
-    return null
-  }
-
+  
   return (
     <>
       <ScrollView
