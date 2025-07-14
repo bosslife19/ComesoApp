@@ -14,10 +14,6 @@
       "channel": "preview"
     },
     "production": {
-      "android": {
-        "buildType": "aab", 
-        "targetSdkVersion": 35
-      },
       "autoIncrement": true,
       "channel": "production"
     }
