@@ -70,7 +70,7 @@ const [unread, setUnread] = useState(false)
 export default Header;
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
+    paddingTop: 50,
     paddingHorizontal:23,
      
   },

@@ -103,12 +103,26 @@ const [rememberMe, setRememberMe] = useState(false);
         await AsyncStorage.setItem("authToken", response.data.token);
         setUserDetails(response.data.user);
         if(response.data.user.email_verified_at==null){
+          setButtonSpinner(false)
           Toast.show({
             type:'error',
             text1:'Unverified Account',
             text2:'Please Verify your email to continue'
           })
-        }else{
+
+          return;
+          
+        }
+         if(response.data.user.company_name){
+          setButtonSpinner(false)
+          Toast.show({
+            type:'error',
+            text1:'This is an Institutional account',
+            text2:'Please login instead at mycomeso.com'
+          })
+
+          return;
+        }
           await AsyncStorage.setItem('loggedIn', 'yes');
           Toast.show({
             type: "success",
@@ -116,7 +130,9 @@ const [rememberMe, setRememberMe] = useState(false);
             text2: "Welcome back!",
           });
           router.push("/(tabs)/home");
-        }
+        
+
+       
         setButtonSpinner(false);
       }
       setButtonSpinner(false);
@@ -195,7 +211,7 @@ const [rememberMe, setRememberMe] = useState(false);
                 // keyboardType="email-address"
                 value={email}
                 placeholder="email"
-                placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
+                placeholderTextColor={Platform.OS === "ios" ? "#aaa" : '#aaa'} 
                 onChangeText={(value) => setEmail(value)}
               />
             </View>
@@ -210,7 +226,7 @@ const [rememberMe, setRememberMe] = useState(false);
                 secureTextEntry={!isPasswordVisible}
                 value={password}
                 placeholder="password"
-                placeholderTextColor={Platform.OS === "ios" ? "#aaa" : undefined} 
+                placeholderTextColor={Platform.OS === "ios" ? "#aaa" : '#aaa'} 
                 onChangeText={(value) => setPassword(value)}
               />
               <TouchableOpacity

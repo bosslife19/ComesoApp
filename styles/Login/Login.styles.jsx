@@ -22,7 +22,7 @@ import { StyleSheet } from "react-native";
       paddingLeft: 15,
       fontSize: 14,
       backgroundColor: "#F1F2F3",
-      color: " #A4A9AE",
+      color: "black",
     },
     inputs: {
       height: 63,
