@@ -386,7 +386,7 @@ console.log(currency)
           </View>
         </View>
       </View>
-      <Toast ref={(ref) => Toast.setRef(ref)} />
+      {/* <Toast ref={(ref) => Toast.setRef(ref)} /> */}
     </SafeAreaView>
   );
 }
