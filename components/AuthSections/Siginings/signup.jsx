@@ -10,7 +10,7 @@ import CountryPicker, {
   Country,
   CountryCode,
 } from "react-native-country-picker-modal";
-import DropDownPicker from 'react-native-dropdown-picker'
+import DropDownPicker from "react-native-dropdown-picker";
 import {
   ActivityIndicator,
   Alert,
@@ -26,7 +26,7 @@ import { router } from "expo-router";
 import SectionsLogin from "@/styles/Login/Login.styles";
 import UncommonStyles from "@/styles/Uncommon.styles";
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "@/context/AuthContext";
 import Toast from "react-native-toast-message";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -41,22 +41,21 @@ export default function SignUpScreen() {
   const [countryCode, setCountryCode] = useState("GH"); // Default to 'US'
   const [callingCode, setCallingCode] = useState("+233"); // Default calling code for 'US'
 
-   const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [currency, setCurrency] = useState(null);
   const [items, setItems] = useState([
-    { label: 'USD - US Dollar', value: 'USD' },
-    { label: 'EUR - Euro', value: 'EUR' },
-    { label: 'NGN - Nigerian Naira', value: 'NGN' },
-    { label: 'GBP - British Pound', value: 'GBP' },
-    { label: 'GHC - Ghana Cedic', value: 'GHC' },
+    { label: "USD - US Dollar", value: "USD" },
+    { label: "EUR - Euro", value: "EUR" },
+    { label: "NGN - Nigerian Naira", value: "NGN" },
+    { label: "GBP - British Pound", value: "GBP" },
+    { label: "GHC - Ghana Cedic", value: "GHC" },
   ]);
-  
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {setUserDetails} = useContext(AuthContext);
-console.log(currency)
+  const { setUserDetails } = useContext(AuthContext);
+  console.log(currency);
   // Handle phone number change, only numeric values
   const handlePhoneChange = (number) => {
     const filteredNumber = number.replace(/[^0-9]/g, ""); // Remove non-numeric characters
@@ -74,7 +73,8 @@ console.log(currency)
   // };
 
   const handleSignUp = async () => {
-    if (countryCode === "US") { // Check if default flag is selected
+    if (countryCode === "US") {
+      // Check if default flag is selected
       Toast.show({
         type: "error",
         position: "top",
@@ -83,7 +83,7 @@ console.log(currency)
       });
       return;
     }
-  
+
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!emailRegex.test(email)) {
@@ -94,7 +94,7 @@ console.log(currency)
       });
       return;
     }
-  
+
     if (!agreePrivacy || !agreeTerms) {
       Toast.show({
         type: "error",
@@ -104,7 +104,7 @@ console.log(currency)
       });
       return;
     }
-  
+
     if (!name || !email || !password || !phoneNumber || !currency) {
       Toast.show({
         type: "error",
@@ -114,22 +114,25 @@ console.log(currency)
       });
       return;
     }
-  
+
     try {
-    setButtonSpinner(true);
-   await AsyncStorage.clear();
+      setButtonSpinner(true);
+      await AsyncStorage.clear();
       const response = await axios.post(`${baseUrl}/api/sign-up`, {
         name,
         email,
         password,
-        phone:(callingCode.startsWith("+") ? callingCode : "+" + callingCode) + phoneNumber,
-        currency
+        phone:
+          (callingCode.startsWith("+") ? callingCode : "+" + callingCode) +
+          (phoneNumber.startsWith("0") ? phoneNumber.slice(1) : phoneNumber),
+
+        currency,
       });
-      
+
       await AsyncStorage.clear();
       setButtonSpinner(false);
 
-      if(response.data.error){
+      if (response.data.error) {
         return Toast.show({
           type: "error",
           position: "top",
@@ -137,13 +140,16 @@ console.log(currency)
           text2: response.data.error,
         });
       }
-  
-      await AsyncStorage.setItem("userDetails", JSON.stringify(response.data.user));
+
+      await AsyncStorage.setItem(
+        "userDetails",
+        JSON.stringify(response.data.user)
+      );
       // await AsyncStorage.setItem("authToken", response.data.token);
       // const tokens = await AsyncStorage.getItem("authToken");
-  
+
       setUserDetails(response.data.user);
-  
+
       // Show Login Successful toast
       Toast.show({
         type: "success",
@@ -151,17 +157,18 @@ console.log(currency)
         text1: "Signup Successful",
         text2: "You have signed up successfully",
       });
-  
+
       // Redirect to login page
       router.push("/(routes)/otpmain");
     } catch (error) {
-      
       setButtonSpinner(false);
       Toast.show({
         type: "error",
         position: "top",
         text1: "Error",
-        text2: error.response?.data?.message || "Something went wrong. Please try again.",
+        text2:
+          error.response?.data?.message ||
+          "Something went wrong. Please try again.",
       });
       console.log(error);
     }
@@ -199,7 +206,7 @@ console.log(currency)
                 Platform.OS === "ios" && styles.iosPlaceholder, // Conditional styling for iOS
               ]}
               keyboardType="default"
-              placeholderTextColor={Platform.OS === "ios" ? "#111" : undefined} 
+              placeholderTextColor={Platform.OS === "ios" ? "#111" : undefined}
               value={name}
               placeholder="Username"
               onChangeText={(value) => setName(value)}
@@ -215,7 +222,7 @@ console.log(currency)
                 Platform.OS === "ios" && styles.iosPlaceholder, // Conditional styling for iOS
               ]}
               keyboardType="email-address"
-              placeholderTextColor={Platform.OS === "ios" ? "#111" : undefined} 
+              placeholderTextColor={Platform.OS === "ios" ? "#111" : undefined}
               value={email}
               placeholder="email"
               onChangeText={(value) => setEmail(value)}
@@ -225,30 +232,40 @@ console.log(currency)
           {/* Phone Number Input */}
           <View style={styles.container}>
             <View style={styles.phoneContainer}>
-              <TextInput value={callingCode} onChangeText={val=>setCallingCode(val)}/>
+              <TextInput
+                value={callingCode}
+                onChangeText={(val) => setCallingCode(val)}
+              />
               {/* <CountryPicker withCallingCode withFilter countryCode={countryCode} onSelect={onSelectCountry} containerButtonStyle={styles.countryPicker} /> */}
               <TextInput
-                style={[styles.phoneInput, Platform.OS === "ios" && styles.iosPlaceholder,]}
-                placeholder={`Enter phone number (without ${callingCode})`} 
-                placeholderTextColor={Platform.OS === "ios" ? "#111" : undefined} 
+                style={[
+                  styles.phoneInput,
+                  Platform.OS === "ios" && styles.iosPlaceholder,
+                ]}
+                placeholder={`Enter phone number (without ${callingCode})`}
+                placeholderTextColor={
+                  Platform.OS === "ios" ? "#111" : undefined
+                }
                 value={phoneNumber}
-                onChangeText={(text) => setPhoneNumber(text.replace(/[^0-9]/g, ""))}
+                onChangeText={(text) =>
+                  setPhoneNumber(text.replace(/[^0-9]/g, ""))
+                }
                 keyboardType="phone-pad"
               />
             </View>
- <View style={styles.dropdownContainer}>
-        <DropDownPicker
-          open={open}
-          value={currency}
-          items={items}
-          setOpen={setOpen}
-          setValue={setCurrency}
-          setItems={setItems}
-          placeholder="Select your currency"
-          style={styles.dropdown}
-          dropDownContainerStyle={styles.dropdownBox}
-        />
-      </View>
+            <View style={styles.dropdownContainer}>
+              <DropDownPicker
+                open={open}
+                value={currency}
+                items={items}
+                setOpen={setOpen}
+                setValue={setCurrency}
+                setItems={setItems}
+                placeholder="Select your currency"
+                style={styles.dropdown}
+                dropDownContainerStyle={styles.dropdownBox}
+              />
+            </View>
           </View>
 
           <View
@@ -261,12 +278,16 @@ console.log(currency)
             {/* Password Input */}
             <View style={{ width: "100%" }}>
               <TextInput
-                style={[SectionsLogin.input, { fontFamily: "SofiaPro" },
-                  Platform.OS === "ios" && styles.iosPlaceholder
+                style={[
+                  SectionsLogin.input,
+                  { fontFamily: "SofiaPro" },
+                  Platform.OS === "ios" && styles.iosPlaceholder,
                 ]}
                 secureTextEntry={!isPasswordVisible}
                 value={password}
-                placeholderTextColor={Platform.OS === "ios" ? "#111" : undefined} 
+                placeholderTextColor={
+                  Platform.OS === "ios" ? "#111" : undefined
+                }
                 placeholder="password"
                 onChangeText={(value) => setPassword(value)}
               />
@@ -302,16 +323,16 @@ console.log(currency)
             <Text style={[styles.checkboxLabel, { fontFamily: "SofiaPro" }]}>
               I agree with{" "}
             </Text>
-            
-            <TouchableOpacity onPress={()=> router.push("/(routes)/Terms")}>
-            <Text
-              style={[
-                styles.checkboxLabel,
-                { fontFamily: "SofiaPro", color: "#0A2EE2" },
-              ]} 
-            >
-              Terms & Conditions
-            </Text>
+
+            <TouchableOpacity onPress={() => router.push("/(routes)/Terms")}>
+              <Text
+                style={[
+                  styles.checkboxLabel,
+                  { fontFamily: "SofiaPro", color: "#0A2EE2" },
+                ]}
+              >
+                Terms & Conditions
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -330,16 +351,16 @@ console.log(currency)
             <Text style={[styles.checkboxLabel, { fontFamily: "Alata" }]}>
               I agree with the{" "}
             </Text>
-            <TouchableOpacity  onPress={()=> router.push("/(routes)/privacy")}>
-            <Text
-              style={[
-                styles.checkboxLabel,
-                { fontFamily: "Alata", color: "#0A2EE2" },
-              ]}
-            >
-              {" "}
-              Privacy Policy
-            </Text>
+            <TouchableOpacity onPress={() => router.push("/(routes)/privacy")}>
+              <Text
+                style={[
+                  styles.checkboxLabel,
+                  { fontFamily: "Alata", color: "#0A2EE2" },
+                ]}
+              >
+                {" "}
+                Privacy Policy
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -378,7 +399,13 @@ console.log(currency)
             </Text>
             <TouchableOpacity onPress={() => router.push("/login")}>
               <Text
-                style={[SectionsLogin.signUpText, { fontFamily: "SofiaPro", marginTop:Platform.OS=='ios' && 2 }]}
+                style={[
+                  SectionsLogin.signUpText,
+                  {
+                    fontFamily: "SofiaPro",
+                    marginTop: Platform.OS == "ios" && 2,
+                  },
+                ]}
               >
                 Login
               </Text>
@@ -412,7 +439,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   phoneInput: {
-    width:"100%",
+    width: "100%",
     height: 55,
     borderRadius: 3,
     borderLeftWidth: 1,
@@ -451,19 +478,19 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     lineHeight: 23.44,
   },
-  iosPlaceholder:{
-    color:'#111'
+  iosPlaceholder: {
+    color: "#111",
   },
-   dropdownContainer: {
+  dropdownContainer: {
     zIndex: 1000, // ensure the dropdown appears above other elements
     marginTop: 16,
   },
   dropdown: {
-    borderColor: '#ccc',
-    width:'90%',
-    marginLeft:'5%'
+    borderColor: "#ccc",
+    width: "90%",
+    marginLeft: "5%",
   },
   dropdownBox: {
-    borderColor: '#ccc',
+    borderColor: "#ccc",
   },
 });
