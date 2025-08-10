@@ -158,6 +158,13 @@ const {isUSno} = useContext(AuthContext)
               <Text style={{ fontSize: 8 }}>{isUSno? 'USD':'GHC'}</Text>
             </Text>
           </View>
+          <TouchableOpacity
+            onPress={handleLogout}
+            style={styles.logoutButton}
+          >
+            <MaterialIcons name="logout" size={24} color="#fff" />
+            <Text style={styles.logoutButtonText}>Logout</Text>
+          </TouchableOpacity>
 
           <View
             style={{
@@ -272,13 +279,7 @@ const {isUSno} = useContext(AuthContext)
             </Text>
           )}
 
-          <TouchableOpacity
-            onPress={handleLogout}
-            style={styles.logoutButton}
-          >
-            <MaterialIcons name="logout" size={24} color="#fff" />
-            <Text style={styles.logoutButtonText}>Logout</Text>
-          </TouchableOpacity>
+         
         </View>
       </ScrollView>
     </SafeAreaView>

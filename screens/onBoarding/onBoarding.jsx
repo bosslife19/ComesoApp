@@ -30,9 +30,9 @@ const OnBoardingScreen = () => {
       if (userDetails) {
         // router.push('/(tabs)/home');
       } else if (onboarding === 'started') {
-        router.push('/(routes)/Welcome-intro');
+        router.replace('/(routes)/Welcome-intro');
       } else if (onboarding === 'completed') {
-        router.push('/login');
+        router.replace('/login');
       }
     }, 2000);
 

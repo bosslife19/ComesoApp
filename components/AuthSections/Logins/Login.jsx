@@ -129,7 +129,7 @@ const [rememberMe, setRememberMe] = useState(false);
             text1: "Login Successful",
             text2: "Welcome back!",
           });
-          router.push("/(tabs)/home");
+          router.replace("/(tabs)/home");
         
 
        
