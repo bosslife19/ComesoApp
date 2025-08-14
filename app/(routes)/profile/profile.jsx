@@ -55,7 +55,7 @@ const {isUSno} = useContext(AuthContext)
       await AsyncStorage.removeItem("authToken");
       await AsyncStorage.removeItem('loggedIn');
      
-      router.push('/login');
+      router.replace('/login');
     } catch (error) {
       console.error('Error logging out:', error);
     }

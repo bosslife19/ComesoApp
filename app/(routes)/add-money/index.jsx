@@ -263,52 +263,77 @@ if (isNotGhana && userIsNotGhanaian) {
   contentContainerStyle={{
     marginTop: "5%",
     paddingHorizontal: "5%",
+    marginBottom:10,
+
   }}
 >
   {/* Paystack Button */}
   <TouchableOpacity
-    style={{
-      backgroundColor: "white",
-      borderRadius: 10,
-      paddingHorizontal: 10,
-      paddingVertical: 0,
+     style={{
+      backgroundColor: "#fff",
+      borderRadius: 12,
+      paddingHorizontal: 20,
+      paddingVertical: 14,
       alignItems: "center",
       justifyContent: "center",
       marginRight: "3%",
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.15,
+      shadowRadius: 6,
+      elevation: 5, // for Android shadow
+      borderWidth: 1,
+      borderColor: "#eee",
     }}
     onPress={() => {
       initializeTransaction(); // or your specific handler
     }}
   >
-    <Image
+    {/* <Image
       resizeMode="contain"
       source={require("../../../assets/images/paystacklogo.png")}
       style={styles.beneficiaryImage}
-    />
+    /> */}
+    <Text style={{
+      fontSize: 16,
+      fontWeight: "600",
+      color: "#1A1A1A",
+      letterSpacing: 0.5,
+    }}>Buy Cedis</Text>
   </TouchableOpacity>
 
   {/* RedPay Button (example) */}
   <TouchableOpacity
+  style={{
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: "3%",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 5, // for Android shadow
+    borderWidth: 1,
+    borderColor: "#eee",
+  }}
+  onPress={openRedPay}
+>
+  <Text
     style={{
-      backgroundColor: "white",
-      borderRadius: 10,
-      paddingHorizontal: 10,
-      paddingVertical: 0,
-      alignItems: "center",
-      justifyContent: "center",
-      marginRight: "3%",
-    }}
-    onPress={() => {
-      // Add your second payment method logic here
-       openRedPay(); // or any other handler
+      fontSize: 16,
+      fontWeight: "600",
+      color: "#1A1A1A",
+      letterSpacing: 0.5,
     }}
   >
-    <Image
-      resizeMode="contain"
-      source={require("../../../assets/images/redpay.png")} // Replace with your second logo
-      style={styles.beneficiaryImage}
-    />
-  </TouchableOpacity>
+    Buy Naira
+  </Text>
+</TouchableOpacity>
+
 </ScrollView>
 
     {/* <Text style={{ fontWeight: "300", fontSize: 14 ,paddingHorizontal: "5%",marginTop:10,color:"#333333B2",lineHeight:20.3,}}>
