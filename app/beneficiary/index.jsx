@@ -103,6 +103,36 @@ const Beneficiary = () => {
             onChangeText={(val) => setSearchterm(val)}
           />
         </View>
+         <TouchableOpacity
+          style={{
+            width: "80%",
+            backgroundColor: "rgba(10, 46, 226, 1)",
+            height: 60,
+            alignSelf: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 10,
+            marginTop: 10,
+            marginBottom: 20,
+          }}
+          onPress={() => setOpenAddBeneficiary(true)}
+        >
+          <AntDesign
+            name="pluscircleo"
+            size={24}
+            color="white"
+            style={{ position: "absolute", top: "27%", left: "18%" }}
+          />
+          <Text
+            style={{
+              color: "white",
+              fontSize: 18,
+              marginLeft: 10,
+            }}
+          >
+            Add Beneficiary
+          </Text>
+        </TouchableOpacity>
         <View style={{ marginTop: 20 }}>
           <Text
             style={{
@@ -274,36 +304,7 @@ const Beneficiary = () => {
             )}
           </View>
         </View>
-        <TouchableOpacity
-          style={{
-            width: "80%",
-            backgroundColor: "rgba(10, 46, 226, 1)",
-            height: 60,
-            alignSelf: "center",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 10,
-            marginTop: 10,
-            marginBottom: 20,
-          }}
-          onPress={() => setOpenAddBeneficiary(true)}
-        >
-          <AntDesign
-            name="pluscircleo"
-            size={24}
-            color="white"
-            style={{ position: "absolute", top: "27%", left: "18%" }}
-          />
-          <Text
-            style={{
-              color: "white",
-              fontSize: 18,
-              marginLeft: 10,
-            }}
-          >
-            Add Beneficiary
-          </Text>
-        </TouchableOpacity>
+       
       </ScrollView>
       {openModal && (
         <BeneficiaryModal toggleModal={toggleModal} image={modalData.image} />

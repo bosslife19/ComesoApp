@@ -457,7 +457,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   formContainer: {
-    marginTop: 20,
+    // marginTop: 20,
+    top:'5%'
+
   },
   formTitle: {
     fontFamily: "SofiaPro",
@@ -502,7 +504,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 8,
     marginVertical: 10,
-    height:'100%'
+    height:'100%',
+   
   },
   buttonContent: {
     flexDirection: 'row',
@@ -525,6 +528,7 @@ const styles = StyleSheet.create({
   emptyContainer: {
     alignItems: "center",
     marginTop: 20,
+    
   },
   noBeneficiariesText: {
     color: "#d3d3d3",
