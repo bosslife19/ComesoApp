@@ -96,9 +96,10 @@ const MobileTransferB = () => {
     }
 
     try {
-      setButtonSpinner(true)
+      setButtonSpinner(true);
+      
       const response = await axiosClient.post(`/user/find`, {
-        phone: userInfo.phone,
+        phone: userInfo.phone.startsWith("0") ? userInfo.phone.slice(1) : userInfo.phone,
       });
 
       if (response.data.error) {
@@ -297,7 +298,7 @@ const MobileTransferB = () => {
        placeholder="Receiver’s Mobile Number"
        onFocus={() => setIsFocused(true)}
        onBlur={() => setIsFocused(false)}
-     />
+     />co
        </View> */}
 
        {/* Password Input */}

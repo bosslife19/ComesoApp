@@ -18,7 +18,7 @@ const ConfirmTransfer = () => {
     try {
       setButtonSpinner(true);
       const res = await axiosClient.post('/user/transfer-voucher', {
-        receiver:phone, amount
+        receiver:phone, amount, currency: userDetails?.currency
       })
       if(res.data.status){
         
