@@ -21,7 +21,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 const Settings = () => {
   const [user, setUser] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const {userDetails} = useContext(AuthContext);
+  const {userDetails, setUserDetails} = useContext(AuthContext);
   const [loading, setLoading] = useState(false)
 
     const [open, setOpen] = useState(false);
@@ -32,7 +32,7 @@ const Settings = () => {
     { label: 'EUR - Euro', value: 'EUR' },
     { label: 'NGN - Nigerian Naira', value: 'NGN' },
     { label: 'GBP - British Pound', value: 'GBP' },
-    { label: 'GHC - Ghana Cedic', value: 'GHC' },
+    { label: 'GHC - Ghana Cedic', value: 'GHS' },
   ]);
 
   const [formValues, setFormValues] = useState({
@@ -59,7 +59,11 @@ const Settings = () => {
 
       
       setLoading(true);
-      await axiosClient.put("/user", formValues);
+      
+      
+      const res =  await axiosClient.put("/user", formValues);
+
+      setUserDetails({...res.data.user});
       setLoading(false)
       setUser(formValues); // Update the local state with new values
       Alert.alert('Profile updated successfully', 'Your profile details have been updated successfully')

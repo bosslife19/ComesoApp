@@ -1,9 +1,9 @@
  import { AntDesign, Feather, FontAwesome5, Ionicons } from "@expo/vector-icons";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, ImageBackground, ScrollView, StyleSheet, Platform, Modal } from "react-native";
 import Dashs from "../../styles/Dashboard/Dashboard.styles";
 import Header from "../../screens/Dashboard/Header";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { AuthContext } from "@/context/AuthContext";
 import axiosClient from '../../axiosClient';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -47,14 +47,7 @@ const DashboardScreen = () => {
     
     return formattedDate;
    })
-
-   
-   
-  
-  
-
-  useEffect(()=>{
-    const getUser = async ()=>{
+       const getUser = async ()=>{
       const usCountryCodeRegex = /^\+1\s?[\d\s\-()]{10,}$/;
       try {
         
@@ -71,6 +64,19 @@ const DashboardScreen = () => {
       }
       
     }
+
+   useFocusEffect(
+    useCallback(() => {
+      // Runs every time the screen comes into focus
+      getUser();
+    }, [])
+  );
+   
+  
+  
+
+  useEffect(()=>{
+
 
     getUser();
   }, [])
