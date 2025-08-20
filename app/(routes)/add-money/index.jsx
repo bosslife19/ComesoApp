@@ -66,7 +66,7 @@ if (isNotGhana && userIsNotGhanaian) {
         'https://api.paystack.co/transaction/initialize',
         {
           email: userDetails.email,
-          amount: amount *100,
+          amount:(amount + amount * 0.02)*100,
           callback_url, 
           metadata: { cancel_action: "https://paystack.com/docs/api/" }
           
