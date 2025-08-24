@@ -5,6 +5,7 @@ import { AuthContext } from '@/context/AuthContext';
 import { router } from 'expo-router';
 import axiosClient from '@/axiosClient';
 import { responsiveWidth } from 'react-native-responsive-dimensions';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Header = ()=> {
   const {userDetails} = useContext(AuthContext);
@@ -36,7 +37,7 @@ const [unread, setUnread] = useState(false)
   },[])
   
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.row}>
         <TouchableOpacity onPress={()=> profile()} style={styles.profileContainer}>
           {/* <Image 
@@ -63,7 +64,7 @@ const [unread, setUnread] = useState(false)
         </View>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

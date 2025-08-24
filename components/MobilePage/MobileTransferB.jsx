@@ -135,6 +135,7 @@ const MobileTransferB = () => {
       
         // return Alert.alert('Incorrect password!', 'The Password you entered is incorrect')
       }
+      setButtonSpinner(false);
 
       router.push({
         pathname: "/(routes)/TrfConfirm",

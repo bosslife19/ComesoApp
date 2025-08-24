@@ -2,13 +2,14 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { FontAwesome,  MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HeaderM() {
   const notification = () =>{
     router.push("/(routes)/profile/profile")
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.row}>
       <TouchableOpacity onPress={()=> router.back()} style={styles.bellContainer}>
       <MaterialIcons name="arrow-back-ios" size={14} color="#A4A9AE" />           
@@ -23,7 +24,7 @@ export default function HeaderM() {
           {/* <View style={styles.notificationDot} /> */}
          </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

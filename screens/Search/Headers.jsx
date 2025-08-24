@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { FontAwesome, Fontisto } from '@expo/vector-icons';
   import { router } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Headers = ()=> {
 
@@ -13,7 +14,7 @@ const Headers = ()=> {
     router.push("/(routes)/notifications")
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.row}>
         <View style={styles.profileContainer}>
         <TouchableOpacity onPress={()=>router.push('/(routes)/profile/profile')}>
@@ -40,7 +41,7 @@ const Headers = ()=> {
         </View>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

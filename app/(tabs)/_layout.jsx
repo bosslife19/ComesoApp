@@ -45,7 +45,9 @@ export default function TabLayout() {
        tabBarInactiveTintColor: "#A4A4A4",
        tabBarLabelStyle: styles.label,
        headerShown: false,
+       
      }}
+    
    >
      <Tabs.Screen
        name="home/index"
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     width:'60%',
     marginHorizontal:'auto',
-    height:'8%',
+    height:'10%',
     marginVertical: '5%',
     borderBottomEndRadius:30,
     borderTopEndRadius:30,
@@ -103,7 +105,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius:30,
     borderTopRightRadius:30,
     borderBottomLeftRadius:30,
-    top:'-3%'
+    top:'-3%',
+    alignItems:'center',
+    justifyContent:'center'
     
   },
   label: {

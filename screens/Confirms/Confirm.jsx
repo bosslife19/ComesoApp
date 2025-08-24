@@ -33,7 +33,7 @@ const Confirm = () => {
   const [fromCountry, setFromCountry] = useState({
     countryCode: 'US',
     callingCode: '1',
-    currency: isUSno?'USD':'GHC',
+    currency: userDetails?.currency
   });
 
   const [toCountry, setToCountry] = useState({

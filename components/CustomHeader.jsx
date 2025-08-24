@@ -2,11 +2,12 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { router } from 'expo-router';
 import { EvilIcons, FontAwesome, Fontisto } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const CustomHeader = ({text})=> {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.row}>
         <TouchableOpacity 
         onPress={()=>router.back()} 
@@ -31,7 +32,7 @@ const CustomHeader = ({text})=> {
           
         </TouchableOpacity >
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
